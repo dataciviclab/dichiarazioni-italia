@@ -1,0 +1,1702 @@
+{
+  "schema_version": 1,
+  "repo": "dichiarazioni-italia",
+  "source_repo": "dataciviclab/dichiarazioni-italia",
+  "updated_at": "2026-09-20",
+  "datasets": [
+    {
+      "slug": "irap_italia_estero",
+      "name": "Irap Italia Estero",
+      "description": "",
+      "source": "",
+      "source_id": "mef_irap",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "finanza-pubblica",
+        "irap",
+        "regionale",
+        "produzione-netta",
+        "estero"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prod_netta_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prod_netta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_estero_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_estero_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_italia_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_italia_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irap_italia_estero/*/irap_italia_estero_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irap_italia_estero__mart_regioni_anno"
+      ]
+    },
+    {
+      "slug": "irap_vp_regime",
+      "name": "Irap Vp Regime",
+      "description": "",
+      "source": "",
+      "source_id": "mef_irap",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "finanza-pubblica",
+        "irap",
+        "regionale",
+        "valore-produzione"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_ord_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_ord_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_forf_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_forf_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_agr_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_agr_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_arti_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_arti_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_noncomm_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "vp_noncomm_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "deduzioni_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "deduzioni_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prod_netta_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "prod_netta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irap_vp_regime/*/irap_vp_regime_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irap_vp_regime__mart_regioni_anno"
+      ]
+    },
+    {
+      "slug": "ires_redditi_regione",
+      "name": "Ires Redditi Regione",
+      "description": "",
+      "source": "",
+      "source_id": "mef_ires",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "finanza-pubblica",
+        "ires",
+        "regionale",
+        "reddito-impresa"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "n_dichiarazioni",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_totale_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_totale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_totale_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_totale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/ires_redditi_regione/*/ires_redditi_regione_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "ires_redditi_regione__mart_regioni_anno"
+      ]
+    },
+    {
+      "slug": "irpef_comunale",
+      "name": "Irpef Comunale",
+      "description": "",
+      "source": "",
+      "source_id": "mef_irpef",
+      "period": {
+        "start": 2015,
+        "end": 2024
+      },
+      "tags": [
+        "finanza-pubblica",
+        "irpef"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno_di_imposta",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "codice_catastale",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "cadastral_code"
+        },
+        {
+          "name": "codice_istat_comune",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "municipality_code"
+        },
+        {
+          "name": "denominazione_comune",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "municipality_name"
+        },
+        {
+          "name": "sigla_provincia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "province_code"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "codice_istat_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_fabbricati_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_fabbricati_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_lavoro_dipendente_e_assimilati_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_lavoro_dipendente_e_assimilati_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_pensione_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_pensione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_lavoro_autonomo_comprensivo_valori_nulli_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_lavoro_autonomo_comprensivo_valori_nulli_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_di_spettanza_imprenditore_contabilita_ordinaria_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_di_spettanza_imprenditore_contabilita_ordinaria_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_di_spettanza_imprenditore_contabilita_semplificata_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_di_spettanza_imprenditore_contabilita_semplificata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_partecipazione_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_da_partecipazione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_imponibile_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "trattamento_spettante_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "trattamento_spettante_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_imponibile_addizionale_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_imponibile_addizionale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "addizionale_regionale_dovuta_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "addizionale_regionale_dovuta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "addizionale_comunale_dovuta_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "addizionale_comunale_dovuta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_minore_o_uguale_a_zero_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_minore_o_uguale_a_zero_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_0_a_10000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_0_a_10000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_10000_a_15000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_10000_a_15000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_15000_a_26000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_15000_a_26000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_26000_a_55000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_26000_a_55000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_55000_a_75000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_55000_a_75000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_75000_a_120000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_da_75000_a_120000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_oltre_120000_euro_freq",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_complessivo_oltre_120000_euro_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irpef_comunale/*/irpef_comunale_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irpef_comunale__mart_comuni",
+        "irpef_comunale__mart_sintesi",
+        "irpef_comunale__mart_trend",
+        "irpef_comunale__mart_fasce"
+      ]
+    },
+    {
+      "slug": "iva_regionale",
+      "name": "Iva Regionale",
+      "description": "",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2014,
+        "end": 2023
+      },
+      "tags": [
+        "finanza-pubblica",
+        "iva",
+        "regionale"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "volume_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "volume_affari_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "acquisti_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "acquisti_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "va_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "va_fiscale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_dovuta_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_dovuta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_credito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_credito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/iva_regionale/*/iva_regionale_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "iva_regionale__mart_regioni_anno",
+        "iva_regionale__mart_sintesi_nazionale",
+        "iva_regionale__mart_trend_regioni"
+      ]
+    },
+    {
+      "slug": "iva_sez_attivita",
+      "name": "Iva Sez Attivita",
+      "description": "",
+      "source": "",
+      "source_id": "mef_iva",
+      "period": {
+        "start": 2015,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "iva",
+        "settore",
+        "ateaco"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "sezione_attivita",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "volume_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "volume_affari_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "acquisti_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "acquisti_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "va_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "va_fiscale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_dovuta_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_dovuta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_credito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_credito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/iva_sez_attivita/*/iva_sez_attivita_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "iva_sez_attivita__mart_settori_anno"
+      ]
+    },
+    {
+      "slug": "mef_irpef_regionale",
+      "name": "Mef Irpef Regionale",
+      "description": "",
+      "source": "",
+      "source_id": "mef_irpef",
+      "period": {
+        "start": 2017,
+        "end": 2025
+      },
+      "tags": [
+        "finanza-pubblica",
+        "mef",
+        "irpef"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno_di_imposta",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "classe_reddito",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "numero_contribuenti",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_dominicale_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_dominicale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_agrario_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_agrario_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_allevamento_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_allevamento_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_fabbricati_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_fabbricati_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_dipendente_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_dipendente_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_pensione_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_pensione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "altri_assimilati_ld_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "altri_assimilati_ld_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_lavoro_autonomo_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "provvigioni_770_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "provvigioni_770_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_cont_ordinaria_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_cont_ordinaria_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_cont_semplificata_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_cont_semplificata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_partecipazione_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_partecipazione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_partecipazione_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_partecipazione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plusvalenze_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "plusvalenze_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_capitale_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_capitale_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "redditi_diversi_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "redditi_diversi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "altri_la_startup_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "altri_la_startup_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "tassazione_separata_freq",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "tassazione_separata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/mef_irpef_regionale/*/mef_irpef_regionale_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "mef_irpef_regionale__irpef_regione_classe"
+      ]
+    }
+  ],
+  "marts": [
+    {
+      "slug": "irap_italia_estero__mart_regioni_anno",
+      "dataset": "irap_italia_estero",
+      "table": "mart_regioni_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_italia_estero/2024/mart_regioni_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irap_vp_regime__mart_regioni_anno",
+      "dataset": "irap_vp_regime",
+      "table": "mart_regioni_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_vp_regime/2024/mart_regioni_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "ires_redditi_regione__mart_regioni_anno",
+      "dataset": "ires_redditi_regione",
+      "table": "mart_regioni_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/ires_redditi_regione/2024/mart_regioni_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irpef_comunale__mart_comuni",
+      "dataset": "irpef_comunale",
+      "table": "mart_comuni",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_comuni.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irpef_comunale__mart_fasce",
+      "dataset": "irpef_comunale",
+      "table": "mart_fasce",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_fasce.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irpef_comunale__mart_sintesi",
+      "dataset": "irpef_comunale",
+      "table": "mart_sintesi",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_sintesi.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irpef_comunale__mart_trend",
+      "dataset": "irpef_comunale",
+      "table": "mart_trend",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_trend.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "iva_regionale__mart_regioni_anno",
+      "dataset": "iva_regionale",
+      "table": "mart_regioni_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_regionale/2024/mart_regioni_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "iva_regionale__mart_sintesi_nazionale",
+      "dataset": "iva_regionale",
+      "table": "mart_sintesi_nazionale",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_regionale/mart_sintesi_nazionale.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "iva_regionale__mart_trend_regioni",
+      "dataset": "iva_regionale",
+      "table": "mart_trend_regioni",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_regionale/mart_trend_regioni.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "iva_sez_attivita__mart_settori_anno",
+      "dataset": "iva_sez_attivita",
+      "table": "mart_settori_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_sez_attivita/2025/mart_settori_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "mef_irpef_regionale__irpef_regione_classe",
+      "dataset": "mef_irpef_regionale",
+      "table": "irpef_regione_classe",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/mef_irpef_regionale/2025/irpef_regione_classe.parquet",
+        "multi_file": false
+      }
+    }
+  ],
+  "signals": [
+    {
+      "id": "irap_italia_estero",
+      "source_id": "mef_irap",
+      "status": "ok",
+      "label": "irap_italia_estero",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143143Z_63e30b1e",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 32,
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 2863,
+          "clean": 2418,
+          "mart": 3206
+        },
+        "started_at": "2026-09-20T14:31:43.244091+00:00",
+        "finished_at": "2026-09-20T14:31:44.176976+00:00",
+        "duration_seconds": 0.933
+      }
+    },
+    {
+      "id": "irap_vp_regime",
+      "source_id": "mef_irap",
+      "status": "ok",
+      "label": "irap_vp_regime",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143222Z_6add834d",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 31,
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 5381,
+          "clean": 4216,
+          "mart": 4721
+        },
+        "started_at": "2026-09-20T14:32:22.656523+00:00",
+        "finished_at": "2026-09-20T14:32:24.676092+00:00",
+        "duration_seconds": 2.02
+      }
+    },
+    {
+      "id": "ires_redditi_regione",
+      "source_id": "mef_ires",
+      "status": "ok",
+      "label": "ires_redditi_regione",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143248Z_1d7665d4",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 32,
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 3305,
+          "clean": 2832,
+          "mart": 3301
+        },
+        "started_at": "2026-09-20T14:32:48.621413+00:00",
+        "finished_at": "2026-09-20T14:32:49.510973+00:00",
+        "duration_seconds": 0.89
+      }
+    },
+    {
+      "id": "irpef_comunale",
+      "source_id": "mef_irpef",
+      "status": "ok",
+      "label": "irpef_comunale",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143328Z_30604b5b",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 7897,
+          "clean": 7897,
+          "mart": 16487
+        },
+        "output_bytes": {
+          "raw": 2313404,
+          "clean": 1043113,
+          "mart": 841733
+        },
+        "started_at": "2026-09-20T14:33:28.580821+00:00",
+        "finished_at": "2026-09-20T14:33:32.638072+00:00",
+        "duration_seconds": 4.057
+      }
+    },
+    {
+      "id": "iva_regionale",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "iva_regionale",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143359Z_c528e279",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 33,
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 7591,
+          "clean": 3630,
+          "mart": 4915
+        },
+        "started_at": "2026-09-20T14:33:59.487042+00:00",
+        "finished_at": "2026-09-20T14:34:00.437807+00:00",
+        "duration_seconds": 0.951
+      }
+    },
+    {
+      "id": "iva_sez_attivita",
+      "source_id": "mef_iva",
+      "status": "ok",
+      "label": "iva_sez_attivita",
+      "detail": "anni 2015-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143427Z_99e31a75",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 23,
+          "mart": 23
+        },
+        "output_bytes": {
+          "raw": 8495,
+          "clean": 4142,
+          "mart": 4579
+        },
+        "started_at": "2026-09-20T14:34:27.351200+00:00",
+        "finished_at": "2026-09-20T14:34:28.279402+00:00",
+        "duration_seconds": 0.928
+      }
+    },
+    {
+      "id": "mef_irpef_regionale",
+      "source_id": "mef_irpef",
+      "status": "ok",
+      "label": "mef_irpef_regionale",
+      "detail": "anni 2017-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20260920T143500Z_1ce0f763",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 95
+        },
+        "output_rows": {
+          "clean": 714,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 190370,
+          "clean": 83570,
+          "mart": 2316
+        },
+        "started_at": "2026-09-20T14:35:00.593734+00:00",
+        "finished_at": "2026-09-20T14:35:02.059587+00:00",
+        "duration_seconds": 1.466
+      }
+    }
+  ],
+  "codelists": [],
+  "entities": {
+    "entities": {
+      "Comune": {
+        "entity": "Comune",
+        "label": "Comune (ISTAT)",
+        "datasets": [
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "codice_catastale",
+            "semantic_type": "cadastral_code"
+          },
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "codice_istat_comune",
+            "semantic_type": "municipality_code"
+          },
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "denominazione_comune",
+            "semantic_type": "municipality_name"
+          }
+        ],
+        "types": {
+          "cadastral_code": 1,
+          "municipality_code": 1,
+          "municipality_name": 1
+        }
+      },
+      "Provincia": {
+        "entity": "Provincia",
+        "label": "Provincia",
+        "datasets": [
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "sigla_provincia",
+            "semantic_type": "province_code"
+          }
+        ],
+        "types": {
+          "province_code": 1
+        }
+      },
+      "Regione": {
+        "entity": "Regione",
+        "label": "Regione",
+        "datasets": [
+          {
+            "slug": "irap_italia_estero",
+            "name": "Irap Italia Estero",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "irap_italia_estero",
+            "name": "Irap Italia Estero",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "irap_vp_regime",
+            "name": "Irap Vp Regime",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "irap_vp_regime",
+            "name": "Irap Vp Regime",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "ires_redditi_regione",
+            "name": "Ires Redditi Regione",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "iva_regionale",
+            "name": "Iva Regionale",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "iva_regionale",
+            "name": "Iva Regionale",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "mef_irpef_regionale",
+            "name": "Mef Irpef Regionale",
+            "column": "regione",
+            "semantic_type": "region_code"
+          }
+        ],
+        "types": {
+          "region_code": 9
+        }
+      },
+      "Tempo": {
+        "entity": "Tempo",
+        "label": "Tempo / data",
+        "datasets": [
+          {
+            "slug": "irap_italia_estero",
+            "name": "Irap Italia Estero",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "irap_vp_regime",
+            "name": "Irap Vp Regime",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "ires_redditi_regione",
+            "name": "Ires Redditi Regione",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "anno_di_imposta",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "iva_regionale",
+            "name": "Iva Regionale",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "iva_sez_attivita",
+            "name": "Iva Sez Attivita",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "mef_irpef_regionale",
+            "name": "Mef Irpef Regionale",
+            "column": "anno_di_imposta",
+            "semantic_type": "year"
+          }
+        ],
+        "types": {
+          "year": 7
+        }
+      }
+    },
+    "bridges": []
+  }
+}
