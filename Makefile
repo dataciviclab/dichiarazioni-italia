@@ -19,6 +19,13 @@ run-all:
 	$(TOOLKIT) run --batch /tmp/batch.txt
 	@rm -f /tmp/batch.txt
 
+.PHONY: registry registry-write
+registry:
+	$(TOOLKIT) registry build --prefix dichiarazioni-italia
+
+registry-write:
+	$(TOOLKIT) registry build --prefix dichiarazioni-italia --write
+
 clean:
 	rm -rf out/data/_runs out/data/probe out/data/raw out/data/clean out/data/mart out/data/cross .tmp/
 
