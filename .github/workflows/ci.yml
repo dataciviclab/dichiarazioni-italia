@@ -1,32 +1,38 @@
-name: CI
+name: check
 
 on:
-  push:
-    branches: [main]
   pull_request:
-    branches: [main]
+    paths:
+      - "datasets/**"
+      - "support/**"
+      - "**/*.py"
+      - "**/*.yml"
+      - "**/*.yaml"
+      - "**/*.sql"
+      - "**/Makefile"
+      - "requirements.txt"
 
 jobs:
-  check:
+  detect:
     runs-on: ubuntu-latest
+    outputs:
+      dirs: ${{ steps.detect.outputs.dirs }}
+      count: ${{ steps.detect.outputs.count }}
+      found: ${{ steps.detect.outputs.found }}
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: dataciviclab/.github/actions/detect-changed-datasets@main
+        id: detect
         with:
-          python-version: "3.12"
+          paths: "datasets support"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: |
-          pip install dataciviclab-toolkit
-
-      - name: Validate configs
-        run: make check
-
-      - name: Run pipeline (smoke)
-        run: |
-          for f in $(find datasets -name dataset.yml | sort); do
-            echo "→ $f"
-            toolkit run --config "$f" --smoke || exit 1
-          done
+  validate-config:
+    needs: detect
+    if: needs.detect.outputs.found == 'true'
+    uses: dataciviclab/.github/.github/workflows/dataset-config-check-reusable.yml@main
+    with:
+      install: "pip install -r requirements.txt"
+      configs: ${{ needs.detect.outputs.dirs }}
+      years: "from-config"
