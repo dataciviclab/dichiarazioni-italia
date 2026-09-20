@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install dataciviclab-toolkit
+
+      - name: Validate configs
+        run: make check
+
+      - name: Run pipeline (smoke)
+        run: |
+          for f in $(find datasets -name dataset.yml | sort); do
+            echo "→ $f"
+            toolkit run --config "$f" --smoke || exit 1
+          done

@@ -1,0 +1,25 @@
+# Output pipeline
+out/
+
+# Cache
+.tmp/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+*.egg-info/
+dist/
+build/
+
+# Data files (non committare)
+*.csv
+*.parquet
+*.zip
