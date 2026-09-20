@@ -1,25 +1,11 @@
 -- mart_comuni — IRPEF Comunale: arricchimento + benchmark reddituale
 --
--- Unisce i vecchi: irpef_by_comune + mart_pressione_fiscale + benchmark.
 -- Stessa cardinalità del clean (1 riga = 1 comune × anno).
---
--- Novità rispetto ai vecchi mart:
---   • Reddito pro-capite (join con popolazione)
---   • Benchmark: media nazionale/regionale, percentile, fascia per reddito medio e pro-capite
---   • Rank regionale per reddito e aliquota
---
--- NOTA: la popolazione è letta dal support dataset o via glob.
--- Se il support non è disponibile, le colonne pro-capite saranno NULL.
+-- Benchmark: media nazionale/regionale, percentile, fascia per reddito medio.
+-- Rank regionale per reddito e aliquota.
+-- NOTA: join con popolazione rimosso (disponibile on-the-fly da GCS).
 
 with
-popolazione as (
-    select codice_comune, anno, sum(popolazione_residente) as residenti
-    from read_parquet(
-        '{root}/data/clean/popolazione_istat_comunale_2019_2025/*/*_clean.parquet',
-        union_by_name=true
-    )
-    group by codice_comune, anno
-),
 base as (
     select
         c.anno_di_imposta as anno,
@@ -38,19 +24,13 @@ base as (
         c.reddito_da_partecipazione_eur,
         c.reddito_da_lavoro_autonomo_comprensivo_valori_nulli_eur,
         c.reddito_complessivo_eur,
-        p.residenti as popolazione_residente,
         -- Reddito medio per contribuente
         c.reddito_imponibile_eur / nullif(c.numero_contribuenti, 0) as reddito_medio_per_contribuente,
-        -- Reddito pro-capite (su popolazione residente, non solo contribuenti)
-        c.reddito_imponibile_eur / nullif(p.residenti, 0) as reddito_procapite,
         -- Aliquota effettiva (imposta netta / reddito imponibile)
         c.imposta_netta_eur * 100.0 / nullif(c.reddito_imponibile_eur, 0) as aliquota_effettiva_pct,
         -- Addizionale comunale effettiva
         c.addizionale_comunale_dovuta_eur * 100.0 / nullif(c.reddito_imponibile_eur, 0) as addizionale_effettiva_pct
     from clean_input c
-    left join popolazione p
-        on c.codice_istat_comune = p.codice_comune
-        and c.anno_di_imposta = p.anno
     where c.codice_istat_comune is not null
       and c.regione is not null
       and c.numero_contribuenti > 0
@@ -74,15 +54,6 @@ select
         then round((reddito_medio_per_contribuente - avg(reddito_medio_per_contribuente) over (partition by anno))
              / abs(avg(reddito_medio_per_contribuente) over (partition by anno)) * 100, 2)
     end as distanza_media_nazionale_pct,
-    -- ================================================================
-    -- BENCHMARK REDDITO PRO-CAPITE
-    -- ================================================================
-    round(avg(reddito_procapite) over (partition by anno), 0) as media_nazionale_procapite,
-    round(avg(reddito_procapite) over (partition by anno, regione), 0) as media_regionale_procapite,
-    case
-        when reddito_procapite is null then null
-        else round(percent_rank() over (partition by anno order by reddito_procapite), 4)
-    end as percentile_procapite,
     -- ================================================================
     -- BENCHMARK ALIQUOTA EFFETTIVA
     -- ================================================================

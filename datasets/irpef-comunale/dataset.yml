@@ -99,11 +99,6 @@ clean:
       - "codice_istat_comune"
       - "numero_contribuenti"
 
-support:
-  - name: "popolazione_istat_comunale_2019_2025"
-    config: "../../support_datasets/popolazione-istat-comunale-2019-2025/dataset.yml"
-    years: [2019, 2020, 2021, 2022, 2023, 2024, 2025]
-
 mart:
   tables:
     - name: "mart_comuni"
