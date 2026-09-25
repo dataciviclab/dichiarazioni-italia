@@ -2,6 +2,7 @@
 -- Valore della produzione netta IRAP per regime applicato.
 -- Colonne per posizione (header corrotto in alcuni anni).
 -- Le colonne "Media" vengono scartate (si ricalcolano da Freq/Ammontare).
+-- Valori raw in migliaia di euro, convertiti in euro (×1000) per coerenza.
 
 WITH raw_parsed AS (
     SELECT
@@ -46,11 +47,11 @@ WITH raw_parsed AS (
 )
 SELECT
     anno, regione, cod_regione, contribuenti,
-    vp_ord_freq, ROUND(vp_ord_eur, 0)    AS vp_ord_eur,
-    vp_forf_freq, ROUND(vp_forf_eur, 0)  AS vp_forf_eur,
-    vp_agr_freq, ROUND(vp_agr_eur, 0)    AS vp_agr_eur,
-    vp_arti_freq, ROUND(vp_arti_eur, 0)   AS vp_arti_eur,
-    vp_noncomm_freq, ROUND(vp_noncomm_eur, 0) AS vp_noncomm_eur,
-    deduzioni_freq, ROUND(deduzioni_eur, 0) AS deduzioni_eur,
-    prod_netta_freq, ROUND(prod_netta_eur, 0) AS prod_netta_eur
+    vp_ord_freq, ROUND(vp_ord_eur * 1000, 0)    AS vp_ord_eur,
+    vp_forf_freq, ROUND(vp_forf_eur * 1000, 0)  AS vp_forf_eur,
+    vp_agr_freq, ROUND(vp_agr_eur * 1000, 0)    AS vp_agr_eur,
+    vp_arti_freq, ROUND(vp_arti_eur * 1000, 0)   AS vp_arti_eur,
+    vp_noncomm_freq, ROUND(vp_noncomm_eur * 1000, 0) AS vp_noncomm_eur,
+    deduzioni_freq, ROUND(deduzioni_eur * 1000, 0) AS deduzioni_eur,
+    prod_netta_freq, ROUND(prod_netta_eur * 1000, 0) AS prod_netta_eur
 FROM raw_parsed
