@@ -1,6 +1,7 @@
 -- clean.sql — irap_italia_estero
 -- Produzione netta IRAP realizzata in Italia vs estero.
 -- Le colonne "Media" vengono scartate.
+-- Valori raw in migliaia di euro, convertiti in euro (×1000) per coerenza.
 
 WITH raw_parsed AS (
     SELECT
@@ -24,7 +25,7 @@ WITH raw_parsed AS (
 )
 SELECT
     anno, regione, cod_regione, contribuenti,
-    prod_netta_freq, ROUND(prod_netta_eur, 0) AS prod_netta_eur,
-    vp_estero_freq, ROUND(vp_estero_eur, 0)   AS vp_estero_eur,
-    vp_italia_freq, ROUND(vp_italia_eur, 0)   AS vp_italia_eur
+    prod_netta_freq, ROUND(prod_netta_eur * 1000, 0) AS prod_netta_eur,
+    vp_estero_freq, ROUND(vp_estero_eur * 1000, 0)   AS vp_estero_eur,
+    vp_italia_freq, ROUND(vp_italia_eur * 1000, 0)   AS vp_italia_eur
 FROM raw_parsed

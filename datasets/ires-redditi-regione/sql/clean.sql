@@ -1,6 +1,7 @@
 -- clean.sql — ires_redditi_regione
 -- Reddito/perdita d'impresa IRES per regione (Societa' di Capitali).
 -- Le colonne "Media" vengono scartate.
+-- Valori raw in migliaia di euro, convertiti in euro (×1000) per coerenza.
 
 WITH raw_parsed AS (
     SELECT
@@ -26,8 +27,8 @@ WITH raw_parsed AS (
 )
 SELECT
     anno, regione, n_dichiarazioni,
-    reddito_continuita_freq, ROUND(reddito_continuita_eur, 0) AS reddito_continuita_eur,
-    perdita_continuita_freq, ROUND(perdita_continuita_eur, 0) AS perdita_continuita_eur,
-    reddito_totale_freq, ROUND(reddito_totale_eur, 0) AS reddito_totale_eur,
-    perdita_totale_freq, ROUND(perdita_totale_eur, 0) AS perdita_totale_eur
+    reddito_continuita_freq, ROUND(reddito_continuita_eur * 1000, 0) AS reddito_continuita_eur,
+    perdita_continuita_freq, ROUND(perdita_continuita_eur * 1000, 0) AS perdita_continuita_eur,
+    reddito_totale_freq, ROUND(reddito_totale_eur * 1000, 0) AS reddito_totale_eur,
+    perdita_totale_freq, ROUND(perdita_totale_eur * 1000, 0) AS perdita_totale_eur
 FROM raw_parsed
