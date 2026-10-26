@@ -26,9 +26,75 @@ dev = [
 pipeline = [
     "dataciviclab-toolkit @ git+https://github.com/dataciviclab/toolkit.git",
 ]
+# Catalog engine per-repo (probe, inventory, source report).
+# Tag stabili: https://github.com/dataciviclab/source-observatory/tags
+observatory = [
+    "dataciviclab-source-observatory @ git+https://github.com/dataciviclab/source-observatory.git@main",
+]
 
 [project.urls]
 Home = "https://github.com/dataciviclab/dichiarazioni-italia"
 
 [tool.toolkit.extends]
 source_id = "dichiarazioni-italia"
+
+# ── Source catalog per-repo ──────────────────────────────────────────────────
+# Monitoraggio della fonte MEF analisi_stat: health (radar) + inventario
+# homepage + sentinelle "nuovo anno". Il catalog è `registry/catalog.json`,
+# rigenerato dal workflow `catalog.yml`.
+#
+# Nota su source_id: i 7 dataset usano lo stesso id fonte (`mef_finanze`) perché
+# è lo stesso portale; `datasets_in_use` nel catalog si popola da questo match.
+# L'id di repo (`dichiarazioni-italia`) resta in [tool.toolkit.extends].
+[tool.observatory]
+source_id = "mef_finanze"
+protocol = "html"
+base_url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?opendata=yes"
+observation_mode = "catalog-watch"
+verdict = "go"
+note = "Portale MEF Dipartimento delle Finanze (analisi_stat): dichiarazioni IVA, IRAP, IRES e IRPEF. L'inventario copre oggi i CSV/ZIP della homepage (famiglia IRPEF); gli export del tree (IRAP/IRES/IVA, via index.php?tree=...) non sono ancora enumerabili e risultano 'unknown' nel referenced-item drift. Sentinelle pattern_probes = anno di pubblicazione successivo non ancora uscito."
+
+[tool.observatory.html_portal]
+topic_hint = "fisco"
+homepage = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?opendata=yes"
+delay_seconds = 0.2
+probe_content_type = true
+
+# Sentinelle "nuovo anno": MEF risponde 200 con corpo vuoto per l'anno non
+# ancora pubblicato, quindi min_bytes=200 evita il falso new_content_available.
+# Verificate non disponibili al 2026-10-26 (0 byte / 404).
+
+[[tool.observatory.pattern_probes]]
+name = "iva-regionale-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree=2026CIVATOT0201&export=3"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "iva-sez-attivita-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree=2026CIVATOT0202&export=3"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "irap-vp-regime-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree=2026DIRTOT020001&export=3"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "irap-italia-estero-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree=2026DIRTOT030001&export=3"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "ires-redditi-regione-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree=2026BASCTOT020101&export=3"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "irpef-comunale-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/v_4_0_0/contenuti/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_2026.zip"
+min_bytes = 200
+
+[[tool.observatory.pattern_probes]]
+name = "mef-irpef-regionale-2026"
+url = "https://www1.finanze.gov.it/finanze/analisi_stat/public/v_4_0_0/contenuti/REG_tipo_reddito_2026.csv?d=1615465800"
+min_bytes = 200

@@ -3,7 +3,7 @@ schema_version: 1
 
 dataset:
   name: "irap_italia_estero"
-  source_id: "mef_irap"
+  source_id: "mef_finanze"
   tags: [finanza-pubblica, irap, regionale, produzione-netta, estero]
   category: finanza-pubblica
   years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]

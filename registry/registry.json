@@ -9,7 +9,7 @@
       "name": "Irap Italia Estero",
       "description": "",
       "source": "",
-      "source_id": "mef_irap",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2015,
         "end": 2024
@@ -102,7 +102,7 @@
       "name": "Irap Vp Regime",
       "description": "",
       "source": "",
-      "source_id": "mef_irap",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2015,
         "end": 2024
@@ -242,7 +242,7 @@
       "name": "Ires Redditi Regione",
       "description": "",
       "source": "",
-      "source_id": "mef_ires",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2015,
         "end": 2024
@@ -339,7 +339,7 @@
       "name": "Irpef Comunale",
       "description": "",
       "source": "",
-      "source_id": "mef_irpef",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2015,
         "end": 2024
@@ -805,7 +805,7 @@
       "name": "Iva Sez Attivita",
       "description": "",
       "source": "",
-      "source_id": "mef_iva",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2015,
         "end": 2025
@@ -919,7 +919,7 @@
       "name": "Mef Irpef Regionale",
       "description": "",
       "source": "",
-      "source_id": "mef_irpef",
+      "source_id": "mef_finanze",
       "period": {
         "start": 2017,
         "end": 2025
@@ -1322,7 +1322,7 @@
   "signals": [
     {
       "id": "irap_italia_estero",
-      "source_id": "mef_irap",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "irap_italia_estero",
       "detail": "anni 2015-2024 — mart: si",
@@ -1353,7 +1353,7 @@
     },
     {
       "id": "irap_vp_regime",
-      "source_id": "mef_irap",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "irap_vp_regime",
       "detail": "anni 2015-2024 — mart: si",
@@ -1384,7 +1384,7 @@
     },
     {
       "id": "ires_redditi_regione",
-      "source_id": "mef_ires",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "ires_redditi_regione",
       "detail": "anni 2015-2024 — mart: si",
@@ -1415,7 +1415,7 @@
     },
     {
       "id": "irpef_comunale",
-      "source_id": "mef_irpef",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "irpef_comunale",
       "detail": "anni 2015-2024 — mart: si",
@@ -1477,7 +1477,7 @@
     },
     {
       "id": "iva_sez_attivita",
-      "source_id": "mef_iva",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "iva_sez_attivita",
       "detail": "anni 2015-2025 — mart: si",
@@ -1507,7 +1507,7 @@
     },
     {
       "id": "mef_irpef_regionale",
-      "source_id": "mef_irpef",
+      "source_id": "mef_finanze",
       "status": "ok",
       "label": "mef_irpef_regionale",
       "detail": "anni 2017-2025 — mart: si",
