@@ -12,16 +12,19 @@ mart analitiche serie (regioni_anno / sintesi_nazionale / trend_regioni).
 | 2014 | 2015 | 21 |
 | 2015 | 2016 | 21 |
 | … | … | … |
-| 2023 | 2024 | 21 |
+| 2024 | 2025 | 21 |
 
 ## Anni disponibili (per espansione)
 
-Tutti gli anni dal 2009 al 2024 funzionano (16 anni totali). Attivi 2014-2023.
+Tutti gli anni di **presentazione** dal 2009 al 2025 funzionano (17 anni totali);
+il clean li converte in anno d'imposta (`{year} - 1` → 2008–2024). Attivi:
+presentazione 2015-2025 → anno d'imposta 2014-2024. I 2009-2014 (a.i. 2008-2013)
+hanno schema colonne diverso (v1, senza colonna `Codice`).
 
 ## Note tecniche
 
 - Fonte scaricata via `http_file` (URL MEF con `{year}` nel path); header
-  sempre alla riga 9 (verificato 5/5 anni: 2015, 2018, 2020, 2022, 2024) —
+  sempre alla riga 9 (verificato su tutti gli anni attivi, 2015-2025) —
   `read.skip: 9` + `null_padding: true` (riga finale con 1 solo campo)
 - Numeri raw in formato italiano (punti migliaia, virgola decimale):
   letti come VARCHAR, normalizzati con le macro standard

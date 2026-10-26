@@ -6,7 +6,7 @@
 **URL:** https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php
 **Dataset:** CIVATOT0201 (Regione)
 **Formato:** CSV con 7 righe metadati → normalizzato da preprocess
-**Copertura:** 2014–2023 (10 anni, anno d'imposta)
+**Copertura:** 2014–2024 (11 anni, anno d'imposta)
 **Nota:** L'URL MEF usa l'anno di presentazione (es. `2024CIVATOT0201` = dichiarazioni 2024). Il clean converte in anno d'imposta sottraendo 1.
 **Licenza:** CC BY (MEF)
 **Valori:** in **euro** (convertiti da migliaia ×1000)
