@@ -24,7 +24,8 @@ hanno schema colonne diverso (v1, senza colonna `Codice`).
 ## Note tecniche
 
 - Fonte scaricata via `http_file` (URL MEF con `{year}` nel path); header
-  sempre alla riga 9 (verificato su tutti gli anni attivi, 2015-2025) —
+  sempre alla riga 10 (8 righe di metadati + riga vuota; verificato su tutti
+  gli anni attivi, 2015-2025) —
   `read.skip: 9` + `null_padding: true` (riga finale con 1 solo campo)
 - Numeri raw in formato italiano (punti migliaia, virgola decimale):
   letti come VARCHAR, normalizzati con le macro standard
