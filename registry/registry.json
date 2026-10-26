@@ -2,7 +2,7 @@
   "schema_version": 1,
   "repo": "dichiarazioni-italia",
   "source_repo": "dataciviclab/dichiarazioni-italia",
-  "updated_at": "2026-10-01",
+  "updated_at": "2026-10-26",
   "datasets": [
     {
       "slug": "irap_italia_estero",
@@ -396,7 +396,8 @@
           "name": "codice_istat_regione",
           "type": "VARCHAR",
           "role": "dimension",
-          "description": ""
+          "description": "",
+          "semantic_type": "region_code"
         },
         {
           "name": "numero_contribuenti",
@@ -690,7 +691,7 @@
       "source_id": "mef_finanze",
       "period": {
         "start": 2014,
-        "end": 2023
+        "end": 2024
       },
       "tags": [
         "finanza-pubblica",
@@ -1203,8 +1204,8 @@
       "table": "mart_regioni_anno",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_italia_estero/2024/mart_regioni_anno.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_italia_estero/*/mart_regioni_anno.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1213,8 +1214,8 @@
       "table": "mart_regioni_anno",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_vp_regime/2024/mart_regioni_anno.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_vp_regime/*/mart_regioni_anno.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1223,8 +1224,8 @@
       "table": "mart_regioni_anno",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/ires_redditi_regione/2024/mart_regioni_anno.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/ires_redditi_regione/*/mart_regioni_anno.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1233,8 +1234,8 @@
       "table": "mart_comuni",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_comuni.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/*/mart_comuni.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1243,8 +1244,8 @@
       "table": "mart_fasce",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_fasce.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/*/mart_fasce.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1253,8 +1254,8 @@
       "table": "mart_sintesi",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_sintesi.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/*/mart_sintesi.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1263,8 +1264,8 @@
       "table": "mart_trend",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/2024/mart_trend.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_comunale/*/mart_trend.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1273,8 +1274,8 @@
       "table": "mart_regioni_anno",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_regionale/2024/mart_regioni_anno.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_regionale/*/mart_regioni_anno.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1303,8 +1304,8 @@
       "table": "mart_settori_anno",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_sez_attivita/2025/mart_settori_anno.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/iva_sez_attivita/*/mart_settori_anno.parquet",
+        "multi_file": true
       }
     },
     {
@@ -1313,8 +1314,8 @@
       "table": "irpef_regione_classe",
       "location": {
         "type": "gcs",
-        "path": "gs://dataciviclab-mart/dichiarazioni-italia/mef_irpef_regionale/2025/irpef_regione_classe.parquet",
-        "multi_file": false
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/mef_irpef_regionale/*/irpef_regione_classe.parquet",
+        "multi_file": true
       }
     }
   ],
@@ -1327,7 +1328,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120031Z_c05e0e0f",
+        "run_id": "20261026T213312Z_ac57e055",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1345,9 +1346,9 @@
           "clean": 2471,
           "mart": 3257
         },
-        "started_at": "2026-10-01T12:00:31.905233+00:00",
-        "finished_at": "2026-10-01T12:00:32.733783+00:00",
-        "duration_seconds": 0.829
+        "started_at": "2026-10-26T21:33:12.885104+00:00",
+        "finished_at": "2026-10-26T21:33:13.944532+00:00",
+        "duration_seconds": 1.059
       }
     },
     {
@@ -1358,7 +1359,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120108Z_a9599b14",
+        "run_id": "20261026T213346Z_35b38b8e",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1376,9 +1377,9 @@
           "clean": 4377,
           "mart": 4858
         },
-        "started_at": "2026-10-01T12:01:08.301184+00:00",
-        "finished_at": "2026-10-01T12:01:10.353142+00:00",
-        "duration_seconds": 2.052
+        "started_at": "2026-10-26T21:33:46.580586+00:00",
+        "finished_at": "2026-10-26T21:33:48.198423+00:00",
+        "duration_seconds": 1.618
       }
     },
     {
@@ -1389,7 +1390,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120130Z_2f6d2bc6",
+        "run_id": "20261026T213408Z_6f24f5e1",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1407,9 +1408,9 @@
           "clean": 2888,
           "mart": 3390
         },
-        "started_at": "2026-10-01T12:01:30.570437+00:00",
-        "finished_at": "2026-10-01T12:01:31.317241+00:00",
-        "duration_seconds": 0.747
+        "started_at": "2026-10-26T21:34:08.321350+00:00",
+        "finished_at": "2026-10-26T21:34:09.052179+00:00",
+        "duration_seconds": 0.731
       }
     },
     {
@@ -1420,7 +1421,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120203Z_e103e0b3",
+        "run_id": "20261026T213437Z_2f8d14b9",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1436,11 +1437,11 @@
         "output_bytes": {
           "raw": 2313404,
           "clean": 1043113,
-          "mart": 841734
+          "mart": 841741
         },
-        "started_at": "2026-10-01T12:02:03.143777+00:00",
-        "finished_at": "2026-10-01T12:02:06.321686+00:00",
-        "duration_seconds": 3.178
+        "started_at": "2026-10-26T21:34:37.985367+00:00",
+        "finished_at": "2026-10-26T21:34:40.605333+00:00",
+        "duration_seconds": 2.62
       }
     },
     {
@@ -1448,11 +1449,11 @@
       "source_id": "mef_finanze",
       "status": "ok",
       "label": "iva_regionale",
-      "detail": "anni 2015-2024 — mart: si",
+      "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120225Z_54a40d2d",
-        "year": 2024,
+        "run_id": "20261026T213503Z_bd5c56b1",
+        "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
           "raw": 100,
@@ -1465,13 +1466,13 @@
           "mart": 21
         },
         "output_bytes": {
-          "raw": 7591,
-          "clean": 3630,
-          "mart": 4915
+          "raw": 7576,
+          "clean": 3641,
+          "mart": 4917
         },
-        "started_at": "2026-10-01T12:02:25.553242+00:00",
-        "finished_at": "2026-10-01T12:02:26.337443+00:00",
-        "duration_seconds": 0.784
+        "started_at": "2026-10-26T21:35:03.198387+00:00",
+        "finished_at": "2026-10-26T21:35:04.001735+00:00",
+        "duration_seconds": 0.803
       }
     },
     {
@@ -1482,7 +1483,7 @@
       "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120247Z_f9f32592",
+        "run_id": "20261026T213526Z_676688ae",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1499,9 +1500,9 @@
           "clean": 4142,
           "mart": 4579
         },
-        "started_at": "2026-10-01T12:02:47.571525+00:00",
-        "finished_at": "2026-10-01T12:02:48.435547+00:00",
-        "duration_seconds": 0.864
+        "started_at": "2026-10-26T21:35:26.397669+00:00",
+        "finished_at": "2026-10-26T21:35:27.145037+00:00",
+        "duration_seconds": 0.747
       }
     },
     {
@@ -1512,7 +1513,7 @@
       "detail": "anni 2017-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261001T120319Z_19fac9f1",
+        "run_id": "20261026T213554Z_b3b7d47f",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1529,9 +1530,9 @@
           "clean": 83570,
           "mart": 2316
         },
-        "started_at": "2026-10-01T12:03:19.371790+00:00",
-        "finished_at": "2026-10-01T12:03:21.358654+00:00",
-        "duration_seconds": 1.987
+        "started_at": "2026-10-26T21:35:54.443729+00:00",
+        "finished_at": "2026-10-26T21:35:55.845342+00:00",
+        "duration_seconds": 1.402
       }
     }
   ],
@@ -1623,6 +1624,12 @@
             "semantic_type": "region_code"
           },
           {
+            "slug": "irpef_comunale",
+            "name": "Irpef Comunale",
+            "column": "codice_istat_regione",
+            "semantic_type": "region_code"
+          },
+          {
             "slug": "iva_regionale",
             "name": "Iva Regionale",
             "column": "regione",
@@ -1642,7 +1649,7 @@
           }
         ],
         "types": {
-          "region_code": 9
+          "region_code": 10
         }
       },
       "Tempo": {
