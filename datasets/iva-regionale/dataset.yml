@@ -7,9 +7,10 @@ dataset:
   source_id: "mef_finanze"
   tags: [finanza-pubblica, iva, regionale]
   category: finanza-pubblica
-  years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
   # 2009-2014 disponibili ma con schema colonne diverso (v1)
-  time_coverage: {start_year: 2014, end_year: 2023}
+  # years = anno di presentazione; anno d'imposta = years - 1
+  time_coverage: {start_year: 2014, end_year: 2024}
 
 raw:
   output_policy: overwrite
@@ -55,11 +56,11 @@ mart:
     # Sintesi nazionale per anno con delta vs anno precedente (multi-year)
     - name: "mart_sintesi_nazionale"
       sql: "sql/mart_sintesi_nazionale.sql"
-      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
     # Trend per regione (primo vs ultimo anno della serie) (multi-year)
     - name: "mart_trend_regioni"
       sql: "sql/mart_trend_regioni.sql"
-      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
   required_tables:
     - "mart_regioni_anno"
     - "mart_sintesi_nazionale"

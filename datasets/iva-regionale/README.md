@@ -5,8 +5,8 @@
 **Fonte:** MEF — Dipartimento delle Finanze
 **URL:** https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php
 **Dataset:** CIVATOT0201 (Regione)
-**Formato:** CSV con 7 righe metadati → normalizzato da preprocess
-**Copertura:** 2014–2023 (10 anni, anno d'imposta)
+**Formato:** CSV con 8 righe di metadati + riga vuota → header alla riga 10; scaricato via `http_file`, letto con `read.skip: 9`
+**Copertura:** 2014–2024 (11 anni, anno d'imposta)
 **Nota:** L'URL MEF usa l'anno di presentazione (es. `2024CIVATOT0201` = dichiarazioni 2024). Il clean converte in anno d'imposta sottraendo 1.
 **Licenza:** CC BY (MEF)
 **Valori:** in **euro** (convertiti da migliaia ×1000)
@@ -38,12 +38,14 @@ Ammontare / Frequenza.
 ## Esecuzione
 
 ```bash
-cd dataset-incubator
-toolkit run -c candidates/iva-regionale/dataset.yml
+# dal root del repo
+toolkit run -c datasets/iva-regionale/dataset.yml
+make run        # tutti i dataset del repo
 ```
 
-Fonte scaricata via `http_file` standard (URL MEF con `{year}` nel path);
-`read.skip: 9` salta le righe di metadati (header sempre alla riga 9).
+Fonte scaricata via `http_file` (URL MEF con `{year}` nel path);
+`read.skip: 9` salta le 8 righe di metadati e la riga vuota (header sempre
+alla riga 10).
 
 ## Issue di riferimento
 
