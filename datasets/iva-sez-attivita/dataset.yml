@@ -3,7 +3,7 @@ schema_version: 1
 
 dataset:
   name: "iva_sez_attivita"
-  source_id: "mef_iva"
+  source_id: "mef_finanze"
   tags: [finanza-pubblica, iva, settore, ateaco]
   category: finanza-pubblica
   years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]

@@ -1,0 +1,29 @@
+name: Catalog
+
+# Source catalog per-repo: genera/aggiorna registry/catalog.json (so-catalog).
+# - schedule: la fonte MEF pubblica per conto proprio (nuovi anni, revisioni)
+# - pull_request su pyproject.toml: dry-run di validazione della [tool.observatory]
+# - workflow_dispatch: run manuale
+
+on:
+  schedule:
+    - cron: "50 4 * * 1"
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "pyproject.toml"
+
+concurrency:
+  group: dichiarazioni-italia-catalog-${{ github.event.pull_request.number || github.ref || 'schedule' }}
+  cancel-in-progress: false
+
+jobs:
+  catalog:
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: dataciviclab/.github/.github/workflows/catalog-reusable.yml@main
+    with:
+      repo-slug: dichiarazioni-italia
+      catalog-args: "--workers 4"
+      dry-run: ${{ github.event_name == 'pull_request' }}

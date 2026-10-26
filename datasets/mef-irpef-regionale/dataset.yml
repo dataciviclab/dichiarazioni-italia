@@ -3,7 +3,7 @@ schema_version: 1
 
 dataset:
   name: "mef_irpef_regionale"
-  source_id: "mef_irpef"
+  source_id: "mef_finanze"
   tags: [finanza-pubblica, mef, irpef]
   category: finanza-pubblica
   years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
