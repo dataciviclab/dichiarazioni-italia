@@ -1,5 +1,6 @@
 -- mart_imposta_anno.sql — irap_imposta_pa_regione (multi-year)
--- Trend nazionale delle P.A.: base imponibile, imposta netta, aliquota
+-- Trend nazionale delle P.A.: base imponibile, imposta netta (con saldo
+-- debito/credito dopo gli acconti), aliquota
 -- effettiva e delta sull'anno precedente. Confrontabile con
 -- irap_imposta_regione (totale): la differenza è il settore privato.
 

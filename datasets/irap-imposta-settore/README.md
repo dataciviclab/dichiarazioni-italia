@@ -32,9 +32,9 @@
 ## Note metodologiche
 
 - ⚠️ **La fonte è malformata e va riparata.** Tre nomi di sezione contengono un `;` **non quotato** — "Fornitura di acqua; reti fognarie…" (05), "Commercio all'ingrosso e al dettaglio; riparazione…" (07), "Amministrazione pubblica e difesa; assicurazione sociale obbligatoria" (15) — quindi quelle righe hanno una cella in più e le colonne slittano di uno. Il clean le riconosce (il codice sta in `column02` invece che `column01`) e ricompone nome e valori. **Verifica**: con la riparazione la somma delle sezioni coincide con la riga `TOTALE` della fonte (a.i. 2014: 605,9 vs 605,8 mld di base); senza riparazione si perdono ~169 mld, quasi tutti nella riga P.A.
-- ⚠️ **Break di serie tra 2014 e 2015.** La base imponibile passa da 436,3 a 299,5 mld (−31,4%) e l'imposta da 19,96 a 14,08 mld (−29,4%): è il cambio di definizione della base già documentato in `irap_imposta_regione`. **Leggere il trend dal 2015.**
+- ⚠️ **Break di serie tra 2014 e 2015.** La base imponibile passa da **605,8 a 444,7 mld** (−26,6%) e l'imposta da **30,03 a 23,29 mld** (−22,4%): è il cambio di definizione della base già documentato in `irap_imposta_regione` (i due totali coincidono, come da verifica sopra). **Leggere il trend dal 2015.**
 - **Il totale coincide con `irap_imposta_regione`**: 2023 → base 580,4 mld, imposta 30,06 mld, aliquota effettiva 5,18% (stessa vista per regione). Le due viste sono due tagli dello stesso universo.
-- **Aliquota effettiva per settore** (2023): la più alta è l'**Amministrazione pubblica (8,47%)**, poi Attività finanziarie (5,6%), Commercio (4,16%), Manifattura (4,04%).
+- **Aliquota effettiva per settore** (2023): la più alta è l'**Amministrazione pubblica (8,47%)**, poi **Sanità (6,32%)**, **Istruzione (5,84%)**, Attività finanziarie (5,60%), Commercio (4,16%), Manifattura (4,04%).
 - **La riga P.A. non coincide col dataset `irap_imposta_pa_regione`**: qui la sezione ATECO O vale 8,99 mld di imposta, mentre le *attività istituzionali di tutte le P.A.* valgono 10,61 mld. Sono perimetri diversi (classificazione settoriale vs natura dell'attività); l'aliquota effettiva invece coincide (8,47%).
 - **`Attivita' non classificabile`** (codice 22) è una categoria della fonte, non una sezione ATECO.
 - **Totali nazionali**: somma delle 22 righe; la riga `TOTALE` della fonte è esclusa dal clean.

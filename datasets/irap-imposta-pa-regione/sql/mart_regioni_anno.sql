@@ -2,8 +2,9 @@
 -- Regione × anno: base imponibile e imposta netta delle P.A., aliquota
 -- effettiva (imposta / base), quota sulla base nazionale e rank per imposta.
 --
--- imposta_debito_eur / imposta_credito_eur sono la scomposizione della fonte:
--- gli enti con credito d'imposta non versano (o recuperano) l'IRAP.
+-- imposta_debito_eur / imposta_credito_eur sono il saldo d'imposta DOPO gli acconti
+-- (chi deve ancora versare / chi ha un credito), non una scomposizione di
+-- imposta_netta_eur.
 
 WITH totals AS (
     SELECT

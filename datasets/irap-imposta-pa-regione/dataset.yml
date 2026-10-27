@@ -28,13 +28,45 @@ raw:
 clean:
   sql: "sql/clean.sql"
   required_columns: [anno, regione, cod_regione, base_imponibile_frequenza, base_imponibile_eur, imposta_netta_frequenza, imposta_netta_eur, imposta_debito_eur, imposta_credito_eur]
+  # Lettura POSIZIONALE con tutte le colonne VARCHAR: i valori numerici sono in
+  # formato italiano ("1.234.567") e vanno normalizzati dalle macro, che
+  # lavorano su stringhe. Con `source: auto` lo sniffer tipizza DOUBLE le
+  # colonne con valori piccoli/ambigui (es. "132", "3.440") e le macro le
+  # corrompono (×10 / ÷10). Il file ha una cella finale vuota e una riga-nota
+  # finale; l'header è a riga 10 e viene letto come dato (skip: 9) e scartato
+  # dal clean sul contenuto.
   read:
-    source: auto
+    source: config_only
     mode: latest
+    header: false
     skip: 9
     delim: ";"
     encoding: "utf-8"
-    header: true
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "contribuenti:VARCHAR"
+      column03: "base_imponibile_frequenza:VARCHAR"
+      column04: "base_imponibile_ammontare:VARCHAR"
+      column05: "base_imponibile_media:VARCHAR"
+      column06: "imposta_netta_frequenza:VARCHAR"
+      column07: "imposta_netta_ammontare:VARCHAR"
+      column08: "imposta_netta_media:VARCHAR"
+      column09: "eccedenze_frequenza:VARCHAR"
+      column10: "eccedenze_ammontare:VARCHAR"
+      column11: "eccedenze_media:VARCHAR"
+      column12: "acconti_frequenza:VARCHAR"
+      column13: "acconti_ammontare:VARCHAR"
+      column14: "acconti_media:VARCHAR"
+      column15: "imposta_debito_frequenza:VARCHAR"
+      column16: "imposta_debito_ammontare:VARCHAR"
+      column17: "imposta_debito_media:VARCHAR"
+      column18: "imposta_credito_frequenza:VARCHAR"
+      column19: "imposta_credito_ammontare:VARCHAR"
+      column20: "imposta_credito_media:VARCHAR"
+      # 22ª cella del file: sempre vuota (la riga termina con ";")
+      column21: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
     strict_mode: false
     ignore_errors: true
     null_padding: true

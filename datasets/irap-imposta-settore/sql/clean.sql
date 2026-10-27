@@ -15,14 +15,10 @@
 --
 -- `anno` = anno d'imposta (l'URL MEF usa l'anno di presentazione: {year} - 1).
 -- Valori raw in migliaia di euro → ×1000.
--- Righe escluse: TOTALE (codice '0'), la riga-nota finale (column01 NULL) e la
--- riga di header testuale (rn = 1).
+-- Righe escluse: la riga di header (column01 = 'Codice'), TOTALE (codice '0')
+-- e la riga-nota finale (column01 NULL → codice NULL).
 
-WITH raw_numbered AS (
-    SELECT *, ROW_NUMBER() OVER () AS rn
-    FROM raw_input
-),
-raw_parsed AS (
+WITH raw_parsed AS (
     SELECT
         CAST({year} - 1 AS INTEGER) AS anno,
         CASE WHEN regexp_matches(trim(column01), '^[0-9]{1,2}$')
@@ -47,8 +43,9 @@ raw_parsed AS (
         CASE WHEN regexp_matches(trim(column01), '^[0-9]{1,2}$')
              THEN column07 ELSE column08
         END AS _imposta_amm
-    FROM raw_numbered
-    WHERE rn > 1  -- riga 1 = header testuale
+    FROM raw_input
+    -- la riga di header (letta come dato con skip: 9) ha 'Codice' nella 2ª cella
+    WHERE column01 IS DISTINCT FROM 'Codice'
 )
 SELECT
     anno,
