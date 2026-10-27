@@ -6,7 +6,9 @@ dataset:
   source_id: "mef_finanze"
   tags: [finanza-pubblica, irap, regionale, valore-produzione]
   category: finanza-pubblica
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta
   years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  time_coverage: {start_year: 2014, end_year: 2023}
 
 raw:
   output_policy: overwrite

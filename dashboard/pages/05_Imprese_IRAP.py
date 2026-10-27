@@ -16,13 +16,16 @@ tab_regime, tab_estero, tab_ires = st.tabs(["Regime contabile", "Italia vs Ester
 # TAB REGIME CONTABILE
 # ══════════════════════════════════════════════════════════════════════
 with tab_regime:
-    year_r = st.selectbox("Anno", YEARS, index=len(YEARS) - 1, key="irap_year")
+    year_r = st.selectbox("Anno di pubblicazione", YEARS, index=len(YEARS) - 1, key="irap_year")
     df_reg = load_mart("irap_vp_regime", "mart_regioni_anno", year_r)
 
     if df_reg.empty:
         st.warning("Nessun dato IRAP regime disponibile.")
     else:
         df_reg = df_reg.sort_values("prod_netta_eur", ascending=False)
+        # l'anno mostrato è quello del dato (anno d'imposta), non quello della
+        # cartella (anno di presentazione): differiscono di 1
+        anno_reg = int(df_reg["anno"].max())
         totale = df_reg["vp_ord_eur"].sum() + df_reg["vp_forf_eur"].sum() + df_reg["vp_agr_eur"].sum()
 
         k1, k2, k3 = st.columns(3)
@@ -40,7 +43,7 @@ with tab_regime:
         fig.add_trace(go.Bar(x=df_reg["regione"], y=df_reg["vp_agr_eur"] / 1e9, name="Agricolo"))
         fig.update_layout(
             barmode="stack",
-            title=f"Valore produzione per regime ({year_r}) — MLD €",
+            title=f"Valore produzione per regime ({anno_reg}) — MLD €",
             height=500, margin={"t": 40, "b": 120}, xaxis_tickangle=-45,
         )
         st.plotly_chart(fig, width="stretch")
@@ -49,13 +52,14 @@ with tab_regime:
 # TAB ITALIA VS ESTERO
 # ══════════════════════════════════════════════════════════════════════
 with tab_estero:
-    year_e = st.selectbox("Anno", YEARS, index=len(YEARS) - 1, key="estero_year")
+    year_e = st.selectbox("Anno di pubblicazione", YEARS, index=len(YEARS) - 1, key="estero_year")
     df_est = load_mart("irap_italia_estero", "mart_regioni_anno", year_e)
 
     if df_est.empty:
         st.warning("Nessun dato Italia/Estero disponibile.")
     else:
         df_est = df_est.sort_values("prod_netta_eur", ascending=False)
+        anno_est = int(df_est["anno"].max())
         quota_estero = df_est["vp_estero_eur"].sum() / df_est["prod_netta_eur"].sum() * 100
 
         k1, k2 = st.columns(2)
@@ -69,7 +73,7 @@ with tab_estero:
         fig2.add_trace(go.Bar(x=df_est["regione"], y=df_est["vp_estero_eur"] / 1e9, name="Estero"))
         fig2.update_layout(
             barmode="stack",
-            title=f"Produzione netta: Italia vs Estero ({year_e}) — MLD €",
+            title=f"Produzione netta: Italia vs Estero ({anno_est}) — MLD €",
             height=500, margin={"t": 40, "b": 120}, xaxis_tickangle=-45,
         )
         st.plotly_chart(fig2, width="stretch")
@@ -81,7 +85,7 @@ with tab_estero:
             textposition="outside",
         ))
         fig3.update_layout(
-            title=f"Quota produzione estera per regione ({year_e})",
+            title=f"Quota produzione estera per regione ({anno_est})",
             height=450, margin={"t": 40, "b": 120}, xaxis_tickangle=-45, yaxis_title="%",
         )
         st.plotly_chart(fig3, width="stretch")
@@ -90,13 +94,14 @@ with tab_estero:
 # TAB IRES REDDITI
 # ══════════════════════════════════════════════════════════════════════
 with tab_ires:
-    year_i = st.selectbox("Anno", YEARS, index=len(YEARS) - 1, key="ires_year")
+    year_i = st.selectbox("Anno di pubblicazione", YEARS, index=len(YEARS) - 1, key="ires_year")
     df_ires = load_mart("ires_redditi_regione", "mart_regioni_anno", year_i)
 
     if df_ires.empty:
         st.warning("Nessun dato IRES disponibile.")
     else:
         df_ires = df_ires.sort_values("reddito_totale_eur", ascending=False)
+        anno_ires = int(df_ires["anno"].max())
 
         k1, k2, k3 = st.columns(3)
         with k1:
@@ -111,7 +116,7 @@ with tab_ires:
         fig4.add_trace(go.Bar(x=df_ires["regione"], y=-df_ires["perdita_totale_eur"] / 1e9, name="Perdita"))
         fig4.update_layout(
             barmode="relative",
-            title=f"Reddito vs Perdita d'impresa per regione ({year_i}) — MLD €",
+            title=f"Reddito vs Perdita d'impresa per regione ({anno_ires}) — MLD €",
             height=500, margin={"t": 40, "b": 120}, xaxis_tickangle=-45,
         )
         st.plotly_chart(fig4, width="stretch")

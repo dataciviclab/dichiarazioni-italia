@@ -2,10 +2,11 @@
 -- Reddito/perdita d'impresa IRES per regione (Societa' di Capitali).
 -- Le colonne "Media" vengono scartate.
 -- Valori raw in migliaia di euro, convertiti in euro (×1000) per coerenza.
+-- `anno` = anno d'imposta (l'URL MEF usa l'anno di presentazione: {year} - 1).
 
 WITH raw_parsed AS (
     SELECT
-        CAST({year} AS INTEGER)                                              AS anno,
+        CAST({year} - 1 AS INTEGER)                                          AS anno,
         normalize_string("Regione")                                          AS regione,
         normalize_italian_integer("Numero dichiarazioni")                    AS n_dichiarazioni,
         -- Reddito d'impresa in continuita'
