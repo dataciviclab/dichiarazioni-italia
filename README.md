@@ -19,6 +19,10 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 | `irap_vp_regime` | 21 regioni | 2014–2023 | Valore produzione IRAP per regime contabile |
 | `irap_italia_estero` | 21 regioni | 2014–2023 | Produzione netta realizzata in Italia vs estero |
 | `irap_imposta_regione` | 21 regioni | 2014–2023 | Base imponibile e imposta IRAP per regione |
+| `irap_imposta_pa_regione` | 21 regioni | 2014–2023 | IRAP delle P.A.: base imponibile e imposta |
+| `irap_imposta_settore` | 22 sezioni ATECO | 2014–2023 | Base imponibile e imposta IRAP per settore |
+
+**Nota IRAP**: la base imponibile ha un cambio di definizione tra anno d'imposta 2014 e 2015 (base −27%, imposta −22%): i trend IRAP vanno letti dal 2015.
 
 **Fonte**: MEF — Dipartimento delle Finanze, portale [analisi_stat](https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?opendata=yes)
 **Licenza**: CC BY (MEF)
