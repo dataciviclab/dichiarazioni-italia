@@ -34,6 +34,11 @@ WITH raw_parsed AS (
     FROM raw_input
     WHERE normalize_string(regione) IS NOT NULL
       AND normalize_string(regione) NOT IN ('Regione', 'TOTALE', 'Non indicata')
+      -- la nota finale ("Ammontare e media in migliaia di euro") ha la regione
+      -- valorizzata ma nessun dato. Attenzione: con normalize_rows_to_columns
+      -- le celle mancanti sono '' (non NULL) → serve normalize_string, che
+      -- converte le stringhe vuote in NULL
+      AND normalize_string(n_dichiarazioni) IS NOT NULL
 )
 SELECT
     anno, regione, n_dichiarazioni,
