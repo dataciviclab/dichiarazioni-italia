@@ -28,7 +28,7 @@ raw:
 
 clean:
   sql: "sql/clean.sql"
-  required_columns: [anno, regione, cod_regione, contribuenti, base_imponibile_eur, imposta_eur]
+  required_columns: [anno, regione, cod_regione, contribuenti, base_imponibile_frequenza, base_imponibile_eur, imposta_frequenza, imposta_eur]
   read:
     source: auto
     mode: latest
@@ -54,6 +54,7 @@ mart:
       years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
   required_tables:
     - "mart_regioni_anno"
+    - "mart_imposta_anno"
   validate:
     table_rules:
       mart_regioni_anno:
