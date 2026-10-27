@@ -15,9 +15,9 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 | `iva_regionale` | 21 regioni | 2014–2024 | Volume d'affari IVA, valore aggiunto, imposta |
 | `iva_sez_attivita` | 22 settori ATECO | 2014–2024 | Volume d'affari IVA per settore economico |
 | `mef_irpef_regionale` | 21 × 34 classi | 2017–2025 | IRPEF per regione e classe di reddito |
-| `ires_redditi_regione` | 21 regioni | 2015–2024 | Reddito/perdita d'impresa societaria |
-| `irap_vp_regime` | 21 regioni | 2015–2024 | Valore produzione IRAP per regime contabile |
-| `irap_italia_estero` | 21 regioni | 2015–2024 | Produzione netta realizzata in Italia vs estero |
+| `ires_redditi_regione` | 21 regioni | 2014–2023 | Reddito/perdita d'impresa societaria |
+| `irap_vp_regime` | 21 regioni | 2014–2023 | Valore produzione IRAP per regime contabile |
+| `irap_italia_estero` | 21 regioni | 2014–2023 | Produzione netta realizzata in Italia vs estero |
 
 **Fonte**: MEF — Dipartimento delle Finanze, portale [analisi_stat](https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?opendata=yes)
 **Licenza**: CC BY (MEF)
