@@ -5,6 +5,95 @@
   "updated_at": "2026-10-27",
   "datasets": [
     {
+      "slug": "irap_imposta_pa_regione",
+      "name": "Irap Imposta Pa Regione",
+      "description": "IRAP delle P.A.: base imponibile e imposta netta delle attività istituzionali per regione. Anno d'imposta 2014-2023.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2014,
+        "end": 2023
+      },
+      "tags": [
+        "finanza-pubblica",
+        "irap",
+        "regionale",
+        "gettito",
+        "imposta",
+        "pubblica-amministrazione"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "base_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "base_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_debito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_credito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irap_imposta_pa_regione/*/irap_imposta_pa_regione_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irap_imposta_pa_regione__mart_regioni_anno",
+        "irap_imposta_pa_regione__mart_imposta_anno"
+      ]
+    },
+    {
       "slug": "irap_imposta_regione",
       "name": "Irap Imposta Regione",
       "description": "IRAP: base imponibile e totale imposta per regione (vista totale, P.A. incluse). Anno d'imposta 2014-2023.",
@@ -85,6 +174,87 @@
       "mart_refs": [
         "irap_imposta_regione__mart_regioni_anno",
         "irap_imposta_regione__mart_imposta_anno"
+      ]
+    },
+    {
+      "slug": "irap_imposta_settore",
+      "name": "Irap Imposta Settore",
+      "description": "IRAP: base imponibile e totale imposta per sezione di attività (ATECO). Anno d'imposta 2014-2023.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2014,
+        "end": 2023
+      },
+      "tags": [
+        "finanza-pubblica",
+        "irap",
+        "settore",
+        "ateaco",
+        "gettito",
+        "imposta"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "sezione_attivita",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "base_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "base_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irap_imposta_settore/*/irap_imposta_settore_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irap_imposta_settore__mart_settori_anno",
+        "irap_imposta_settore__mart_imposta_anno"
       ]
     },
     {
@@ -1282,6 +1452,26 @@
   ],
   "marts": [
     {
+      "slug": "irap_imposta_pa_regione__mart_imposta_anno",
+      "dataset": "irap_imposta_pa_regione",
+      "table": "mart_imposta_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_imposta_pa_regione/mart_imposta_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irap_imposta_pa_regione__mart_regioni_anno",
+      "dataset": "irap_imposta_pa_regione",
+      "table": "mart_regioni_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_imposta_pa_regione/*/mart_regioni_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "irap_imposta_regione__mart_imposta_anno",
       "dataset": "irap_imposta_regione",
       "table": "mart_imposta_anno",
@@ -1298,6 +1488,26 @@
       "location": {
         "type": "gcs",
         "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_imposta_regione/*/mart_regioni_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "irap_imposta_settore__mart_imposta_anno",
+      "dataset": "irap_imposta_settore",
+      "table": "mart_imposta_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_imposta_settore/mart_imposta_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irap_imposta_settore__mart_settori_anno",
+      "dataset": "irap_imposta_settore",
+      "table": "mart_settori_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irap_imposta_settore/*/mart_settori_anno.parquet",
         "multi_file": true
       }
     },
@@ -1424,6 +1634,36 @@
   ],
   "signals": [
     {
+      "id": "irap_imposta_pa_regione",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "irap_imposta_pa_regione",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261027T182445Z_569392df",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 3905,
+          "clean": 2355,
+          "mart": 3072
+        },
+        "started_at": "2026-10-27T18:24:45.442970+00:00",
+        "finished_at": "2026-10-27T18:24:46.598159+00:00",
+        "duration_seconds": 1.155
+      }
+    },
+    {
       "id": "irap_imposta_regione",
       "source_id": "mef_finanze",
       "status": "ok",
@@ -1431,7 +1671,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164409Z_516a2f32",
+        "run_id": "20261027T182507Z_68669ca4",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1449,9 +1689,40 @@
           "clean": 2041,
           "mart": 2783
         },
-        "started_at": "2026-10-27T16:44:09.373800+00:00",
-        "finished_at": "2026-10-27T16:44:10.314627+00:00",
-        "duration_seconds": 0.941
+        "started_at": "2026-10-27T18:25:07.231733+00:00",
+        "finished_at": "2026-10-27T18:25:08.048065+00:00",
+        "duration_seconds": 0.816
+      }
+    },
+    {
+      "id": "irap_imposta_settore",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "irap_imposta_settore",
+      "detail": "anni 2015-2024 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261027T182528Z_ec995acd",
+        "year": 2024,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 100,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 32,
+          "clean": 22,
+          "mart": 22
+        },
+        "output_bytes": {
+          "raw": 2750,
+          "clean": 2489,
+          "mart": 3253
+        },
+        "started_at": "2026-10-27T18:25:28.942015+00:00",
+        "finished_at": "2026-10-27T18:25:29.748643+00:00",
+        "duration_seconds": 0.807
       }
     },
     {
@@ -1462,7 +1733,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164435Z_334abd7c",
+        "run_id": "20261027T182550Z_ab9487f5",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1479,9 +1750,9 @@
           "clean": 2471,
           "mart": 3257
         },
-        "started_at": "2026-10-27T16:44:35.778251+00:00",
-        "finished_at": "2026-10-27T16:44:36.729268+00:00",
-        "duration_seconds": 0.951
+        "started_at": "2026-10-27T18:25:50.233860+00:00",
+        "finished_at": "2026-10-27T18:25:51.043662+00:00",
+        "duration_seconds": 0.81
       }
     },
     {
@@ -1492,7 +1763,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164518Z_054fcdb6",
+        "run_id": "20261027T182629Z_835e7a7a",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1510,9 +1781,9 @@
           "clean": 4377,
           "mart": 4858
         },
-        "started_at": "2026-10-27T16:45:18.822824+00:00",
-        "finished_at": "2026-10-27T16:45:21.082243+00:00",
-        "duration_seconds": 2.259
+        "started_at": "2026-10-27T18:26:29.161581+00:00",
+        "finished_at": "2026-10-27T18:26:31.347317+00:00",
+        "duration_seconds": 2.186
       }
     },
     {
@@ -1523,7 +1794,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164545Z_bec3cae1",
+        "run_id": "20261027T182651Z_37ab999e",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1540,9 +1811,9 @@
           "clean": 2893,
           "mart": 3395
         },
-        "started_at": "2026-10-27T16:45:45.775250+00:00",
-        "finished_at": "2026-10-27T16:45:46.719571+00:00",
-        "duration_seconds": 0.944
+        "started_at": "2026-10-27T18:26:51.675767+00:00",
+        "finished_at": "2026-10-27T18:26:52.487024+00:00",
+        "duration_seconds": 0.811
       }
     },
     {
@@ -1553,7 +1824,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164623Z_fa64fd18",
+        "run_id": "20261027T182723Z_0404463e",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1569,11 +1840,11 @@
         "output_bytes": {
           "raw": 2313404,
           "clean": 1043113,
-          "mart": 841703
+          "mart": 841711
         },
-        "started_at": "2026-10-27T16:46:23.683457+00:00",
-        "finished_at": "2026-10-27T16:46:27.209170+00:00",
-        "duration_seconds": 3.526
+        "started_at": "2026-10-27T18:27:23.605400+00:00",
+        "finished_at": "2026-10-27T18:27:26.766019+00:00",
+        "duration_seconds": 3.161
       }
     },
     {
@@ -1584,7 +1855,7 @@
       "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164655Z_a1ff6870",
+        "run_id": "20261027T182750Z_90ca6146",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1602,9 +1873,9 @@
           "clean": 3641,
           "mart": 4917
         },
-        "started_at": "2026-10-27T16:46:55.724904+00:00",
-        "finished_at": "2026-10-27T16:46:56.764809+00:00",
-        "duration_seconds": 1.04
+        "started_at": "2026-10-27T18:27:50.347730+00:00",
+        "finished_at": "2026-10-27T18:27:51.206850+00:00",
+        "duration_seconds": 0.859
       }
     },
     {
@@ -1615,7 +1886,7 @@
       "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164726Z_32fd97de",
+        "run_id": "20261027T182814Z_44f0191e",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1632,9 +1903,9 @@
           "clean": 4142,
           "mart": 4579
         },
-        "started_at": "2026-10-27T16:47:26.874003+00:00",
-        "finished_at": "2026-10-27T16:47:27.888837+00:00",
-        "duration_seconds": 1.015
+        "started_at": "2026-10-27T18:28:14.033588+00:00",
+        "finished_at": "2026-10-27T18:28:14.868033+00:00",
+        "duration_seconds": 0.834
       }
     },
     {
@@ -1645,7 +1916,7 @@
       "detail": "anni 2017-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T164802Z_ba4ffd22",
+        "run_id": "20261027T182848Z_5056d4a3",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1662,9 +1933,9 @@
           "clean": 83570,
           "mart": 2316
         },
-        "started_at": "2026-10-27T16:48:02.777749+00:00",
-        "finished_at": "2026-10-27T16:48:04.372531+00:00",
-        "duration_seconds": 1.595
+        "started_at": "2026-10-27T18:28:48.420087+00:00",
+        "finished_at": "2026-10-27T18:28:50.240972+00:00",
+        "duration_seconds": 1.821
       }
     }
   ],
@@ -1719,6 +1990,18 @@
         "entity": "Regione",
         "label": "Regione",
         "datasets": [
+          {
+            "slug": "irap_imposta_pa_regione",
+            "name": "Irap Imposta Pa Regione",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "irap_imposta_pa_regione",
+            "name": "Irap Imposta Pa Regione",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
           {
             "slug": "irap_imposta_regione",
             "name": "Irap Imposta Regione",
@@ -1793,7 +2076,7 @@
           }
         ],
         "types": {
-          "region_code": 12
+          "region_code": 14
         }
       },
       "Tempo": {
@@ -1801,8 +2084,20 @@
         "label": "Tempo / data",
         "datasets": [
           {
+            "slug": "irap_imposta_pa_regione",
+            "name": "Irap Imposta Pa Regione",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "irap_imposta_regione",
             "name": "Irap Imposta Regione",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "irap_imposta_settore",
+            "name": "Irap Imposta Settore",
             "column": "anno",
             "semantic_type": "year"
           },
@@ -1850,7 +2145,7 @@
           }
         ],
         "types": {
-          "year": 8
+          "year": 10
         }
       }
     },
