@@ -1,0 +1,70 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "irap_imposta_regione"
+  source_id: "mef_finanze"
+  tags: [finanza-pubblica, irap, regionale, gettito, imposta, base-imponibile]
+  category: finanza-pubblica
+  description: "IRAP: base imponibile e totale imposta per regione (vista totale, P.A. incluse). Anno d'imposta 2014-2023."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta
+  # 2009-2014 disponibili ma con schema colonne diverso (v1: senza colonna Codice, latin-1)
+  years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  time_coverage: {start_year: 2014, end_year: 2023}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # DIRTOT1001 = "Base imponibile ed imposta totale": header stabile 2015-2024.
+    # La scomposizione privati/P.A. sta in due viste separate (DIRTOT0401 /
+    # DIRTOT0501) che hanno layout diversi (16 vs 22 colonne) e nomi colonna che
+    # cambiano anche nell'encoding tra anni: non si possono unire in un dataset.
+    - name: "mef_irap_imposta_regione"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}DIRTOT1001&export=3"
+        filename: "irap_imposta_regione_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, regione, cod_regione, contribuenti, base_imponibile_frequenza, base_imponibile_eur, imposta_frequenza, imposta_eur]
+  read:
+    source: auto
+    mode: latest
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    header: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, regione]
+    min_rows: 20
+    primary_key: [anno, regione]
+
+mart:
+  tables:
+    - name: "mart_regioni_anno"
+      sql: "sql/mart_regioni_anno.sql"
+    # Trend nazionale (multi-year): base imponibile, imposta, aliquota effettiva
+    - name: "mart_imposta_anno"
+      sql: "sql/mart_imposta_anno.sql"
+      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+  required_tables:
+    - "mart_regioni_anno"
+    - "mart_imposta_anno"
+  validate:
+    table_rules:
+      mart_regioni_anno:
+        required_columns: [anno, regione, cod_regione, contribuenti, base_imponibile_eur, imposta_eur, aliquota_effettiva_pct, quota_base_pct, rank_imposta]
+        primary_key: [anno, regione]
+        min_rows: 20
+      mart_imposta_anno:
+        required_columns: [anno, base_imponibile_eur, imposta_eur, aliquota_effettiva_pct]
+        primary_key: [anno]
+        min_rows: 10
+
+validation:
+  fail_on_error: true

@@ -18,6 +18,7 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 | `ires_redditi_regione` | 21 regioni | 2014–2023 | Reddito/perdita d'impresa societaria |
 | `irap_vp_regime` | 21 regioni | 2014–2023 | Valore produzione IRAP per regime contabile |
 | `irap_italia_estero` | 21 regioni | 2014–2023 | Produzione netta realizzata in Italia vs estero |
+| `irap_imposta_regione` | 21 regioni | 2014–2023 | Base imponibile e imposta IRAP per regione |
 
 **Fonte**: MEF — Dipartimento delle Finanze, portale [analisi_stat](https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?opendata=yes)
 **Licenza**: CC BY (MEF)
