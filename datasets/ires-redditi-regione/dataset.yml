@@ -22,14 +22,40 @@ raw:
 
 clean:
   sql: "sql/clean.sql"
-  required_columns: [anno, regione, n_dichiarazioni]
+  required_columns: [anno, regione, n_dichiarazioni, reddito_continuita_freq, reddito_continuita_eur,
+                     perdita_continuita_freq, perdita_continuita_eur, reddito_totale_freq, reddito_totale_eur,
+                     perdita_totale_freq, perdita_totale_eur]
+  # Lettura POSIZIONALE con tutte le colonne VARCHAR: i valori numerici sono in
+  # formato italiano ("121.330") e vanno normalizzati dalle macro, che lavorano
+  # su stringhe. Con `source: auto` lo sniffer tipizza DOUBLE le colonne i cui
+  # valori hanno un solo punto e la macro li corrompe ("121.330" → 121.33 →
+  # "12133", ÷10; il caso opposto ×10 sui valori con zero finale).
+  # Il file ha 14 colonne + una cella finale vuota, header a riga 10 (letto come
+  # dato con skip: 9 e scartato dal clean per contenuto), riga `TOTALE` e nota.
   read:
-    source: auto
+    source: config_only
     mode: latest
+    header: false
     skip: 9
     delim: ";"
     encoding: "utf-8"
-    header: true
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "n_dichiarazioni:VARCHAR"
+      column02: "reddito_continuita_frequenza:VARCHAR"
+      column03: "reddito_continuita_ammontare:VARCHAR"
+      column04: "reddito_continuita_media:VARCHAR"
+      column05: "perdita_continuita_frequenza:VARCHAR"
+      column06: "perdita_continuita_ammontare:VARCHAR"
+      column07: "perdita_continuita_media:VARCHAR"
+      column08: "reddito_totale_frequenza:VARCHAR"
+      column09: "reddito_totale_ammontare:VARCHAR"
+      column10: "reddito_totale_media:VARCHAR"
+      column11: "perdita_totale_frequenza:VARCHAR"
+      column12: "perdita_totale_ammontare:VARCHAR"
+      column13: "perdita_totale_media:VARCHAR"
+      column14: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
     strict_mode: false
     ignore_errors: true
     null_padding: true

@@ -23,13 +23,33 @@ raw:
 clean:
   sql: "sql/clean.sql"
   required_columns: [anno, regione, cod_regione, contribuenti]
+  # Lettura POSIZIONALE con tutte le colonne VARCHAR: i valori numerici sono in
+  # formato italiano e vanno normalizzati dalle macro, che lavorano su stringhe.
+  # Con `source: auto` lo sniffer tipizza DOUBLE le colonne i cui valori hanno un
+  # solo punto e la macro le corrompe (×10/÷10): qui `vp_estero_freq` (max 1.088)
+  # risultava DOUBLE in 2 anni su 10 → 40 celle sbagliate.
   read:
-    source: auto
+    source: config_only
     mode: latest
+    header: false
     skip: 9
     delim: ";"
     encoding: "utf-8"
-    header: true
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "contribuenti:VARCHAR"
+      column03: "prod_netta_frequenza:VARCHAR"
+      column04: "prod_netta_ammontare:VARCHAR"
+      column05: "prod_netta_media:VARCHAR"
+      column06: "vp_estero_frequenza:VARCHAR"
+      column07: "vp_estero_ammontare:VARCHAR"
+      column08: "vp_estero_media:VARCHAR"
+      column09: "vp_italia_frequenza:VARCHAR"
+      column10: "vp_italia_ammontare:VARCHAR"
+      column11: "vp_italia_media:VARCHAR"
+      column12: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
     strict_mode: false
     ignore_errors: true
     null_padding: true
