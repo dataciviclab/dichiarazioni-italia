@@ -1,0 +1,147 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "acsp_imprese_regione"
+  source_id: "mef_finanze"
+  tags: [irpef, societa-di-persone, imprese, regionale, redditi]
+  category: finanza-pubblica
+  description: "Redditi dichiarati e determinazione del reddito d'impresa delle società di persone con reddito d'impresa per regione. Anno d'imposta 2014-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta.
+  # Dal file 2015: il file 2014 ha un layout diverso (73 celle, 3 colonne extra).
+  years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2014, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # ACSPIMP0201 — "Imprese" — "Regione".
+    # Letto per POSIZIONE con tutte le colonne VARCHAR: i numeri sono in formato
+    # italiano e lo sniffing di DuckDB (source: auto) li tipizzerebbe DOUBLE,
+    # corrompendoli nelle macro normalize_italian_* (vedi sql/clean.sql).
+    - name: "mef_acsp_imprese_regione"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPIMP0201&export=3"
+        filename: "acsp_imprese_regione_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: ["anno", "regione", "cod_regione", "numero_imprenditori", "reddito_impresa_ordinaria_frequenza", "reddito_impresa_ordinaria_eur", "reddito_impresa_semplificata_frequenza", "reddito_impresa_semplificata_eur", "reddito_partecipazione_frequenza", "reddito_partecipazione_eur", "capitali_diversi_frequenza", "capitali_diversi_eur", "redditi_tassazione_separata_frequenza", "redditi_tassazione_separata_eur", "totale_reddito_frequenza", "totale_reddito_eur", "totale_perdita_frequenza", "totale_perdita_eur", "utile_conto_economico_frequenza", "utile_conto_economico_eur", "perdita_conto_economico_frequenza", "perdita_conto_economico_eur", "variazioni_aumento_frequenza", "variazioni_aumento_eur", "variazioni_diminuzione_frequenza", "variazioni_diminuzione_eur", "erogazioni_liberali_blocco1_frequenza", "erogazioni_liberali_blocco1_eur", "reddito_impresa_blocco1_frequenza", "reddito_impresa_blocco1_eur", "perdita_impresa_blocco1_frequenza", "perdita_impresa_blocco1_eur", "ricavi_vendite_frequenza", "ricavi_vendite_eur", "componenti_positivi_frequenza", "componenti_positivi_eur", "componenti_negativi_frequenza", "componenti_negativi_eur", "differenza_frequenza", "differenza_eur", "erogazioni_liberali_blocco2_frequenza", "erogazioni_liberali_blocco2_eur", "reddito_impresa_blocco2_frequenza", "reddito_impresa_blocco2_eur", "perdita_impresa_blocco2_frequenza", "perdita_impresa_blocco2_eur", "altri_ricavi_frequenza", "altri_ricavi_eur"]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "numero_imprenditori:VARCHAR"
+      column03: "reddito_impresa_ordinaria_frequenza:VARCHAR"
+      column04: "reddito_impresa_ordinaria_ammontare:VARCHAR"
+      column05: "reddito_impresa_ordinaria_media:VARCHAR"
+      column06: "reddito_impresa_semplificata_frequenza:VARCHAR"
+      column07: "reddito_impresa_semplificata_ammontare:VARCHAR"
+      column08: "reddito_impresa_semplificata_media:VARCHAR"
+      column09: "reddito_partecipazione_frequenza:VARCHAR"
+      column10: "reddito_partecipazione_ammontare:VARCHAR"
+      column11: "reddito_partecipazione_media:VARCHAR"
+      column12: "capitali_diversi_frequenza:VARCHAR"
+      column13: "capitali_diversi_ammontare:VARCHAR"
+      column14: "capitali_diversi_media:VARCHAR"
+      column15: "redditi_tassazione_separata_frequenza:VARCHAR"
+      column16: "redditi_tassazione_separata_ammontare:VARCHAR"
+      column17: "redditi_tassazione_separata_media:VARCHAR"
+      column18: "totale_reddito_frequenza:VARCHAR"
+      column19: "totale_reddito_ammontare:VARCHAR"
+      column20: "totale_reddito_media:VARCHAR"
+      column21: "totale_perdita_frequenza:VARCHAR"
+      column22: "totale_perdita_ammontare:VARCHAR"
+      column23: "totale_perdita_media:VARCHAR"
+      column24: "utile_conto_economico_frequenza:VARCHAR"
+      column25: "utile_conto_economico_ammontare:VARCHAR"
+      column26: "utile_conto_economico_media:VARCHAR"
+      column27: "perdita_conto_economico_frequenza:VARCHAR"
+      column28: "perdita_conto_economico_ammontare:VARCHAR"
+      column29: "perdita_conto_economico_media:VARCHAR"
+      column30: "variazioni_aumento_frequenza:VARCHAR"
+      column31: "variazioni_aumento_ammontare:VARCHAR"
+      column32: "variazioni_aumento_media:VARCHAR"
+      column33: "variazioni_diminuzione_frequenza:VARCHAR"
+      column34: "variazioni_diminuzione_ammontare:VARCHAR"
+      column35: "variazioni_diminuzione_media:VARCHAR"
+      column36: "erogazioni_liberali_blocco1_frequenza:VARCHAR"
+      column37: "erogazioni_liberali_blocco1_ammontare:VARCHAR"
+      column38: "erogazioni_liberali_blocco1_media:VARCHAR"
+      column39: "reddito_impresa_blocco1_frequenza:VARCHAR"
+      column40: "reddito_impresa_blocco1_ammontare:VARCHAR"
+      column41: "reddito_impresa_blocco1_media:VARCHAR"
+      column42: "perdita_impresa_blocco1_frequenza:VARCHAR"
+      column43: "perdita_impresa_blocco1_ammontare:VARCHAR"
+      column44: "perdita_impresa_blocco1_media:VARCHAR"
+      column45: "ricavi_vendite_frequenza:VARCHAR"
+      column46: "ricavi_vendite_ammontare:VARCHAR"
+      column47: "ricavi_vendite_media:VARCHAR"
+      column48: "componenti_positivi_frequenza:VARCHAR"
+      column49: "componenti_positivi_ammontare:VARCHAR"
+      column50: "componenti_positivi_media:VARCHAR"
+      column51: "componenti_negativi_frequenza:VARCHAR"
+      column52: "componenti_negativi_ammontare:VARCHAR"
+      column53: "componenti_negativi_media:VARCHAR"
+      column54: "differenza_frequenza:VARCHAR"
+      column55: "differenza_ammontare:VARCHAR"
+      column56: "differenza_media:VARCHAR"
+      column57: "erogazioni_liberali_blocco2_frequenza:VARCHAR"
+      column58: "erogazioni_liberali_blocco2_ammontare:VARCHAR"
+      column59: "erogazioni_liberali_blocco2_media:VARCHAR"
+      column60: "reddito_impresa_blocco2_frequenza:VARCHAR"
+      column61: "reddito_impresa_blocco2_ammontare:VARCHAR"
+      column62: "reddito_impresa_blocco2_media:VARCHAR"
+      column63: "perdita_impresa_blocco2_frequenza:VARCHAR"
+      column64: "perdita_impresa_blocco2_ammontare:VARCHAR"
+      column65: "perdita_impresa_blocco2_media:VARCHAR"
+      column66: "altri_ricavi_frequenza:VARCHAR"
+      column67: "altri_ricavi_ammontare:VARCHAR"
+      column68: "altri_ricavi_media:VARCHAR"
+      column69: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, regione]
+    min_rows: 20
+    primary_key: [anno, regione]
+
+mart:
+  tables:
+    - name: "mart_regione_anno"
+      sql: "sql/mart_regione_anno.sql"
+    # Trend nazionale (multi-year)
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+      years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_regione_anno"
+    - "mart_anno"
+  validate:
+    table_rules:
+      mart_regione_anno:
+        required_columns: [anno, regione, cod_regione, numero_imprenditori, totale_reddito_eur, totale_perdita_eur, reddito_medio_imprenditore_eur, quota_reddito_pct, rank_reddito]
+        primary_key: [anno, regione]
+        min_rows: 20
+      mart_anno:
+        required_columns: [anno, numero_imprenditori, totale_reddito_eur, totale_perdita_eur, reddito_impresa_ordinaria_eur, reddito_impresa_semplificata_eur, reddito_impresa_blocco1_eur, reddito_impresa_blocco2_eur, differenza_eur, reddito_medio_imprenditore_eur, rapporto_blocco1_ordinaria]
+        primary_key: [anno]
+        min_rows: 10
+        # Guardia dell'inferenza blocco1=ordinaria / blocco2=semplificata
+        # (la fonte non etichetta i blocchi). Osservato 1,067-1,186; se la fonte
+        # riordinasse i blocchi il rapporto darebbe ~0,84-0,94 → fuori range.
+        ranges:
+          rapporto_blocco1_ordinaria: {min: 0.97, max: 1.5}
+
+validation:
+  fail_on_error: true
