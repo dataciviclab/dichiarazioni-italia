@@ -38,14 +38,14 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 
 | Dataset | Righe/anno | Periodo | Copertura |
 |---|---|---|---|
-| `ires_redditi_regione` | 21 regioni | 2014–2023 | Reddito e perdita d'impresa societaria |
+| [`ires_redditi_regione`](datasets/ires-redditi-regione/README.md) | 21 regioni | 2014–2023 | Reddito e perdita d'impresa societaria |
 
 **IVA**
 
 | Dataset | Righe/anno | Periodo | Copertura |
 |---|---|---|---|
 | [`iva_regionale`](datasets/iva-regionale/README.md) | 21 regioni | 2014–2024 | Volume d'affari, valore aggiunto, imposta |
-| `iva_sez_attivita` | 22 settori ATECO | 2014–2024 | Volume d'affari per settore |
+| [`iva_sez_attivita`](datasets/iva-sez-attivita/README.md) | 22 settori ATECO | 2014–2024 | Volume d'affari per settore |
 
 **IRAP**
 
@@ -54,8 +54,8 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 | [`irap_imposta_regione`](datasets/irap-imposta-regione/README.md) | 21 regioni | 2014–2023 | Base imponibile e imposta |
 | [`irap_imposta_pa_regione`](datasets/irap-imposta-pa-regione/README.md) | 21 regioni | 2014–2023 | P.A.: base e imposta (35% del gettito) |
 | [`irap_imposta_settore`](datasets/irap-imposta-settore/README.md) | 22 sezioni ATECO | 2014–2023 | Base e imposta per settore |
-| `irap_vp_regime` | 21 regioni | 2014–2023 | Valore della produzione per regime contabile |
-| `irap_italia_estero` | 21 regioni | 2014–2023 | Produzione realizzata in Italia vs all'estero |
+| [`irap_vp_regime`](datasets/irap-vp-regime/README.md) | 21 regioni | 2014–2023 | Valore della produzione per regime contabile |
+| [`irap_italia_estero`](datasets/irap-italia-estero/README.md) | 21 regioni | 2014–2023 | Produzione realizzata in Italia vs all'estero |
 
 ### ⚠️ Prima di leggere i dati
 
