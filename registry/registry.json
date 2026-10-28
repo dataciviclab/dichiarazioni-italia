@@ -2,8 +2,821 @@
   "schema_version": 1,
   "repo": "dichiarazioni-italia",
   "source_repo": "dataciviclab/dichiarazioni-italia",
-  "updated_at": "2026-10-27",
+  "updated_at": "2026-10-28",
   "datasets": [
+    {
+      "slug": "acsp_professionisti_regione",
+      "name": "Acsp Professionisti Regione",
+      "description": "Redditi e compensi dichiarati dalle società di persone professionali per regione. Anno d'imposta 2018-2024.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2018,
+        "end": 2024
+      },
+      "tags": [
+        "irpef",
+        "societa-di-persone",
+        "professionisti",
+        "regionale",
+        "redditi"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "numero_societa",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_lavoro_autonomo_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_partecipazione_associazione_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_partecipazione_associazione_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_non_annotati_isa_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_non_annotati_isa_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_non_annotati_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_non_annotati_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "spese_immobili_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "spese_immobili_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "spese_lavoro_dipendente_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "spese_lavoro_dipendente_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_terzi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "compensi_terzi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_spese_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_spese_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/acsp_professionisti_regione/*/acsp_professionisti_regione_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "acsp_professionisti_regione__mart_regione_anno",
+        "acsp_professionisti_regione__mart_anno"
+      ]
+    },
+    {
+      "slug": "acsp_tutte_classi_reddito",
+      "name": "Acsp Tutte Classi Reddito",
+      "description": "Redditi dichiarati dalle società di persone (tutte le tipologie) per classe di reddito. Anno d'imposta 2013-2024.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2013,
+        "end": 2024
+      },
+      "tags": [
+        "irpef",
+        "societa-di-persone",
+        "classi-di-reddito",
+        "redditi"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "classe_reddito",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_societa",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/acsp_tutte_classi_reddito/*/acsp_tutte_classi_reddito_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "acsp_tutte_classi_reddito__mart_classe_reddito_anno",
+        "acsp_tutte_classi_reddito__mart_anno"
+      ]
+    },
+    {
+      "slug": "acsp_tutte_classi_volume",
+      "name": "Acsp Tutte Classi Volume",
+      "description": "Redditi dichiarati dalle società di persone (tutte le tipologie) per classe di volume d'affari. Anno d'imposta 2013-2024.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2013,
+        "end": 2024
+      },
+      "tags": [
+        "irpef",
+        "societa-di-persone",
+        "classi-di-volume",
+        "redditi"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "classe_volume_affari",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "codice",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_societa",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/acsp_tutte_classi_volume/*/acsp_tutte_classi_volume_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "acsp_tutte_classi_volume__mart_classe_volume_affari_anno",
+        "acsp_tutte_classi_volume__mart_anno"
+      ]
+    },
+    {
+      "slug": "acsp_tutte_regione",
+      "name": "Acsp Tutte Regione",
+      "description": "Redditi dichiarati dalle società di persone (tutte le tipologie) per regione. Anno d'imposta 2013-2024.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2013,
+        "end": 2024
+      },
+      "tags": [
+        "irpef",
+        "societa-di-persone",
+        "regionale",
+        "redditi"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "cod_regione",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "region_code"
+        },
+        {
+          "name": "numero_societa",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_reddito_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "totale_perdita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "perdita_continuita_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_ordinaria_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_impresa_semplificata_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "reddito_lavoro_autonomo_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "terreni_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "fabbricati_non_imponibile_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "capitali_diversi_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/acsp_tutte_regione/*/acsp_tutte_regione_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "acsp_tutte_regione__mart_regione_anno",
+        "acsp_tutte_regione__mart_anno"
+      ]
+    },
     {
       "slug": "irap_imposta_pa_regione",
       "name": "Irap Imposta Pa Regione",
@@ -1452,6 +2265,86 @@
   ],
   "marts": [
     {
+      "slug": "acsp_professionisti_regione__mart_anno",
+      "dataset": "acsp_professionisti_regione",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_professionisti_regione/mart_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "acsp_professionisti_regione__mart_regione_anno",
+      "dataset": "acsp_professionisti_regione",
+      "table": "mart_regione_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_professionisti_regione/*/mart_regione_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "acsp_tutte_classi_reddito__mart_anno",
+      "dataset": "acsp_tutte_classi_reddito",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_classi_reddito/mart_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "acsp_tutte_classi_reddito__mart_classe_reddito_anno",
+      "dataset": "acsp_tutte_classi_reddito",
+      "table": "mart_classe_reddito_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_classi_reddito/*/mart_classe_reddito_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "acsp_tutte_classi_volume__mart_anno",
+      "dataset": "acsp_tutte_classi_volume",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_classi_volume/mart_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "acsp_tutte_classi_volume__mart_classe_volume_affari_anno",
+      "dataset": "acsp_tutte_classi_volume",
+      "table": "mart_classe_volume_affari_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_classi_volume/*/mart_classe_volume_affari_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
+      "slug": "acsp_tutte_regione__mart_anno",
+      "dataset": "acsp_tutte_regione",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_regione/mart_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "acsp_tutte_regione__mart_regione_anno",
+      "dataset": "acsp_tutte_regione",
+      "table": "mart_regione_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/acsp_tutte_regione/*/mart_regione_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "irap_imposta_pa_regione__mart_imposta_anno",
       "dataset": "irap_imposta_pa_regione",
       "table": "mart_imposta_anno",
@@ -1634,6 +2527,126 @@
   ],
   "signals": [
     {
+      "id": "acsp_professionisti_regione",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "acsp_professionisti_regione",
+      "detail": "anni 2019-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261028T180645Z_3b970f84",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 6863,
+          "clean": 7452,
+          "mart": 3188
+        },
+        "started_at": "2026-10-28T18:06:45.515339+00:00",
+        "finished_at": "2026-10-28T18:06:46.295554+00:00",
+        "duration_seconds": 0.78
+      }
+    },
+    {
+      "id": "acsp_tutte_classi_reddito",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "acsp_tutte_classi_reddito",
+      "detail": "anni 2014-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261028T180710Z_40bb4367",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 33,
+          "mart": 33
+        },
+        "output_bytes": {
+          "raw": 9669,
+          "clean": 8113,
+          "mart": 2288
+        },
+        "started_at": "2026-10-28T18:07:10.913807+00:00",
+        "finished_at": "2026-10-28T18:07:11.663688+00:00",
+        "duration_seconds": 0.75
+      }
+    },
+    {
+      "id": "acsp_tutte_classi_volume",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "acsp_tutte_classi_volume",
+      "detail": "anni 2014-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261028T180735Z_4e21ad25",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 38,
+          "mart": 38
+        },
+        "output_bytes": {
+          "raw": 11409,
+          "clean": 8491,
+          "mart": 2507
+        },
+        "started_at": "2026-10-28T18:07:35.500878+00:00",
+        "finished_at": "2026-10-28T18:07:36.277962+00:00",
+        "duration_seconds": 0.777
+      }
+    },
+    {
+      "id": "acsp_tutte_regione",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "acsp_tutte_regione",
+      "detail": "anni 2014-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261028T180759Z_fc3e3003",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "clean": 21,
+          "mart": 21
+        },
+        "output_bytes": {
+          "raw": 7464,
+          "clean": 7194,
+          "mart": 2083
+        },
+        "started_at": "2026-10-28T18:07:59.002360+00:00",
+        "finished_at": "2026-10-28T18:07:59.752703+00:00",
+        "duration_seconds": 0.75
+      }
+    },
+    {
       "id": "irap_imposta_pa_regione",
       "source_id": "mef_finanze",
       "status": "ok",
@@ -1641,7 +2654,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182445Z_569392df",
+        "run_id": "20261028T180818Z_84b9bd79",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1658,9 +2671,9 @@
           "clean": 2355,
           "mart": 3072
         },
-        "started_at": "2026-10-27T18:24:45.442970+00:00",
-        "finished_at": "2026-10-27T18:24:46.598159+00:00",
-        "duration_seconds": 1.155
+        "started_at": "2026-10-28T18:08:18.235870+00:00",
+        "finished_at": "2026-10-28T18:08:18.955381+00:00",
+        "duration_seconds": 0.72
       }
     },
     {
@@ -1671,7 +2684,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182507Z_68669ca4",
+        "run_id": "20261028T180837Z_62fe2f15",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1689,9 +2702,9 @@
           "clean": 2041,
           "mart": 2783
         },
-        "started_at": "2026-10-27T18:25:07.231733+00:00",
-        "finished_at": "2026-10-27T18:25:08.048065+00:00",
-        "duration_seconds": 0.816
+        "started_at": "2026-10-28T18:08:37.275544+00:00",
+        "finished_at": "2026-10-28T18:08:37.983821+00:00",
+        "duration_seconds": 0.708
       }
     },
     {
@@ -1702,7 +2715,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182528Z_ec995acd",
+        "run_id": "20261028T180856Z_8ea4a7f6",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1720,9 +2733,9 @@
           "clean": 2489,
           "mart": 3253
         },
-        "started_at": "2026-10-27T18:25:28.942015+00:00",
-        "finished_at": "2026-10-27T18:25:29.748643+00:00",
-        "duration_seconds": 0.807
+        "started_at": "2026-10-28T18:08:56.251589+00:00",
+        "finished_at": "2026-10-28T18:08:56.939126+00:00",
+        "duration_seconds": 0.688
       }
     },
     {
@@ -1733,7 +2746,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182550Z_ab9487f5",
+        "run_id": "20261028T180915Z_057e379d",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1750,9 +2763,9 @@
           "clean": 2471,
           "mart": 3257
         },
-        "started_at": "2026-10-27T18:25:50.233860+00:00",
-        "finished_at": "2026-10-27T18:25:51.043662+00:00",
-        "duration_seconds": 0.81
+        "started_at": "2026-10-28T18:09:15.248208+00:00",
+        "finished_at": "2026-10-28T18:09:15.968652+00:00",
+        "duration_seconds": 0.72
       }
     },
     {
@@ -1763,7 +2776,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182629Z_835e7a7a",
+        "run_id": "20261028T180951Z_4addb29f",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1781,9 +2794,9 @@
           "clean": 4377,
           "mart": 4858
         },
-        "started_at": "2026-10-27T18:26:29.161581+00:00",
-        "finished_at": "2026-10-27T18:26:31.347317+00:00",
-        "duration_seconds": 2.186
+        "started_at": "2026-10-28T18:09:51.779157+00:00",
+        "finished_at": "2026-10-28T18:09:53.896295+00:00",
+        "duration_seconds": 2.117
       }
     },
     {
@@ -1794,7 +2807,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182651Z_37ab999e",
+        "run_id": "20261028T181017Z_759918f7",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1811,9 +2824,9 @@
           "clean": 2893,
           "mart": 3395
         },
-        "started_at": "2026-10-27T18:26:51.675767+00:00",
-        "finished_at": "2026-10-27T18:26:52.487024+00:00",
-        "duration_seconds": 0.811
+        "started_at": "2026-10-28T18:10:17.311574+00:00",
+        "finished_at": "2026-10-28T18:10:18.013110+00:00",
+        "duration_seconds": 0.702
       }
     },
     {
@@ -1824,7 +2837,7 @@
       "detail": "anni 2015-2024 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182723Z_0404463e",
+        "run_id": "20261028T181047Z_a52ea956",
         "year": 2024,
         "status": "SUCCESS",
         "quality_score": {
@@ -1840,11 +2853,11 @@
         "output_bytes": {
           "raw": 2313404,
           "clean": 1043113,
-          "mart": 841711
+          "mart": 841702
         },
-        "started_at": "2026-10-27T18:27:23.605400+00:00",
-        "finished_at": "2026-10-27T18:27:26.766019+00:00",
-        "duration_seconds": 3.161
+        "started_at": "2026-10-28T18:10:47.083274+00:00",
+        "finished_at": "2026-10-28T18:10:49.858534+00:00",
+        "duration_seconds": 2.775
       }
     },
     {
@@ -1855,7 +2868,7 @@
       "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182750Z_90ca6146",
+        "run_id": "20261028T181111Z_78000ebc",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1873,9 +2886,9 @@
           "clean": 3641,
           "mart": 4917
         },
-        "started_at": "2026-10-27T18:27:50.347730+00:00",
-        "finished_at": "2026-10-27T18:27:51.206850+00:00",
-        "duration_seconds": 0.859
+        "started_at": "2026-10-28T18:11:11.134633+00:00",
+        "finished_at": "2026-10-28T18:11:12.075479+00:00",
+        "duration_seconds": 0.941
       }
     },
     {
@@ -1886,7 +2899,7 @@
       "detail": "anni 2015-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182814Z_44f0191e",
+        "run_id": "20261028T181133Z_945977ee",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1903,9 +2916,9 @@
           "clean": 4142,
           "mart": 4579
         },
-        "started_at": "2026-10-27T18:28:14.033588+00:00",
-        "finished_at": "2026-10-27T18:28:14.868033+00:00",
-        "duration_seconds": 0.834
+        "started_at": "2026-10-28T18:11:33.622978+00:00",
+        "finished_at": "2026-10-28T18:11:34.359090+00:00",
+        "duration_seconds": 0.736
       }
     },
     {
@@ -1916,7 +2929,7 @@
       "detail": "anni 2017-2025 — mart: si",
       "action": "",
       "run": {
-        "run_id": "20261027T182848Z_5056d4a3",
+        "run_id": "20261028T181159Z_dcde02d3",
         "year": 2025,
         "status": "SUCCESS",
         "quality_score": {
@@ -1933,9 +2946,9 @@
           "clean": 83570,
           "mart": 2316
         },
-        "started_at": "2026-10-27T18:28:48.420087+00:00",
-        "finished_at": "2026-10-27T18:28:50.240972+00:00",
-        "duration_seconds": 1.821
+        "started_at": "2026-10-28T18:11:59.955696+00:00",
+        "finished_at": "2026-10-28T18:12:01.162558+00:00",
+        "duration_seconds": 1.207
       }
     }
   ],
@@ -1990,6 +3003,30 @@
         "entity": "Regione",
         "label": "Regione",
         "datasets": [
+          {
+            "slug": "acsp_professionisti_regione",
+            "name": "Acsp Professionisti Regione",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "acsp_professionisti_regione",
+            "name": "Acsp Professionisti Regione",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "acsp_tutte_regione",
+            "name": "Acsp Tutte Regione",
+            "column": "regione",
+            "semantic_type": "region_code"
+          },
+          {
+            "slug": "acsp_tutte_regione",
+            "name": "Acsp Tutte Regione",
+            "column": "cod_regione",
+            "semantic_type": "region_code"
+          },
           {
             "slug": "irap_imposta_pa_regione",
             "name": "Irap Imposta Pa Regione",
@@ -2076,13 +3113,37 @@
           }
         ],
         "types": {
-          "region_code": 14
+          "region_code": 18
         }
       },
       "Tempo": {
         "entity": "Tempo",
         "label": "Tempo / data",
         "datasets": [
+          {
+            "slug": "acsp_professionisti_regione",
+            "name": "Acsp Professionisti Regione",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "acsp_tutte_classi_reddito",
+            "name": "Acsp Tutte Classi Reddito",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "acsp_tutte_classi_volume",
+            "name": "Acsp Tutte Classi Volume",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
+            "slug": "acsp_tutte_regione",
+            "name": "Acsp Tutte Regione",
+            "column": "anno",
+            "semantic_type": "year"
+          },
           {
             "slug": "irap_imposta_pa_regione",
             "name": "Irap Imposta Pa Regione",
@@ -2145,7 +3206,7 @@
           }
         ],
         "types": {
-          "year": 10
+          "year": 14
         }
       }
     },
