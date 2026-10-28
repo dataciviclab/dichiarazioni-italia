@@ -67,7 +67,7 @@
 ## Mart
 
 - `mart_regione_anno` — regione × anno: numero imprenditori, totale reddito e perdita, reddito medio per imprenditore, quota sul totale nazionale, `rank_reddito`
-- `mart_anno` — nazionale per anno (multi-year): numero imprenditori, reddito e perdita, reddito medio per imprenditore, variazione % sull'anno precedente
+- `mart_anno` — nazionale per anno (multi-year): numero imprenditori, reddito e perdita, **determinazione del reddito d'impresa** (contabilità ordinaria/semplificata, `*_blocco1`/`*_blocco2`, ricavi, componenti, differenza), reddito medio per imprenditore, variazione % sull'anno precedente
 
 ## Ruolo nella famiglia ACSP
 
@@ -88,7 +88,7 @@ tutte                    672.150 soggetti   34,14 mld
 
 - **⚠️ Le colonne NON sono additive.** Ogni voce è dichiarata su una riga diversa del modello: `totale_reddito` (25,75 mld ad a.i. 2023) non è la somma delle voci di dettaglio.
 - **⚠️ Anomalia della fonte ad a.i. 2017.** Il reddito di impresa in contabilità semplificata crolla a **4,11 mld** (da 10,12 ad a.i. 2016, risale a 9,62) e le perdite dichiarate saltano a **6,27 mld** (da 2,18 e 1,82 negli anni adiacenti), mentre le dichiarazioni calano regolarmente. **L'anomalia è nella riga `TOTALE` della fonte**, non è un artefatto della pipeline (vedi issue #25). Il resto è verificato cella per cella.
-- **⚠️ Due blocchi di colonne con lo stesso nome.** La fonte ha `Erogazioni liberali`, `Reddito di impresa` e `Perdita di impresa` **due volte** (posizioni 36-44 e 57-65). Qui sono disambiguati come `*_blocco1` / `*_blocco2`. L'aritmetica identifica il blocco centrale (`ricavi_vendite`, `componenti_positivi`, `componenti_negativi`, `differenza`) come la determinazione in **contabilità semplificata** (`differenza = componenti_positivi − componenti_negativi`, verificato), quindi `_blocco1` corrisponde alla contabilità ordinaria e `_blocco2` alla semplificata — **la fonte non etichetta i blocchi**: la corrispondenza è un'inferenza documentata, non una dichiarazione della fonte.
+- **⚠️ Due blocchi di colonne con lo stesso nome.** La fonte ha `Erogazioni liberali`, `Reddito di impresa` e `Perdita di impresa` **due volte** (posizioni 36-44 e 57-65). Qui sono disambiguati come `*_blocco1` / `*_blocco2`. L'aritmetica identifica il blocco centrale (`ricavi_vendite`, `componenti_positivi`, `componenti_negativi`, `differenza`) come la determinazione in **contabilità semplificata** (`differenza = componenti_positivi − componenti_negativi`, verificato), quindi `_blocco1` corrisponde alla contabilità ordinaria e `_blocco2` alla semplificata — **la fonte non etichetta i blocchi**: la corrispondenza è un'inferenza documentata, non una dichiarazione della fonte. L'inferenza è **protetta da una guardia**: `mart_anno.rapporto_blocco1_ordinaria` vale 1,07–1,19 su tutti gli anni (se la fonte riordinasse i blocchi darebbe ~0,84–0,94) e ha una range rule `[0.97, 1.5]` in `dataset.yml` → la pipeline fallisce invece di scambiare le etichette in silenzio.
 - **Copertura dal 2014** (file 2015): il file 2014 ha un layout diverso (73 celle, 3 colonne `Ricavi di cui art. 85 a) e b)` in più e 3 posizioni spostate) → non coperto dalla lettura posizionale. Dal 2015 al 2025 l'ordine delle colonne è identico.
 - **Perimetro**: società di persone (modello ACSP) — Imprese. Le società di capitali (modello UNICO SC) non sono incluse.
 - **Anno d'imposta**: `anno` è l'anno d'imposta (l'URL MEF usa l'anno di presentazione, `{year}` = anno d'imposta + 1).

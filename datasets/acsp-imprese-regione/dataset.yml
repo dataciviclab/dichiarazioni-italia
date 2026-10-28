@@ -134,9 +134,14 @@ mart:
         primary_key: [anno, regione]
         min_rows: 20
       mart_anno:
-        required_columns: [anno, numero_imprenditori, totale_reddito_eur, totale_perdita_eur, reddito_medio_imprenditore_eur]
+        required_columns: [anno, numero_imprenditori, totale_reddito_eur, totale_perdita_eur, reddito_impresa_ordinaria_eur, reddito_impresa_semplificata_eur, reddito_impresa_blocco1_eur, reddito_impresa_blocco2_eur, differenza_eur, reddito_medio_imprenditore_eur, rapporto_blocco1_ordinaria]
         primary_key: [anno]
         min_rows: 10
+        # Guardia dell'inferenza blocco1=ordinaria / blocco2=semplificata
+        # (la fonte non etichetta i blocchi). Osservato 1,067-1,186; se la fonte
+        # riordinasse i blocchi il rapporto darebbe ~0,84-0,94 → fuori range.
+        ranges:
+          rapporto_blocco1_ordinaria: {min: 0.97, max: 1.5}
 
 validation:
   fail_on_error: true
