@@ -48,8 +48,8 @@
 
 ## Mart
 
-- `mart_regione_anno` — regione × anno: numero società, totale reddito dichiarato, reddito medio per società, quota sul totale nazionale, `rank_reddito`
-- `mart_anno` — nazionale per anno (multi-year): numero società, reddito totale, reddito medio per società, variazione % sull'anno precedente
+- `mart_regione_anno` — regione × anno: numero società, **compensi**, **spese**, reddito dichiarato, reddito medio per società, **margine** (reddito / compensi), **quota compensi** e quota reddito sul totale nazionale, `rank_reddito`
+- `mart_anno` — nazionale per anno (multi-year): numero società, **compensi**, **spese**, reddito e perdita dichiarati, reddito medio per società, **margine**, variazione % del reddito sull'anno precedente
 
 ## Note metodologiche
 

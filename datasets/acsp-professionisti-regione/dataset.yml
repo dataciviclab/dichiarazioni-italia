@@ -103,11 +103,11 @@ mart:
   validate:
     table_rules:
       mart_regione_anno:
-        required_columns: [anno, regione, cod_regione, numero_societa, totale_reddito_eur, reddito_medio_societa_eur, quota_reddito_pct, rank_reddito]
+        required_columns: [anno, regione, cod_regione, numero_societa, compensi_eur, totale_spese_eur, totale_reddito_eur, reddito_medio_societa_eur, margine_pct, quota_compensi_pct, quota_reddito_pct, rank_reddito]
         primary_key: [anno, regione]
         min_rows: 20
       mart_anno:
-        required_columns: [anno, numero_societa, totale_reddito_eur, totale_perdita_eur, reddito_medio_societa_eur]
+        required_columns: [anno, numero_societa, compensi_eur, totale_spese_eur, totale_reddito_eur, totale_perdita_eur, reddito_medio_societa_eur, margine_pct]
         primary_key: [anno]
         min_rows: 6
 
