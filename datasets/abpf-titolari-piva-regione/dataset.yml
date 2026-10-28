@@ -1,0 +1,74 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "abpf_titolari_piva_regione"
+  source_id: "mef_finanze"
+  tags: [irpef, partita-iva, lavoro-autonomo, regionale, redditi, imposta]
+  category: finanza-pubblica
+  description: "IRPEF delle persone fisiche titolari di partita IVA: redditi, imposta, addizionali, IVA e regimi agevolati per regione. Anno d'imposta 2015-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta.
+  # Dal file 2016: da lì esistono le voci su regime di vantaggio e forfetario;
+  # le 144 colonne comuni a 2016-2025 formano la serie continua.
+  years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2015, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # ABPFTIT0201 — "Titolari di partita IVA" — "Regione".
+    # Letto PER NOME con tutte le colonne VARCHAR: l'ordine delle colonne cambia
+    # tra gli anni (100 posizioni spostate) e i numeri sono in formato italiano.
+    - name: "mef_abpf_titolari_piva_regione"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ABPFTIT0201&export=3"
+        filename: "abpf_titolari_piva_regione_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: ["anno", "regione", "cod_regione", "numero_titolari", "acconti_versati_frequenza", "acconti_versati_eur", "addizionale_comunale_dovuta_frequenza", "addizionale_comunale_dovuta_eur", "addizionale_regionale_dovuta_frequenza", "addizionale_regionale_dovuta_eur", "altri_redditi_da_lavoro_autonomo_e_redditi_da_recupero_start_up_frequenza", "altri_redditi_da_lavoro_autonomo_e_redditi_da_recupero_start_up_eur", "eccedenza_d_imposta_risultante_dalla_precedente_dichiarazione_frequenza", "eccedenza_d_imposta_risultante_dalla_precedente_dichiarazione_eur", "imposta_lorda_frequenza", "imposta_lorda_eur", "imposta_netta_frequenza", "imposta_netta_eur", "irpef_a_credito_frequenza", "irpef_a_credito_eur", "irpef_a_debito_frequenza", "irpef_a_debito_eur", "iva_a_debito_frequenza", "iva_a_debito_eur", "iva_detraibile_frequenza", "iva_detraibile_eur", "perdita_da_lavoro_autonomo_frequenza", "perdita_da_lavoro_autonomo_eur", "perdita_da_lavoro_autonomo_con_continuita_frequenza", "perdita_da_lavoro_autonomo_con_continuita_eur", "perdita_da_partecipazione_frequenza", "perdita_da_partecipazione_eur", "perdita_di_impresa_in_contabilita_ordinaria_frequenza", "perdita_di_impresa_in_contabilita_ordinaria_eur", "perdita_di_impresa_in_contabilita_ordinaria_con_continuita_frequenza", "perdita_di_impresa_in_contabilita_ordinaria_con_continuita_eur", "perdita_di_impresa_in_contabilita_semplificata_frequenza", "perdita_di_impresa_in_contabilita_semplificata_eur", "perdita_di_impresa_in_contabilita_semplificata_con_continuita_frequenza", "perdita_di_impresa_in_contabilita_semplificata_con_continuita_eur", "plusvalenze_di_natura_finanziaria_frequenza", "plusvalenze_di_natura_finanziaria_eur", "redditi_diversi_frequenza", "redditi_diversi_eur", "reddito_agricolo_dichiarato_frequenza", "reddito_agricolo_dichiarato_eur", "reddito_complessivo_frequenza", "reddito_complessivo_eur", "reddito_complessivo_al_netto_della_cedolare_secca_frequenza", "reddito_complessivo_al_netto_della_cedolare_secca_eur", "reddito_d_impresa_dichiarato_frequenza", "reddito_d_impresa_dichiarato_eur", "reddito_da_allevamento_e_produzione_di_vegetali_frequenza", "reddito_da_allevamento_e_produzione_di_vegetali_eur", "reddito_da_fabbricati_frequenza", "reddito_da_fabbricati_eur", "reddito_da_lavoro_autonomo_con_continuita_frequenza", "reddito_da_lavoro_autonomo_con_continuita_eur", "reddito_da_lavoro_autonomo_frequenza", "reddito_da_lavoro_autonomo_eur", "reddito_da_partecipazione_frequenza", "reddito_da_partecipazione_eur", "reddito_dei_terreni_frequenza", "reddito_dei_terreni_eur", "reddito_di_capitale_sez_ia_e_ib_frequenza", "reddito_di_capitale_sez_ia_e_ib_eur", "reddito_di_impresa_in_contabilita_ordinaria_con_continuita_frequenza", "reddito_di_impresa_in_contabilita_ordinaria_con_continuita_eur", "reddito_di_impresa_in_contabilita_ordinaria_frequenza", "reddito_di_impresa_in_contabilita_ordinaria_eur", "reddito_di_impresa_in_contabilita_semplificata_con_continuita_frequenza", "reddito_di_impresa_in_contabilita_semplificata_con_continuita_eur", "reddito_di_impresa_in_contabilita_semplificata_frequenza", "reddito_di_impresa_in_contabilita_semplificata_eur", "reddito_di_lavoro_dipendente_e_assimilati_frequenza", "reddito_di_lavoro_dipendente_e_assimilati_eur", "reddito_di_spettanza_dell_imprenditore_in_contabilita_ordinaria_con_continuita_frequenza", "reddito_di_spettanza_dell_imprenditore_in_contabilita_ordinaria_con_continuita_eur", "reddito_di_spettanza_dell_imprenditore_in_contabilita_ordinaria_frequenza", "reddito_di_spettanza_dell_imprenditore_in_contabilita_ordinaria_eur", "reddito_di_spettanza_dell_imprenditore_in_contabilita_semplificata_con_continuita_frequenza", "reddito_di_spettanza_dell_imprenditore_in_contabilita_semplificata_con_continuita_eur", "reddito_di_spettanza_dell_imprenditore_in_contabilita_semplificata_frequenza", "reddito_di_spettanza_dell_imprenditore_in_contabilita_semplificata_eur", "reddito_imponibile_frequenza", "reddito_imponibile_eur", "reddito_imponibile_addizionale_frequenza", "reddito_imponibile_addizionale_eur", "reddito_netto_regime_di_vantaggio_frequenza", "reddito_netto_regime_di_vantaggio_eur", "reddito_netto_regime_forfetario_frequenza", "reddito_netto_regime_forfetario_eur", "reddito_professionale_dichiarato_frequenza", "reddito_professionale_dichiarato_eur", "tassazione_separata_con_opzione_tassazione_ordinaria_frequenza", "tassazione_separata_con_opzione_tassazione_ordinaria_eur", "volume_d_affari_frequenza", "volume_d_affari_eur"]
+  read:
+    source: config_only
+    mode: latest
+    header: true
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    # Tutte le colonne VARCHAR: i numeri sono in formato italiano e le macro
+    # lavorano su stringhe (lo sniffing tipizzerebbe DOUBLE le colonne con un
+    # solo punto, corrompendole). Consente anche di leggere per NOME.
+    all_varchar: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, regione]
+    min_rows: 20
+    primary_key: [anno, regione]
+
+mart:
+  tables:
+    - name: "mart_regione_anno"
+      sql: "sql/mart_regione_anno.sql"
+    # Trend nazionale (multi-year)
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+      years: [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_regione_anno"
+    - "mart_anno"
+  validate:
+    table_rules:
+      mart_regione_anno:
+        required_columns: [anno, regione, cod_regione, numero_titolari, reddito_complessivo_eur, imposta_netta_eur, volume_d_affari_eur, reddito_medio_titolare_eur, aliquota_media_pct, quota_reddito_pct, rank_reddito]
+        primary_key: [anno, regione]
+        min_rows: 20
+      mart_anno:
+        required_columns: [anno, numero_titolari, reddito_complessivo_eur, reddito_imponibile_eur, imposta_netta_eur, volume_d_affari_eur, reddito_forfetario_eur, reddito_vantaggio_eur, reddito_medio_titolare_eur, aliquota_media_pct]
+        primary_key: [anno]
+        min_rows: 10
+
+validation:
+  fail_on_error: true
