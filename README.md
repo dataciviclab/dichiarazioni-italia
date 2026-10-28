@@ -24,10 +24,11 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 | `acsp_tutte_regione` | 21 regioni | 2013–2024 | Redditi dichiarati dalle società di persone per regione |
 | `acsp_tutte_classi_reddito` | 33 classi | 2013–2024 | Società di persone per classe di reddito dichiarato |
 | `acsp_tutte_classi_volume` | 38 classi | 2013–2024 | Società di persone per classe di volume d'affari |
+| `acsp_imprese_regione` | 21 regioni | 2014–2024 | Redditi e determinazione del reddito d'impresa delle società di persone |
 | `acsp_professionisti_regione` | 21 regioni | 2018–2024 | Redditi, compensi e spese delle società di persone professionali |
 
-**Nota ACSP (società di persone)**: completa la catena delle forme giuridiche, che nel repo aveva IRPEF per le **persone fisiche** (`irpef_comunale`, `mef_irpef_regionale`) e IRES per le **società di capitali** (`ires_redditi_regione`) ma non le società di persone. Le viste per le altre tipologie (agricoltori, imprese, titolari di partita IVA) non sono ancora pubblicate: la scomposizione per tipologia è rimandata a quando sarà completa.
-⚠️ In questi dataset **le colonne non sono additive** (ogni voce è dichiarata su una riga diversa del modello). Inoltre i tre `acsp_tutte_*` (2013–2024) hanno un'**anomalia nella fonte ad a.i. 2017** (reddito d'impresa in contabilità semplificata −59%, perdite +186%): dettagli nei README dei dataset e nell'issue #25. `acsp_professionisti_regione` copre 2018–2024, quindi l'anomalia è fuori dal suo intervallo.
+**Nota ACSP (società di persone)**: completa la catena delle forme giuridiche, che nel repo aveva IRPEF per le **persone fisiche** (`irpef_comunale`, `mef_irpef_regionale`) e IRES per le **società di capitali** (`ires_redditi_regione`) ma non le società di persone. La famiglia è una **gerarchia** per tipologia di contribuente: `acsp_tutte_regione` è l'aggregato; `acsp_imprese_regione` (82,3% dei soggetti, **75,4% del reddito**) e `acsp_professionisti_regione` (21,8%) coprono il **97,2% del reddito**. Restano fuori le due tipologie minori — agricoltori (1,5%) e non titolari di partita IVA (1,3%) — e `titolari di partita IVA`, che si ricava per somma delle sotto-tipologie.
+⚠️ In questi dataset **le colonne non sono additive** (ogni voce è dichiarata su una riga diversa del modello). Inoltre quelli con copertura dal 2013/2014 hanno un'**anomalia nella fonte ad a.i. 2017** (reddito d'impresa in contabilità semplificata −59%, perdite +186%): dettagli nei README dei dataset e nell'issue #25. `acsp_professionisti_regione` copre 2018–2024, quindi l'anomalia è fuori dal suo intervallo.
 
 **Nota IRAP**: la base imponibile ha un cambio di definizione tra anno d'imposta 2014 e 2015 (base −27%, imposta −22%): i trend IRAP vanno letti dal 2015.
 
