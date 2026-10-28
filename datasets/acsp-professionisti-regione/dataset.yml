@@ -1,0 +1,115 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "acsp_professionisti_regione"
+  source_id: "mef_finanze"
+  tags: [irpef, societa-di-persone, professionisti, regionale, redditi]
+  category: finanza-pubblica
+  description: "Redditi e compensi dichiarati dalle società di persone professionali per regione. Anno d'imposta 2018-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta.
+  # Dal file 2019: prima i nomi/definizione di alcune voci cambiano (studi di settore → ISA).
+  years: [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2018, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # ACSPPROF0201 — "Professionisti" — "Regione".
+    # Letto per POSIZIONE con tutte le colonne VARCHAR: i numeri sono in formato
+    # italiano e lo sniffing di DuckDB (source: auto) li tipizzerebbe DOUBLE,
+    # corrompendoli nelle macro normalize_italian_* (vedi sql/clean.sql).
+    - name: "mef_acsp_professionisti_regione"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPPROF0201&export=3"
+        filename: "acsp_professionisti_regione_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: ["anno", "regione", "cod_regione", "numero_societa", "reddito_lavoro_autonomo_frequenza", "reddito_lavoro_autonomo_eur", "perdita_lavoro_autonomo_frequenza", "perdita_lavoro_autonomo_eur", "reddito_partecipazione_associazione_frequenza", "reddito_partecipazione_associazione_eur", "capitali_diversi_frequenza", "capitali_diversi_eur", "totale_reddito_frequenza", "totale_reddito_eur", "totale_perdita_frequenza", "totale_perdita_eur", "compensi_non_annotati_isa_frequenza", "compensi_non_annotati_isa_eur", "compensi_non_annotati_frequenza", "compensi_non_annotati_eur", "compensi_frequenza", "compensi_eur", "spese_immobili_frequenza", "spese_immobili_eur", "spese_lavoro_dipendente_frequenza", "spese_lavoro_dipendente_eur", "compensi_terzi_frequenza", "compensi_terzi_eur", "totale_spese_frequenza", "totale_spese_eur"]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "numero_societa:VARCHAR"
+      column03: "reddito_lavoro_autonomo_frequenza:VARCHAR"
+      column04: "reddito_lavoro_autonomo_ammontare:VARCHAR"
+      column05: "reddito_lavoro_autonomo_media:VARCHAR"
+      column06: "perdita_lavoro_autonomo_frequenza:VARCHAR"
+      column07: "perdita_lavoro_autonomo_ammontare:VARCHAR"
+      column08: "perdita_lavoro_autonomo_media:VARCHAR"
+      column09: "reddito_partecipazione_associazione_frequenza:VARCHAR"
+      column10: "reddito_partecipazione_associazione_ammontare:VARCHAR"
+      column11: "reddito_partecipazione_associazione_media:VARCHAR"
+      column12: "capitali_diversi_frequenza:VARCHAR"
+      column13: "capitali_diversi_ammontare:VARCHAR"
+      column14: "capitali_diversi_media:VARCHAR"
+      column15: "totale_reddito_frequenza:VARCHAR"
+      column16: "totale_reddito_ammontare:VARCHAR"
+      column17: "totale_reddito_media:VARCHAR"
+      column18: "totale_perdita_frequenza:VARCHAR"
+      column19: "totale_perdita_ammontare:VARCHAR"
+      column20: "totale_perdita_media:VARCHAR"
+      column21: "compensi_non_annotati_isa_frequenza:VARCHAR"
+      column22: "compensi_non_annotati_isa_ammontare:VARCHAR"
+      column23: "compensi_non_annotati_isa_media:VARCHAR"
+      column24: "compensi_non_annotati_frequenza:VARCHAR"
+      column25: "compensi_non_annotati_ammontare:VARCHAR"
+      column26: "compensi_non_annotati_media:VARCHAR"
+      column27: "compensi_frequenza:VARCHAR"
+      column28: "compensi_ammontare:VARCHAR"
+      column29: "compensi_media:VARCHAR"
+      column30: "spese_immobili_frequenza:VARCHAR"
+      column31: "spese_immobili_ammontare:VARCHAR"
+      column32: "spese_immobili_media:VARCHAR"
+      column33: "spese_lavoro_dipendente_frequenza:VARCHAR"
+      column34: "spese_lavoro_dipendente_ammontare:VARCHAR"
+      column35: "spese_lavoro_dipendente_media:VARCHAR"
+      column36: "compensi_terzi_frequenza:VARCHAR"
+      column37: "compensi_terzi_ammontare:VARCHAR"
+      column38: "compensi_terzi_media:VARCHAR"
+      column39: "totale_spese_frequenza:VARCHAR"
+      column40: "totale_spese_ammontare:VARCHAR"
+      column41: "totale_spese_media:VARCHAR"
+      column42: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, regione]
+    min_rows: 20
+    primary_key: [anno, regione]
+
+mart:
+  tables:
+    - name: "mart_regione_anno"
+      sql: "sql/mart_regione_anno.sql"
+    # Trend nazionale (multi-year)
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+      years: [2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_regione_anno"
+    - "mart_anno"
+  validate:
+    table_rules:
+      mart_regione_anno:
+        required_columns: [anno, regione, cod_regione, numero_societa, compensi_eur, totale_spese_eur, totale_reddito_eur, reddito_medio_societa_eur, margine_pct, quota_compensi_pct, quota_reddito_pct, rank_reddito]
+        primary_key: [anno, regione]
+        min_rows: 20
+      mart_anno:
+        required_columns: [anno, numero_societa, compensi_eur, totale_spese_eur, totale_reddito_eur, totale_perdita_eur, reddito_medio_societa_eur, margine_pct]
+        primary_key: [anno]
+        min_rows: 6
+
+validation:
+  fail_on_error: true

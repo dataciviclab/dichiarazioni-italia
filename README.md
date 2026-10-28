@@ -21,6 +21,13 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 | `irap_imposta_regione` | 21 regioni | 2014–2023 | Base imponibile e imposta IRAP per regione |
 | `irap_imposta_pa_regione` | 21 regioni | 2014–2023 | IRAP delle P.A.: base imponibile e imposta |
 | `irap_imposta_settore` | 22 sezioni ATECO | 2014–2023 | Base imponibile e imposta IRAP per settore |
+| `acsp_tutte_regione` | 21 regioni | 2013–2024 | Redditi dichiarati dalle società di persone per regione |
+| `acsp_tutte_classi_reddito` | 33 classi | 2013–2024 | Società di persone per classe di reddito dichiarato |
+| `acsp_tutte_classi_volume` | 38 classi | 2013–2024 | Società di persone per classe di volume d'affari |
+| `acsp_professionisti_regione` | 21 regioni | 2018–2024 | Redditi, compensi e spese delle società di persone professionali |
+
+**Nota ACSP (società di persone)**: completa la catena delle forme giuridiche, che nel repo aveva IRPEF per le **persone fisiche** (`irpef_comunale`, `mef_irpef_regionale`) e IRES per le **società di capitali** (`ires_redditi_regione`) ma non le società di persone. Le viste per le altre tipologie (agricoltori, imprese, titolari di partita IVA) non sono ancora pubblicate: la scomposizione per tipologia è rimandata a quando sarà completa.
+⚠️ In questi dataset **le colonne non sono additive** (ogni voce è dichiarata su una riga diversa del modello). Inoltre i tre `acsp_tutte_*` (2013–2024) hanno un'**anomalia nella fonte ad a.i. 2017** (reddito d'impresa in contabilità semplificata −59%, perdite +186%): dettagli nei README dei dataset e nell'issue #25. `acsp_professionisti_regione` copre 2018–2024, quindi l'anomalia è fuori dal suo intervallo.
 
 **Nota IRAP**: la base imponibile ha un cambio di definizione tra anno d'imposta 2014 e 2015 (base −27%, imposta −22%): i trend IRAP vanno letti dal 2015.
 
@@ -34,6 +41,7 @@ Le dichiarazioni fiscali italiane sono lo specchio più fedele dell'economia rea
 - Quali settori ATECO hanno la maggiore crescita del volume d'affari IVA?
 - Come si distribuisce la produzione IRAP tra regime ordinario, forfetario e agricolo?
 - Quanta produzione netta viene realizzata all'estero vs in Italia, per regione?
+- Quanto reddito dichiarano le società di persone, e come si distribuisce tra le regioni?
 
 ## Come accedere
 

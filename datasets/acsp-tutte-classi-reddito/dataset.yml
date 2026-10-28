@@ -1,0 +1,112 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "acsp_tutte_classi_reddito"
+  source_id: "mef_finanze"
+  tags: [irpef, societa-di-persone, classi-di-reddito, redditi]
+  category: finanza-pubblica
+  description: "Redditi dichiarati dalle società di persone (tutte le tipologie) per classe di reddito. Anno d'imposta 2013-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta.
+  # Serie completa: ordine delle colonne identico dal file 2014 al 2025.
+  years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2013, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # ACSPGEN0202 — "Tutte le tipologie di contribuenti" — "Classi di reddito dichiarato in euro".
+    # Letto per POSIZIONE con tutte le colonne VARCHAR: i numeri sono in formato
+    # italiano e lo sniffing di DuckDB (source: auto) li tipizzerebbe DOUBLE,
+    # corrompendoli nelle macro normalize_italian_* (vedi sql/clean.sql).
+    - name: "mef_acsp_tutte_classi_reddito"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0202&export=3"
+        filename: "acsp_tutte_classi_reddito_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: ["anno", "classe_reddito", "codice", "numero_societa", "totale_reddito_frequenza", "totale_reddito_eur", "totale_perdita_frequenza", "totale_perdita_eur", "reddito_continuita_frequenza", "reddito_continuita_eur", "perdita_continuita_frequenza", "perdita_continuita_eur", "reddito_impresa_ordinaria_frequenza", "reddito_impresa_ordinaria_eur", "reddito_impresa_semplificata_frequenza", "reddito_impresa_semplificata_eur", "reddito_lavoro_autonomo_frequenza", "reddito_lavoro_autonomo_eur", "terreni_imponibile_frequenza", "terreni_imponibile_eur", "terreni_non_imponibile_frequenza", "terreni_non_imponibile_eur", "fabbricati_imponibile_frequenza", "fabbricati_imponibile_eur", "fabbricati_non_imponibile_frequenza", "fabbricati_non_imponibile_eur", "capitali_diversi_frequenza", "capitali_diversi_eur"]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    columns:
+      column00: "classe_reddito:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "numero_societa:VARCHAR"
+      column03: "totale_reddito_frequenza:VARCHAR"
+      column04: "totale_reddito_ammontare:VARCHAR"
+      column05: "totale_reddito_media:VARCHAR"
+      column06: "totale_perdita_frequenza:VARCHAR"
+      column07: "totale_perdita_ammontare:VARCHAR"
+      column08: "totale_perdita_media:VARCHAR"
+      column09: "reddito_continuita_frequenza:VARCHAR"
+      column10: "reddito_continuita_ammontare:VARCHAR"
+      column11: "reddito_continuita_media:VARCHAR"
+      column12: "perdita_continuita_frequenza:VARCHAR"
+      column13: "perdita_continuita_ammontare:VARCHAR"
+      column14: "perdita_continuita_media:VARCHAR"
+      column15: "reddito_impresa_ordinaria_frequenza:VARCHAR"
+      column16: "reddito_impresa_ordinaria_ammontare:VARCHAR"
+      column17: "reddito_impresa_ordinaria_media:VARCHAR"
+      column18: "reddito_impresa_semplificata_frequenza:VARCHAR"
+      column19: "reddito_impresa_semplificata_ammontare:VARCHAR"
+      column20: "reddito_impresa_semplificata_media:VARCHAR"
+      column21: "reddito_lavoro_autonomo_frequenza:VARCHAR"
+      column22: "reddito_lavoro_autonomo_ammontare:VARCHAR"
+      column23: "reddito_lavoro_autonomo_media:VARCHAR"
+      column24: "terreni_imponibile_frequenza:VARCHAR"
+      column25: "terreni_imponibile_ammontare:VARCHAR"
+      column26: "terreni_imponibile_media:VARCHAR"
+      column27: "terreni_non_imponibile_frequenza:VARCHAR"
+      column28: "terreni_non_imponibile_ammontare:VARCHAR"
+      column29: "terreni_non_imponibile_media:VARCHAR"
+      column30: "fabbricati_imponibile_frequenza:VARCHAR"
+      column31: "fabbricati_imponibile_ammontare:VARCHAR"
+      column32: "fabbricati_imponibile_media:VARCHAR"
+      column33: "fabbricati_non_imponibile_frequenza:VARCHAR"
+      column34: "fabbricati_non_imponibile_ammontare:VARCHAR"
+      column35: "fabbricati_non_imponibile_media:VARCHAR"
+      column36: "capitali_diversi_frequenza:VARCHAR"
+      column37: "capitali_diversi_ammontare:VARCHAR"
+      column38: "capitali_diversi_media:VARCHAR"
+      column39: "cella_finale:VARCHAR"
+    normalize_rows_to_columns: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, classe_reddito]
+    min_rows: 32
+    primary_key: [anno, classe_reddito]
+
+mart:
+  tables:
+    - name: "mart_classe_reddito_anno"
+      sql: "sql/mart_classe_reddito_anno.sql"
+    # Trend nazionale (multi-year)
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+      years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_classe_reddito_anno"
+    - "mart_anno"
+  validate:
+    table_rules:
+      mart_classe_reddito_anno:
+        required_columns: [anno, classe_reddito, codice, numero_societa, totale_reddito_eur, reddito_medio_societa_eur, quota_reddito_pct, rank_reddito]
+        primary_key: [anno, classe_reddito]
+        min_rows: 32
+      mart_anno:
+        required_columns: [anno, numero_societa, totale_reddito_eur, totale_perdita_eur, reddito_medio_societa_eur]
+        primary_key: [anno]
+        min_rows: 11
+
+validation:
+  fail_on_error: true
