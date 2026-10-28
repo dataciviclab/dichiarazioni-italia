@@ -1,3 +1,13 @@
+# Pipeline — dichiarazioni-italia
+#
+# Post-merge + refresh. Usa pipeline-reusable.yml dell'org.
+# Su PR merged: solo i dataset toccati (detect + batch). Su schedule/dispatch: tutti.
+#
+# Con 15+ dataset il run completo a ogni merge diventa lungo: il batch selettivo
+# esegue solo gli slug cambiati. Il registry resta completo perché le entry dei
+# dataset non eseguiti sono preservate dal registry.json committato (il builder
+# usa i parquet locali solo per aggiornare le entry presenti in out/).
+
 name: Pipeline
 
 on:
@@ -9,13 +19,20 @@ on:
     - cron: "0 6 1 * *"
   workflow_dispatch:
 
+concurrency:
+  group: dichiarazioni-italia-pipeline-${{ github.event.pull_request.number || github.ref || 'schedule' }}
+  cancel-in-progress: false
+
 jobs:
   pipeline:
     if: github.event.pull_request.merged == true || github.event_name != 'pull_request'
     uses: dataciviclab/.github/.github/workflows/pipeline-reusable.yml@main
     with:
       repo-slug: "dichiarazioni-italia"
+      # Su PR merged: solo dataset cambiati (batch). Su schedule/dispatch: tutti.
+      detect-paths: "datasets"
       run-command: "make run-all"
+      run-batch-command: "make run-batch"
     permissions:
       contents: write
       pull-requests: write

@@ -6,6 +6,9 @@ out/
 __pycache__/
 *.pyc
 
+# Batch selettivo (generato dalla CI, non va committato)
+batch.txt
+
 # IDE
 .vscode/
 .idea/

@@ -2,7 +2,7 @@ TOOLKIT = toolkit
 
 DATASETS := $(shell find datasets -name dataset.yml 2>/dev/null | sort)
 
-.PHONY: check run run-all clean help
+.PHONY: check run run-all run-batch clean help
 
 check:
 	@for f in $(DATASETS); do \
@@ -18,6 +18,15 @@ run-all:
 	@find datasets -name dataset.yml | sort > /tmp/batch.txt
 	$(TOOLKIT) run --batch /tmp/batch.txt
 	@rm -f /tmp/batch.txt
+
+# Batch selettivo: usa batch.txt generato dal workflow (solo i dataset toccati
+# dalla PR mergiata). Su schedule/dispatch la CI usa run-all.
+run-batch:
+	@if [ -s batch.txt ]; then \
+		$(TOOLKIT) run --batch batch.txt; \
+	else \
+		echo "Nessun dataset da processare"; \
+	fi
 
 .PHONY: registry registry-write
 registry:
