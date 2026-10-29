@@ -5,8 +5,14 @@
 --
 -- Lettura POSIZIONALE, tutte le colonne VARCHAR. `encoding: cp1252` è OBBLIGATORIO:
 -- i file fino al 2019 (e il 2021) contengono un byte 0xC3 isolato al posto della
--- "a" accentata di "società"; con `encoding: utf-8` DuckDB **scarta la riga in
--- silenzio** (verificato: file 2019 → 18 righe con utf-8, 19 con cp1252).
+-- "a" accentata di "società". Con `encoding: utf-8` il reader del toolkit (Python
+-- csv + pandas, perché qui si usa normalize_rows_to_columns) fallisce con
+-- UnicodeDecodeError; con una lettura DuckDB diretta la riga verrebbe invece
+-- scartata in silenzio (verificato: file 2019 → 18 righe vs 19).
+--
+-- `***` (dato oscurato) compare solo nel file 2016 (a.i. 2015), su 2 righe
+-- (codice 15 e TOTALE): la cella diventa NULL e per quell'anno la somma delle
+-- tipologie non è confrontabile con il TOTALE.
 --
 -- `anno` = anno d'imposta (l'URL MEF usa l'anno di presentazione: {year} - 1).
 -- Ammontari in migliaia di euro → ×1000.

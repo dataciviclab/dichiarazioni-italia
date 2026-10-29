@@ -17,8 +17,8 @@ raw:
   sources:
     # AETPTOT0401 — "Persone fisiche totali" — "Confronto tra imposte nette".
     # Letto per POSIZIONE con tutte le colonne VARCHAR; encoding cp1252
-    # obbligatorio (i file vecchi hanno un byte non-utf8: con utf-8 DuckDB
-    # scarterebbe una riga in silenzio — vedi sql/clean.sql).
+    # obbligatorio (i file vecchi hanno un byte non-utf8: con utf-8 il reader
+    # fallisce o scarta la riga — vedi sql/clean.sql).
     - name: "mef_irpef_imposta_tipologia"
       type: http_file
       args:

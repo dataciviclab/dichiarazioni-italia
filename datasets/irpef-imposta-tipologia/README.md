@@ -42,14 +42,15 @@
 
 - **Trend**: l'imposta netta passa da **152,3 mld** (a.i. 2012) a **197,4 mld** (a.i. 2024), **+29,6%**, con i contribuenti quasi stabili. La media per contribuente sale da 3.677 € a 4.608 €.
 - **Imposta media più alta**: plusvalenze di natura finanziaria (42.331 €), redditi da capitale (32.377 €), autonomi con partita IVA (29.344 €) — contro 4.612 € dei dipendenti e 1.860 € dei proprietari di fabbricati.
-- **Il 2020** è l'unico anno di calo dell'imposta (159,3 mld): l'effetto del blocco pandemico.
+- **Il 2020** è l'unico calo *significativo* dell'imposta (**−3,5%**, da 165,1 a 159,3 mld): l'effetto del blocco pandemico. Cali marginali anche nel 2013 (−0,02%) e 2014 (−0,69%).
 
 ## Note metodologiche
 
-- **✅ Le tipologie sono additive**: la somma delle righe coincide con la riga `TOTALE` della fonte (verificato: differenza 0 sui contribuenti e ±1.000 € sull'imposta, arrotondamento). Si possono sommare e calcolare quote senza doppio conteggio.
-- **⚠️ `encoding: cp1252` è obbligatorio.** I file fino al 2019 (e il 2021) contengono un byte `0xC3` isolato al posto della "a" accentata di "società". Con `encoding: utf-8` DuckDB **scarta la riga in silenzio** (verificato: file 2019 → 18 righe con utf-8, **19** con cp1252) e la somma delle tipologie non coinciderebbe più con il `TOTALE`.
+- **✅ Le tipologie sono additive** (con un'eccezione). La somma delle righe coincide con la riga `TOTALE` della fonte: differenza **0** sui contribuenti e ≤2.000 € sull'imposta (arrotondamento) in **12 anni su 13**. **Eccezione a.i. 2015**: la fonte **oscura** (`***`) l'imposta della tipologia "Redditi a tassazione sostitutiva" **e** del `TOTALE`, quindi per quell'anno l'additività non è verificabile e la somma esclude quella voce (454.813 contribuenti).
+- **⚠️ `encoding: cp1252` è obbligatorio.** I file fino al 2019 (e il 2021) contengono un byte `0xC3` isolato al posto della "a" accentata di "società". Con `encoding: utf-8` il reader del toolkit (Python `csv` + pandas, perché questo dataset usa `normalize_rows_to_columns`) **fallisce con `UnicodeDecodeError`**; leggendo lo stesso file con DuckDB diretto la riga verrebbe invece **scartata in silenzio** (verificato: file 2019 → 18 righe vs **19**). In entrambi i casi `cp1252` è la scelta corretta.
+- **`***` = dato oscurato dalla fonte.** Compare **solo nel file 2016 (a.i. 2015)**, su 2 righe (codice 15 e `TOTALE`): nel dataset la cella diventa `NULL` (1 riga con `imposta_netta_eur` NULL). Negli altri 12 anni non ce ne sono.
 - **⚠️ `tipologia` è canonica, derivata dal codice della fonte.** Le etichette di origine variano tra anni (accento rotto, `societa'` vs `società`, `Autonomo/Provv/Diversi da 770` vs `da Mod.CU`) e **i codici 14–16 cambiano significato dal file 2019** (a.i. 2018): la fonte inserisce "Regime fiscale agevolato" come 14 e fa slittare 14→15 e 15→16. Il dataset espone quindi **solo la `tipologia` canonica** (serie continua) e **non il codice**, che non è una chiave stabile tra anni.
-- **Copertura dal 2012** (file 2013): il file 2012 non ha la colonna `Codice` (6 celle invece di 7) e non è coperto dalla lettura posizionale.
+- **Copertura dal 2012** (file 2013): il file 2012 non ha la colonna `Codice` (6 celle invece di 7) e non è coperto dalla lettura posizionale; resta fuori anche l'**a.i. 2011** (file 2012).
 - **Righe escluse**: la riga di header (letta come dato, codice `Codice`), `TOTALE` (codice `0`) e la nota finale.
+- **Colonne "Media" scartate**: la fonte pubblica frequenza, ammontare e media; il dataset tiene le prime due (la media si ricalcola).
 - **Denominatore della media**: `imposta_media_contribuente_eur` divide l'imposta netta per **tutti** i contribuenti della tipologia, non solo per quelli con imposta positiva (`imposta_netta_frequenza`: 19.754.053 dei 23.072.978 dipendenti).
-- **`***` = dato oscurato dalla fonte**: in questa vista non ne compaiono.
