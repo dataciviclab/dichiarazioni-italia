@@ -13,9 +13,11 @@
 
 ## Perché è letto per NOME (e non per posizione)
 
-È l'unico dataset del repo che non usa la lettura posizionale. L'ordine delle colonne di questa vista **cambia tra gli anni**: tra il file 2012 e il 2025 si spostano **100 posizioni**. La lettura per posizione non è quindi praticabile.
+L'**insieme** delle colonne di questa vista cambia tra gli anni: 149 nomi nei file 2012–2013, 150 nei file 2014–2018 (si aggiunge `Codice`), **144** dal file 2019 (6 colonne rimosse). E anche a parità di insieme l'ordine non è stabile: nel 2014–2018 cambia da un anno all'altro (lo spostamento massimo osservato è di 6 posizioni). Una lettura per posizione si disallineerebbe dal 2019.
 
-Si legge per **nome** (`header: true` + `all_varchar: true`) e si referenziano solo le colonne presenti in **tutti** gli anni coperti. La finestra scelta è il **file 2016–2025** (a.i. 2015–2024): **144 colonne comuni**, le uniche che includono il **regime forfetario** e il **regime di vantaggio** (esistono dalla dichiarazione 2016, a.i. 2015). Partire dal file 2015 avrebbe dato 11 anni ma senza le due voci sui regimi agevolati — che sono la parte civicamente più rilevante.
+Si legge quindi per **nome** (`header: true` + `all_varchar: true`) e si referenziano solo le colonne presenti in **tutti** gli anni coperti. È il primo dataset del repo che **combina** lettura per nome e `all_varchar`: anche `iva_regionale` e `irap_imposta_regione` leggono per nome, ma con `source: auto` e senza forzare i tipi.
+
+La finestra scelta è il **file 2016–2025** (a.i. 2015–2024): **144 colonne comuni**, di cui 3 chiavi (`Regione`, `Codice`, `Numero titolari di partita IVA`) e **47 misure** × 3 (frequenza, ammontare, media). Da lì esistono il **regime forfetario** e il **regime di vantaggio** (dichiarazione 2016 = a.i. 2015). Partire dal file 2015 avrebbe dato 11 anni ma senza le due voci sui regimi agevolati — che sono la parte civicamente più rilevante.
 
 `all_varchar` serve anche a proteggere i numeri: sono in formato italiano e lo sniffing di DuckDB tipizzerebbe `DOUBLE` le colonne i cui valori hanno un solo punto (`"121.330"`), corrompendole nelle macro `normalize_italian_*` (×10/÷10).
 
@@ -130,7 +132,7 @@ Si legge per **nome** (`header: true` + `all_varchar: true`) e si referenziano s
 ## Cosa dicono i dati
 
 - **Il regime forfetario esplode**: 0,82 mld (a.i. 2015) → **31,8 mld** (a.i. 2024), dal **0,9% al 29,3%** del reddito complessivo dei titolari di partita IVA. Nello stesso periodo il **regime di vantaggio** crolla: 4,57 → **0,15 mld**.
-- **3,8 milioni di titolari** (a.i. 2024): circa il **9% dei contribuenti IRPEF** (42,0 milioni). Reddito complessivo 108,7 mld, imposta netta 25,5 mld.
+- **3,8 milioni di titolari** (a.i. 2024): circa il **9% dei contribuenti IRPEF** (42,8 milioni, a.i. 2024). Reddito complessivo 108,7 mld, imposta netta 25,5 mld.
 - **Aliquota media effettiva** (imposta netta / reddito imponibile): dal 25,4% (2015) al **28,1%** (2024).
 - **Concentrazione**: la Lombardia fa il **20,8%** del reddito complessivo nazionale dei titolari (a.i. 2023), con il 16,8% dei titolari.
 
@@ -138,7 +140,8 @@ Si legge per **nome** (`header: true` + `all_varchar: true`) e si referenziano s
 
 - **⚠️ Le colonne NON sono additive.** Sono grandezze dichiarate su righe diverse del modello. In particolare `reddito_complessivo` è il reddito **totale della persona** (include anche lavoro dipendente e pensioni), non la somma delle voci per tipo di reddito, che a loro volta si sovrappongono in parte. E `reddito_netto_regime_forfetario` / `reddito_netto_regime_di_vantaggio` sono redditi di **regimi alternativi**, non componenti da sommare al complessivo.
 - **Perimetro**: persone fisiche **titolari di partita IVA** (modello ABPF). Non include le persone fisiche senza partita IVA (in `irpef_comunale` / `mef_irpef_regionale`) né le società (`ires_redditi_regione`, `acsp_*`).
-- **Colonne che cambiano tra gli anni**: il dataset espone solo le 144 colonne comuni al periodo coperto. Restano fuori, tra le altre, `Reddito minimo dichiarato` (file 2012–2015) e `Reddito da partecipazione` (solo file 2012). Le serie di quelle voci non sono ricostruibili senza spezzare il dataset.
+- **Colonne che cambiano tra gli anni**: il dataset espone le **47 misure** comuni a tutto il periodo (94 colonne di valori). Restano fuori, tra le altre, `Reddito minimo dichiarato` (file 2012–2015) e la variante **senza asterisco** di `Reddito da partecipazione` (solo file 2012; la variante con asterisco è invece inclusa). Le serie di quelle voci non sono ricostruibili senza spezzare il dataset.
+- **Denominatori diversi nelle mart**: `reddito_medio_titolare_eur` divide per **tutti** i titolari (3.836.085), mentre `aliquota_media_pct` è imposta netta / reddito **imponibile** (2.555.528 dichiarazioni, il 67%). Il reddito medio per dichiarazione *con reddito complessivo* è 35.694 €, non 28.337 €.
 - **Righe escluse**: header (`Codice` = 'Codice'), `TOTALE` ('0'), `Non indicata` ('00'), la riga `(*) Comprensivo dei valori nulli` e la nota finale (codice NULL). Le 21 regioni includono Trento e Bolzano separati, entrambi con `cod_regione = '04'`: la chiave è `[anno, regione]`.
 - **`***` = dato oscurato dalla fonte** (riservatezza): la cella diventa `NULL`, non zero.
 - **Valori in migliaia di euro**: gli `*_eur` sono convertiti in euro (×1000). Le colonne "Media" della fonte sono scartate.

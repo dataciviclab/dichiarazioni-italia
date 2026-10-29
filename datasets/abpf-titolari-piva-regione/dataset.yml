@@ -18,7 +18,8 @@ raw:
   sources:
     # ABPFTIT0201 — "Titolari di partita IVA" — "Regione".
     # Letto PER NOME con tutte le colonne VARCHAR: l'ordine delle colonne cambia
-    # tra gli anni (100 posizioni spostate) e i numeri sono in formato italiano.
+    # tra gli anni (l'insieme delle colonne cambia: 149 nomi nei file 2012-2013,
+    # 150 nel 2014-2018, 144 dal 2019) e i numeri sono in formato italiano.
     - name: "mef_abpf_titolari_piva_regione"
       type: http_file
       args:

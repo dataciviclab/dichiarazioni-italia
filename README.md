@@ -45,7 +45,7 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 | Dataset | Righe/anno | Periodo | Copertura |
 |---|---|---|---|
 | [`iva_regionale`](datasets/iva-regionale/README.md) | 21 regioni | 2014–2024 | Volume d'affari, valore aggiunto, imposta |
-| [`iva_sez_attivita`](datasets/iva-sez-attivita/README.md) | 22 settori ATECO | 2014–2024 | Volume d'affari per settore |
+| [`iva_sez_attivita`](datasets/iva-sez-attivita/README.md) | 22–23 sezioni ATECO | 2014–2024 | Volume d'affari per settore |
 
 **IRAP**
 

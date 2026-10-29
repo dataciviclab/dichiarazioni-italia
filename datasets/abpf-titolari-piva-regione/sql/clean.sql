@@ -4,9 +4,11 @@
 -- Vista MEF analisi_stat ABPFTIT0201 — "Titolari di partita IVA" — "Regione".
 --
 -- ⚠️ Lettura PER NOME (`all_varchar: true`, header alla riga 10), non posizionale:
--- l'ordine delle colonne cambia tra gli anni (100 posizioni spostate tra il file
--- 2012 e il 2025). Si referenziano solo le colonne presenti in TUTTI gli anni
--- coperti (file 2016-2025, a.i. 2015-2024): 144 colonne comuni.
+-- l'INSIEME delle colonne cambia tra gli anni (149 nomi nei file 2012-2013, 150
+-- nel 2014-2018, 144 dal 2019) e l'ordine non e' stabile (nel 2014-2018 cambia da
+-- un anno all'altro; spostamento massimo osservato: 6 posizioni). Si referenziano
+-- solo le colonne presenti in TUTTI gli anni coperti (file 2016-2025, a.i.
+-- 2015-2024): 144 colonne comuni, di cui 3 chiavi e 47 misure.
 -- `all_varchar` serve anche perché i numeri sono in formato italiano: con
 -- `source: auto` lo sniffing tipizza DOUBLE le colonne i cui valori hanno un solo
 -- punto (es. "121.330") e le macro normalize_italian_* le corromperebbero (×10/÷10).

@@ -33,7 +33,7 @@
 
 ## Cosa dicono i dati
 
-- A.i. 2023: **2.110.970 contribuenti**, produzione netta **526,4 mld** — di cui **517,2 mld in Italia** e **9,2 mld all'estero** (1,7%).
+- A.i. 2023: **2.110.970 contribuenti**, produzione netta **526,4 mld** — di cui **517,2 mld in Italia** e **9,2 mld all'estero** (1,8%).
 - La quota estera è molto diversa per regione: **Liguria 16,0%**, **Sicilia 9,4%**, Lombardia 2,0%.
 
 ## Note metodologiche
