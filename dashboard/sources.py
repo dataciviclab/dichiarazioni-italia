@@ -63,10 +63,10 @@ def _comuni(*liste: list[int]) -> list[int]:
 
 # ── Anni-cartella per dataset ─────────────────────────────────────────
 YEARS_IVA = _folders("iva_regionale", 1)                      # a.i. 2014-2024
-YEARS_IVA_SETTORI = _folders("iva_sez_attivita", 0)            # a.i. 2014-2024
+YEARS_IVA_SETTORI = _folders("iva_sez_attivita", 1)            # a.i. 2014-2024
 YEARS_IRPEF_TIPOLOGIE = _folders("irpef_imposta_tipologia", 1)  # a.i. 2012-2024
 YEARS_IRPEF_COMUNI = _folders("irpef_comunale", 0)             # a.i. 2015-2024
-YEARS_MEF_IRPEF = _folders("mef_irpef_regionale", 0)           # a.i. 2017-2025
+YEARS_MEF_IRPEF = _folders("mef_irpef_regionale", 1)           # a.i. 2016-2024
 YEARS_ACSP = _folders("acsp_tutte_regione", 1)                 # a.i. 2013-2024
 YEARS_ACSP_TIPOLOGIE = _comuni(                                # a.i. 2018-2024
     YEARS_ACSP,

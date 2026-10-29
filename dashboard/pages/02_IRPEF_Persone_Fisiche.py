@@ -281,7 +281,7 @@ with tab_comuni:
 # ══════════════════════════════════════════════════════════════════════
 with tab_classi:
     anno_cl = st.selectbox(
-        "Anno di imposta",
+        "Anno di presentazione",
         YEARS_MEF_IRPEF,
         index=len(YEARS_MEF_IRPEF) - 1,
         key="mef_irpef_year",
@@ -291,10 +291,12 @@ with tab_classi:
     if df_cl.empty:
         st.warning("Nessun dato disponibile.")
     else:
-        anno_di = int(df_cl["anno_di_imposta"].max())
+        anno_di = int(df_cl["anno"].max())
         tot_contr = df_cl["totale_contribuenti"].sum()
         tot_inf = df_cl["contribuenti_fascia_inferiore"].sum()
+        tot_sup = df_cl["contribuenti_fascia_superiore"].sum()
         pct_inf = tot_inf / tot_contr * 100 if tot_contr else 0
+        pct_sup = tot_sup / tot_contr * 100 if tot_contr else 0
 
         k1, k2, k3 = st.columns(3)
         with k1:
@@ -302,7 +304,9 @@ with tab_classi:
         with k2:
             st.metric("Reddito ≤ 0", fmt_num(tot_inf), f"{pct_inf:.2f}% del totale")
         with k3:
-            st.metric("Classi di reddito", int(df_cl["num_classi_presente"].max()))
+            st.metric(
+                "Reddito ≥ 10.000 €", fmt_num(tot_sup), f"{pct_sup:.2f}% del totale"
+            )
 
         d = df_cl.sort_values("pct_fascia_inferiore", ascending=False)
         fig = go.Figure()
@@ -310,25 +314,34 @@ with tab_classi:
             go.Bar(
                 x=d["regione"],
                 y=d["pct_fascia_inferiore"],
+                name="Reddito ≤ 0",
                 text=d["pct_fascia_inferiore"].apply(lambda x: f"{x:.1f}%"),
                 textposition="outside",
             )
         )
+        fig.add_trace(
+            go.Bar(
+                x=d["regione"],
+                y=d["pct_fascia_superiore"],
+                name="Reddito ≥ 10.000 €",
+            )
+        )
         fig.update_layout(
-            title=f"Contribuenti con reddito ≤ 0 per regione ({anno_di}) — %",
+            barmode="group",
+            title=f"Le due code della distribuzione del reddito per regione ({anno_di}) — %",
             height=520,
             margin={"t": 40, "b": 140},
             xaxis_tickangle=-45,
             yaxis_title="%",
+            legend={"orientation": "h", "y": -0.25},
         )
         st.plotly_chart(fig, width="stretch")
 
         st.caption(
-            "Fonte: `REG_tipo_reddito` (vista regionale, 34 classi di reddito). "
-            "⚠️ La quota di contribuenti nella fascia alta **non è mostrata**: nel "
-            "mart la mappatura delle classi copre 21 delle 34 classi della fonte e il "
-            "sentinella `ELSE 99` ricade nella soglia `>= 17`, quindi la colonna "
-            "misura «reddito > 6.000 €» e non «≥ 10.000 €». Da correggere a monte."
+            "Fonte: `REG_tipo_reddito`, 34 classi di reddito (21 regioni). Sono "
+            "mostrate le due code: reddito **≤ 0** (3 classi) e reddito **≥ 10.000 €** "
+            "(20 classi). Le 11 classi intermedie (0–10.000 €) non entrano in nessuna "
+            "delle due, quindi le due quote non sommano a 100."
         )
 
 st.caption("Dati: MEF — Dipartimento delle Finanze · IRPEF")
