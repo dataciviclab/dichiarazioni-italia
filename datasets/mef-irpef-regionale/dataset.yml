@@ -6,6 +6,10 @@ dataset:
   source_id: "mef_finanze"
   tags: [finanza-pubblica, mef, irpef]
   category: finanza-pubblica
+  # years = anno di presentazione (nome del file MEF); il clean espone `anno`
+  # (anno d'imposta) = {year} - 1.
+  # time_coverage è in ANNI D'IMPOSTA: il file 2025 copre l'a.i. 2024.
+  time_coverage: {start_year: 2016, end_year: 2024}
   years: [2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
 
 raw:
@@ -22,7 +26,7 @@ raw:
 
 clean:
   sql: "sql/clean.sql"
-  required_columns: [anno_di_imposta, classe_reddito, regione]
+  required_columns: [anno, classe_reddito, regione]
   read:
     source: config_only
     mode: latest
@@ -81,14 +85,27 @@ clean:
     sample_size: -1
     trim_whitespace: true
   validate:
-    not_null: [anno_di_imposta]
+    not_null: [anno]
 
 mart:
   tables:
     - name: "irpef_regione_classe"
       sql: "sql/mart.sql"
   required_tables: ["irpef_regione_classe"]
-  validate: {}
+  validate:
+    table_rules:
+      irpef_regione_classe:
+        required_columns: [anno, regione, totale_contribuenti, contribuenti_fascia_inferiore, contribuenti_fascia_superiore, pct_fascia_inferiore, pct_fascia_superiore, num_classi_presente, classi_non_mappate]
+        primary_key: [anno, regione]
+        min_rows: 20
+        # Guardie contro un cambio di etichette delle classi a monte:
+        #  - num_classi_presente: la fonte pubblica 34 classi in tutti gli anni
+        #  - classi_non_mappate: nessuna classe deve restare fuori mappatura
+        ranges:
+          num_classi_presente: {min: 34, max: 34}
+          classi_non_mappate: {min: 0, max: 0}
+          pct_fascia_inferiore: {min: 0, max: 100}
+          pct_fascia_superiore: {min: 0, max: 100}
 
 validation:
   fail_on_error: true
