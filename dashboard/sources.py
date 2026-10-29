@@ -44,9 +44,10 @@ def _folders(slug: str, offset: int) -> list[int]:
     registry: verificato il 2026-10-29 confrontando il nome della cartella con
     la colonna ``anno`` (o ``anno_di_imposta``) del mart.
 
-    +1 = URL MEF con anno di presentazione (la maggior parte dei dataset)
-     0 = cartella = anno d'imposta (``irpef_comunale``, ``mef_irpef_regionale``)
-     0 = ``iva_sez_attivita``, l'unico con ``period`` già in anni-cartella
+    +1 = URL MEF con anno di presentazione: quasi tutti i dataset. Da #35 anche
+         ``iva_sez_attivita`` e ``mef_irpef_regionale``, il cui ``period`` è
+         stato portato in anni d'imposta (prima era in anni-cartella)
+     0 = cartella = anno d'imposta (``irpef_comunale``)
     """
     anni = years_from_registry(_registry, slug=slug)
     if not anni:
