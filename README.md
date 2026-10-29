@@ -9,12 +9,13 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 
 ## Cosa contengono
 
-16 dataset dalla stessa fonte (MEF `analisi_stat`), raggruppati per imposta e forma giuridica. Ogni nome linka il README del dataset (schema e limiti).
+17 dataset dalla stessa fonte (MEF `analisi_stat`), raggruppati per imposta e forma giuridica. Ogni nome linka il README del dataset (schema e limiti).
 
 **IRPEF · persone fisiche**
 
 | Dataset | Righe/anno | Periodo | Copertura |
 |---|---|---|---|
+| [`irpef_imposta_tipologia`](datasets/irpef-imposta-tipologia/README.md) | 16 tipologie | 2012–2024 | **Imposta netta** per tipologia di contribuente |
 | [`irpef_comunale`](datasets/irpef-comunale/README.md) | ~7.900 comuni | 2015–2024 | Redditi, imposta e fasce di reddito per comune |
 | [`mef_irpef_regionale`](datasets/mef-irpef-regionale/README.md) | 21 × 34 classi | 2017–2025 | Reddito per regione e classe |
 
@@ -67,10 +68,10 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 
 ## Esempi di domande
 
+- Chi paga l'IRPEF in Italia, e quanto pesa ciascuna tipologia di contribuente?
 - Quanto reddito dichiarano le società di persone, e come si distribuisce tra le regioni?
 - Quanto pesa il regime forfetario sui redditi delle partite IVA, e come è cambiato dal 2015?
-- Quali regioni e settori ATECO trainano il volume d'affari IVA?
-- Quanta IRAP si paga in ogni regione, e quanto pesa sulle P.A.?
+- Quali regioni e settori ATECO trainano il volume d'affari IVA, e quanta IRAP si paga?
 
 ## Come accedere
 
@@ -78,8 +79,7 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 ```sql
 SELECT anno, regione, volume_affari_eur
 FROM read_parquet('out/data/clean/iva_regionale/*/*_clean.parquet')
-WHERE anno = 2023
-ORDER BY volume_affari_eur DESC;
+WHERE anno = 2023 ORDER BY volume_affari_eur DESC;
 ```
 
 **Parquet**: clean in `out/data/clean/<dataset>/<year>/`, mart in `out/data/mart/<dataset>/`.

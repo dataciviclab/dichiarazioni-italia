@@ -1,0 +1,79 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "irpef_imposta_tipologia"
+  source_id: "mef_finanze"
+  tags: [irpef, imposta, tipologia-contribuente, nazionale]
+  category: finanza-pubblica
+  description: "IRPEF: imposta netta per tipologia di soggetto in base al reddito prevalente (dipendenti, pensionati, autonomi, imprenditori...). Anno d'imposta 2012-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta.
+  # Dal file 2013: il file 2012 non ha la colonna Codice.
+  years: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2012, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # AETPTOT0401 — "Persone fisiche totali" — "Confronto tra imposte nette".
+    # Letto per POSIZIONE con tutte le colonne VARCHAR; encoding cp1252
+    # obbligatorio (i file vecchi hanno un byte non-utf8: con utf-8 DuckDB
+    # scarterebbe una riga in silenzio — vedi sql/clean.sql).
+    - name: "mef_irpef_imposta_tipologia"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPTOT0401&export=3"
+        filename: "irpef_imposta_tipologia_{year}.csv"
+      primary: true
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, tipologia, numero_contribuenti, imposta_netta_frequenza, imposta_netta_eur]
+  read:
+    source: config_only
+    mode: latest
+    header: false
+    skip: 9
+    delim: ";"
+    encoding: "cp1252"
+    columns:
+      column00: "VARCHAR"
+      column01: "VARCHAR"
+      column02: "VARCHAR"
+      column03: "VARCHAR"
+      column04: "VARCHAR"
+      column05: "VARCHAR"
+      column06: "VARCHAR"
+    normalize_rows_to_columns: true
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, tipologia]
+    min_rows: 15
+    primary_key: [anno, tipologia]
+
+mart:
+  tables:
+    - name: "mart_tipologie_anno"
+      sql: "sql/mart_tipologie_anno.sql"
+    # Trend nazionale (multi-year)
+    - name: "mart_anno"
+      sql: "sql/mart_anno.sql"
+      years: [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  required_tables:
+    - "mart_tipologie_anno"
+    - "mart_anno"
+  validate:
+    table_rules:
+      mart_tipologie_anno:
+        required_columns: [anno, tipologia, numero_contribuenti, imposta_netta_frequenza, imposta_netta_eur, imposta_media_contribuente_eur, quota_imposta_pct, rank_imposta]
+        primary_key: [anno, tipologia]
+        min_rows: 15
+      mart_anno:
+        required_columns: [anno, numero_contribuenti, imposta_netta_frequenza, imposta_netta_eur, imposta_media_contribuente_eur]
+        primary_key: [anno]
+        min_rows: 12
+
+validation:
+  fail_on_error: true
