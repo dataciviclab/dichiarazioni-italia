@@ -6,6 +6,10 @@ dataset:
   source_id: "mef_finanze"
   tags: [finanza-pubblica, iva, settore, ateaco]
   category: finanza-pubblica
+  # years = anno di presentazione (URL MEF); il clean espone l'anno d'imposta.
+  # time_coverage è in ANNI D'IMPOSTA (2014-2024): senza questa dichiarazione il
+  # registry riporta gli anni-cartella (2015-2025) come se fossero anni d'imposta.
+  time_coverage: {start_year: 2014, end_year: 2024}
   years: [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
 
 raw:

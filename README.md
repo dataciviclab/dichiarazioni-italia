@@ -17,7 +17,7 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 |---|---|---|---|
 | [`irpef_imposta_tipologia`](datasets/irpef-imposta-tipologia/README.md) | 16 tipologie | 2012–2024 | **Imposta netta** per tipologia di contribuente |
 | [`irpef_comunale`](datasets/irpef-comunale/README.md) | ~7.900 comuni | 2015–2024 | Redditi, imposta e fasce di reddito per comune |
-| [`mef_irpef_regionale`](datasets/mef-irpef-regionale/README.md) | 21 × 34 classi | 2017–2025 | Reddito per regione e classe |
+| [`mef_irpef_regionale`](datasets/mef-irpef-regionale/README.md) | 21 × 34 classi | 2016–2024 | Contribuenti per regione e classe di reddito |
 
 **IRPEF · titolari di partita IVA**
 

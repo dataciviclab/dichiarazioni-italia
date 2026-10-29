@@ -1,11 +1,18 @@
 -- clean.sql: mef-irpef-regionale
 -- Fonte: MEF Finanze — REG_tipo_reddito_{year}.csv
--- Struttura: riga header skip + 441 righe dati (21 classi × 21 regioni)
--- Normalizzazione: tutte le colonne a VARCHAR → cast esplicito
+-- Struttura: 1 riga header + 714 righe dati (21 regioni × 34 classi di reddito).
+-- Normalizzazione: tutte le colonne a VARCHAR → cast esplicito.
+--
+-- ⚠️ `anno` = ANNO D'IMPOSTA. L'URL/il file MEF usano l'anno di presentazione:
+-- REG_tipo_reddito_2025.csv contiene le dichiarazioni a.i. 2024. Verificato
+-- confrontando i contribuenti totali del file con quelli di
+-- irpef_imposta_tipologia (file 2025 → 42.832.641 vs a.i. 2024 = 42.837.963;
+-- file 2024 → 42.564.337 vs a.i. 2023 = 42.570.078). Fino al 2026-10-29 la
+-- colonna riportava {year} (anno di presentazione) ed era quindi avanti di uno.
 
 SELECT
   -- il year viene iniettato dal template renderer del toolkit
-  {year}::INTEGER                                           AS anno_di_imposta,
+  ({year} - 1)::INTEGER                                     AS anno,
 
   -- column00: classe di reddito (es. "minore di -1.000", "da 0 a 1.000")
   NULLIF(column00, '')::VARCHAR                   AS classe_reddito,
