@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Dichiarazioni Italia · Dashboard Streamlit
-Le dichiarazioni fiscali italiane: IRPEF, IVA, IRAP, IRES.
+Le dichiarazioni fiscali italiane: IVA, IRPEF, IRAP, IRES.
 """
 
 import streamlit as st
@@ -19,18 +19,23 @@ apply_branding(
     repo_url="https://github.com/dataciviclab/dichiarazioni-italia",
 )
 
+# Una pagina per imposta: il territorio è un filtro dentro la pagina, non una pagina.
 pages = {
     "": [
         st.Page("pages/01_Panoramica.py", title="Panoramica", icon="📊", default=True),
+        st.Page("pages/08_Query_SQL.py", title="Query SQL", icon="🧪"),
     ],
-    "Analisi": [
-        st.Page("pages/02_Regioni.py", title="Regioni", icon="🗺️"),
-        st.Page("pages/03_Settori.py", title="Settori ATECO", icon="🏭"),
-        st.Page("pages/04_Comuni_IRPEF.py", title="Comuni (IRPEF)", icon="🏘️"),
-        st.Page("pages/05_Imprese_IRAP.py", title="Imprese (IRAP)", icon="🏢"),
-    ],
-    "Strumenti": [
-        st.Page("pages/06_SQL.py", title="Query SQL", icon="🧪"),
+    "Per imposta": [
+        st.Page("pages/02_IRPEF_Persone_Fisiche.py", title="IRPEF — persone fisiche", icon="👤"),
+        st.Page(
+            "pages/03_IRPEF_Societa_di_Persone.py",
+            title="IRPEF — società di persone",
+            icon="👥",
+        ),
+        st.Page("pages/04_IRPEF_Partite_IVA.py", title="IRPEF — partite IVA", icon="🧾"),
+        st.Page("pages/05_IVA.py", title="IVA", icon="🧮"),
+        st.Page("pages/06_IRAP.py", title="IRAP", icon="🏢"),
+        st.Page("pages/07_IRES.py", title="IRES", icon="🏛️"),
     ],
 }
 

@@ -86,14 +86,13 @@ WHERE anno = 2023 ORDER BY volume_affari_eur DESC;
 **MCP**: i dataset pubblicati sono interrogabili via `find` / `gcs_query`.
 **Riproduci**: `make check` (valida i config) · `make run-all` (esegue tutto).
 
-## Approfondimenti
+## Dashboard
 
-- [Discussions](https://github.com/dataciviclab/dichiarazioni-italia/discussions) — domande, idee, proposte
-- [Issues](https://github.com/dataciviclab/dichiarazioni-italia/issues) — bug, dataset mancanti, miglioramenti
+`cd dashboard && streamlit run app.py` — 8 pagine, una per imposta: Panoramica · IRPEF persone fisiche · IRPEF società di persone · IRPEF partite IVA · IVA · IRAP · IRES · Query SQL
 
 ## Partecipa
 
-Hai trovato un errore o vuoi aggiungere un dataset? Apri una [Discussion](https://github.com/dataciviclab/dichiarazioni-italia/discussions) o una [Issue](https://github.com/dataciviclab/dichiarazioni-italia/issues).
+Domande, idee e segnalazioni: [Discussions](https://github.com/dataciviclab/dichiarazioni-italia/discussions) · [Issues](https://github.com/dataciviclab/dichiarazioni-italia/issues).
 
 ## Licenza
 
