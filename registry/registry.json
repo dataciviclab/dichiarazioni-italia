@@ -2695,6 +2695,67 @@
       ]
     },
     {
+      "slug": "irpef_imposta_tipologia",
+      "name": "Irpef Imposta Tipologia",
+      "description": "IRPEF: imposta netta per tipologia di soggetto in base al reddito prevalente (dipendenti, pensionati, autonomi, imprenditori...). Anno d'imposta 2012-2024.",
+      "source": "",
+      "source_id": "mef_finanze",
+      "period": {
+        "start": 2012,
+        "end": 2024
+      },
+      "tags": [
+        "irpef",
+        "imposta",
+        "tipologia-contribuente",
+        "nazionale"
+      ],
+      "category": "finanza-pubblica",
+      "columns": [
+        {
+          "name": "anno",
+          "type": "INTEGER",
+          "role": "dimension",
+          "description": "",
+          "semantic_type": "year"
+        },
+        {
+          "name": "tipologia",
+          "type": "VARCHAR",
+          "role": "dimension",
+          "description": ""
+        },
+        {
+          "name": "numero_contribuenti",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_frequenza",
+          "type": "INTEGER",
+          "role": "metric",
+          "description": ""
+        },
+        {
+          "name": "imposta_netta_eur",
+          "type": "DOUBLE",
+          "role": "metric",
+          "description": ""
+        }
+      ],
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-clean/dichiarazioni-italia/irpef_imposta_tipologia/*/irpef_imposta_tipologia_*_clean.parquet",
+        "multi_file": true
+      },
+      "stage": "incubating",
+      "mart_refs": [
+        "irpef_imposta_tipologia__mart_tipologie_anno",
+        "irpef_imposta_tipologia__mart_anno"
+      ]
+    },
+    {
       "slug": "iva_regionale",
       "name": "Iva Regionale",
       "description": "",
@@ -3460,6 +3521,26 @@
       }
     },
     {
+      "slug": "irpef_imposta_tipologia__mart_anno",
+      "dataset": "irpef_imposta_tipologia",
+      "table": "mart_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_imposta_tipologia/mart_anno.parquet",
+        "multi_file": false
+      }
+    },
+    {
+      "slug": "irpef_imposta_tipologia__mart_tipologie_anno",
+      "dataset": "irpef_imposta_tipologia",
+      "table": "mart_tipologie_anno",
+      "location": {
+        "type": "gcs",
+        "path": "gs://dataciviclab-mart/dichiarazioni-italia/irpef_imposta_tipologia/*/mart_tipologie_anno.parquet",
+        "multi_file": true
+      }
+    },
+    {
       "slug": "iva_regionale__mart_regioni_anno",
       "dataset": "iva_regionale",
       "table": "mart_regioni_anno",
@@ -3907,6 +3988,37 @@
       }
     },
     {
+      "id": "irpef_imposta_tipologia",
+      "source_id": "mef_finanze",
+      "status": "ok",
+      "label": "irpef_imposta_tipologia",
+      "detail": "anni 2013-2025 — mart: si",
+      "action": "",
+      "run": {
+        "run_id": "20261029T124731Z_f295a158",
+        "year": 2025,
+        "status": "SUCCESS",
+        "quality_score": {
+          "raw": 100,
+          "clean": 95,
+          "mart": 100
+        },
+        "output_rows": {
+          "raw": 26,
+          "clean": 16,
+          "mart": 16
+        },
+        "output_bytes": {
+          "raw": 1785,
+          "clean": 1451,
+          "mart": 2143
+        },
+        "started_at": "2026-10-29T12:47:31.996727+00:00",
+        "finished_at": "2026-10-29T12:47:34.051470+00:00",
+        "duration_seconds": 2.055
+      }
+    },
+    {
       "id": "iva_regionale",
       "source_id": "mef_finanze",
       "status": "ok",
@@ -4269,6 +4381,12 @@
             "semantic_type": "year"
           },
           {
+            "slug": "irpef_imposta_tipologia",
+            "name": "Irpef Imposta Tipologia",
+            "column": "anno",
+            "semantic_type": "year"
+          },
+          {
             "slug": "iva_regionale",
             "name": "Iva Regionale",
             "column": "anno",
@@ -4288,7 +4406,7 @@
           }
         ],
         "types": {
-          "year": 16
+          "year": 17
         }
       }
     },
