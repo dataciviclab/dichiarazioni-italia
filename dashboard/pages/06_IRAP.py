@@ -37,7 +37,16 @@ with tab_imp:
 
         k1, k2, k3 = st.columns(3)
         with k1:
-            st.metric("Contribuenti (somma regioni)", fmt_num(df["contribuenti"].sum()))
+            st.metric(
+                "Contribuenti (somma regioni)",
+                fmt_num(df["contribuenti"].sum()),
+                help=(
+                    "Dal a.i. 2022 le persone fisiche sono esonerate dall'IRAP "
+                    "(L. 234/2021): il calo 2021→2022 (−37%) è di perimetro, non "
+                    "di attività. A perimetro omogeneo i contribuenti crescono "
+                    "dello 0,8%."
+                ),
+            )
         with k2:
             st.metric("Imposta IRAP", fmt_eur(df["imposta_eur"].sum(), compact=True))
         with k3:
@@ -90,6 +99,18 @@ with tab_imp:
                 margin={"t": 40},
                 yaxis_title="MLD €",
             )
+            # Il perimetro cambia ad a.i. 2022 (esonero delle persone fisiche,
+            # L. 234/2021): senza il marcatore il gradino si legge come crisi.
+            fig3.add_vline(x=2022, line_dash="dash", line_color="#c0392b")
+            fig3.add_annotation(
+                x=2022,
+                y=1,
+                yref="paper",
+                text="a.i. 2022: fuori le persone fisiche",
+                showarrow=False,
+                font={"size": 11, "color": "#c0392b"},
+                yshift=12,
+            )
             st.plotly_chart(fig3, width="stretch")
 
             dal_2015 = trend[trend["anno"] >= 2015]
@@ -104,6 +125,24 @@ with tab_imp:
                 "regioni coincide con il totale della fonte in 8 anni su 10; ad a.i. "
                 "2014 e 2015 è inferiore di 22 e 8 contribuenti (non attribuiti a una "
                 "regione)."
+            )
+
+            r21 = trend.loc[trend["anno"] == 2021, "contribuenti"]
+            r22 = trend.loc[trend["anno"] == 2022, "contribuenti"]
+            nota_22 = ""
+            if not r21.empty and not r22.empty:
+                nota_22 = (
+                    f" Contribuenti: {fmt_num(r21.iloc[0])} → {fmt_num(r22.iloc[0])} "
+                    f"({(r22.iloc[0] / r21.iloc[0] - 1) * 100:.0f}%)."
+                )
+            st.caption(
+                "⚠️ **Secondo cambio di perimetro ad a.i. 2022**: le persone fisiche "
+                "sono esonerate dall'IRAP (L. 234/2021, art. 1 comma 8)."
+                + nota_22
+                + " A perimetro omogeneo (2021 al netto delle persone fisiche) i "
+                "contribuenti crescono dello **0,8%**, la base del **12,3%** e "
+                "l'imposta dell'**11,2%** (nota MEF a.i. 2022). **Non leggere la serie "
+                "dei contribuenti a cavallo del 2021/2022.**"
             )
 
 # ══════════════════════════════════════════════════════════════════════

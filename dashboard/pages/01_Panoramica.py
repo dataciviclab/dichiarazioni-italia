@@ -17,7 +17,7 @@ from sources import (
 st.title("📊 Dichiarazioni Italia")
 st.markdown(
     "Le dichiarazioni fiscali italiane (MEF — Dipartimento delle Finanze): "
-    "**IVA, IRPEF, IRAP, IRES**. 17 dataset, una pagina per imposta."
+    "**IVA, IRPEF, IRAP, IRES**. 18 dataset, una pagina per imposta."
 )
 
 # ══════════════════════════════════════════════════════════════════════
@@ -121,6 +121,7 @@ st.subheader("Dati disponibili")
 
 INDICE = [
     ("IRPEF · persone fisiche", "IRPEF per tipologia", "irpef_imposta_tipologia", "02 · IRPEF — persone fisiche"),
+    ("IRPEF · persone fisiche", "Imposta lorda, detrazioni e netta", "irpef_calcolo_tipologia", "02 · IRPEF — persone fisiche"),
     ("IRPEF · persone fisiche", "Redditi per comune", "irpef_comunale", "02 · IRPEF — persone fisiche"),
     ("IRPEF · persone fisiche", "Redditi per regione e classe", "mef_irpef_regionale", "02 · IRPEF — persone fisiche"),
     ("IRPEF · società di persone", "Aggregato per regione", "acsp_tutte_regione", "03 · IRPEF — società di persone"),
