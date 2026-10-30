@@ -41,5 +41,6 @@
 - **Fix #21**: la colonna `vp_estero_freq` (massimo 1.088 migliaia) veniva tipizzata `DOUBLE` in **2 anni su 10** (2016 e 2022) e la macro la corrompeva: **40 celle ×10** (es. Piemonte 2016 `38` → `380`). Negli altri anni la stessa colonna restava `VARCHAR` — l'inferenza dei tipi è per file.
 - **Italia + estero ricompongono la produzione netta** (a.i. 2023: 517,2 + 9,2 = 526,4 mld; lo scarto è di arrotondamento, 0,001%).
 - **Righe escluse**: header, `TOTALE`, l'eventuale `Non indicata` e la nota finale.
+- ⚠️ **Il cambio di perimetro a.i. 2022 vale anche qui**: l'esonero IRAP delle persone fisiche (L. 234/2021, art. 1 comma 8) porta i contribuenti da 3.333.952 a 2.101.567, ma la produzione netta **cresce** (450,7 → 475,0 mld). La serie dei contribuenti non è confrontabile a cavallo del 2021/2022; produzione e valori economici sì, al netto della voce persone fisiche (dettaglio in `irap_imposta_regione`).
 - **Perimetro**: fonte MEF `analisi_stat`; valori raw in migliaia di euro, convertiti in euro (×1000). Le colonne "Media" della fonte sono scartate (si ricalcolano da frequenza e ammontare).
 - **`***` = dato oscurato dalla fonte** (riservatezza): la cella diventa `NULL`, non zero.

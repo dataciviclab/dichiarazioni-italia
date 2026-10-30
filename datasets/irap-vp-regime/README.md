@@ -49,5 +49,6 @@
 - **⚠️ I regimi sono un perimetro, non componenti da sommare alla produzione netta**: la somma dei cinque regimi **è** il valore della produzione; la netta si ottiene sottraendo le deduzioni.
 - **Lettura posizionale**: l'header è corrotto in alcuni anni (nomi colonna che cambiano anche nell'encoding), quindi si legge per posizione con nomi propri.
 - **Righe escluse**: header, `TOTALE` e nota finale. Il break di definizione IRAP a.i. 2014→2015 vale anche qui: i trend si leggono dal 2015.
+- ⚠️ **Il cambio di perimetro a.i. 2022 si vede qui in modo netto**: l'esonero IRAP delle persone fisiche (L. 234/2021, art. 1 comma 8) svuota la voce **arti e professioni** — 21,4 mld e 181.372 dichiarazioni a.i. 2021 → **8,8 mld e 31.752** a.i. 2022 — mentre la contabilità ordinaria/semplificata sale (764,6 → 799,4 mld). I contribuenti totali calano da 3.333.952 a 2.101.567, ma la **produzione netta cresce** (450,7 → 475,0 mld): il confronto 2021→2022 va fatto al netto delle persone fisiche (dettaglio in `irap_imposta_regione`).
 - **Perimetro**: fonte MEF `analisi_stat`; valori raw in migliaia di euro, convertiti in euro (×1000). Le colonne "Media" della fonte sono scartate (si ricalcolano da frequenza e ammontare).
 - **`***` = dato oscurato dalla fonte** (riservatezza): la cella diventa `NULL`, non zero.
