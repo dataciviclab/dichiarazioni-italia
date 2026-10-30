@@ -66,7 +66,7 @@ A.i. 2023 (ultimo anno completo):
 ## Note metodologiche
 
 - ⚠️ **Le sei tipologie non sono una partizione dell'IRPEF.** Coprono **39.947.110 contribuenti su 42.570.078 (93,8%)** e **188,05 mld su 189,94 di imposta netta (99,0%)** a.i. 2023. Non sommarle per ottenere il totale nazionale: per quello c'è `irpef_imposta_tipologia`.
-- ⚠️ **`AETPFGA0201` contiene due righe `TOTALE`**, la seconda con valori esattamente doppi (890.472 → 1.780.944 contribuenti a.i. 2023). Il clean esclude per **codice `0`**, non per etichetta: filtrando per nome il dataset raddoppierebbe.
+- ⚠️ **Tre viste su sei hanno due righe `TOTALE`** — `AETPFGA0201`, `AETPREA0201`, `AETPRHA0201` — entrambe con codice `0`, la seconda con valori esattamente doppi (890.472 → 1.780.944 contribuenti a.i. 2023; **36 file su 72**). Il clean esclude per **codice `0`**, che è la chiave stabile: l'etichetta oggi è sempre `TOTALE` (108 righe su 108), ma non è garantita tra anni.
 - ⚠️ **`Non indicata`** compare in 4 viste su 6 (22 righe non-totale invece di 21): esclusa come negli altri dataset regionali. Per questo i totali delle sei viste sono leggermente inferiori a quelli della riga `TOTALE` della fonte.
 - **Lettura posizionale obbligatoria**: l'header è instabile e i numeri sono in formato italiano. Con `source: auto` lo sniffer tipizza `DOUBLE` le colonne ambigue e le macro `normalize_italian_*` le corrompono (×10 / ÷10).
 - **`normalize_rows_to_columns` non è utilizzabile**: quel percorso registra un DataFrame e perde `inject_column`, quindi la tipologia non arriverebbe.

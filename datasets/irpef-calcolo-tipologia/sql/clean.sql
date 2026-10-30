@@ -18,9 +18,11 @@
 --
 -- Esclusi: la riga di header (letta come dato, `codice` = 'Codice'), le righe
 -- `TOTALE`, l'eventuale `Non indicata` e la nota finale (codice vuoto).
--- ⚠️ AETPFGA0201 contiene DUE righe `TOTALE`, la seconda con valori esattamente
--- doppi (890.472 → 1.780.944 contribuenti a.i. 2023): si escludono per codice
--- '0', non per etichetta — filtrando per nome si raddoppierebbe il dataset.
+-- ⚠️ TRE viste su sei (AETPFGA0201, AETPREA0201, AETPRHA0201) hanno DUE righe
+-- `TOTALE`, entrambe con codice '0', la seconda con valori esattamente doppi
+-- (890.472 → 1.780.944 contribuenti a.i. 2023): 36 file su 72. Si escludono per
+-- codice '0' — chiave stabile — non per etichetta: oggi l'etichetta è sempre
+-- 'TOTALE' (108 righe su 108), ma non è garantita tra anni.
 
 WITH raw_parsed AS (
     SELECT
