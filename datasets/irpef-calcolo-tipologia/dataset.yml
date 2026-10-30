@@ -1,0 +1,143 @@
+root: "../../out"
+schema_version: 1
+
+dataset:
+  name: "irpef_calcolo_tipologia"
+  source_id: "mef_finanze"
+  tags: [finanza-pubblica, irpef, regionale, imposta, detrazioni, calcolo]
+  category: finanza-pubblica
+  description: "IRPEF: calcolo dell'imposta (reddito complessivo, imponibile, imposta lorda, detrazioni, imposta netta) per tipologia di contribuente e regione. Anno d'imposta 2013-2024."
+  # years = anno di presentazione (URL MEF); la clean espone l'anno d'imposta
+  # 2010-2013 restituiscono HTTP 200 con 0 byte; i file 2012-2013 esistono ma
+  # con schema v1 (17 colonne, senza `Codice`) → esclusi, come per gli IRAP.
+  years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+  time_coverage: {start_year: 2013, end_year: 2024}
+
+raw:
+  output_policy: overwrite
+  sources:
+    # Famiglia MEF AETIP*0201 — "Persone fisiche in base al reddito prevalente
+    # / Calcolo dell'Irpef / Regione". Sei viste con schema IDENTICO (18
+    # colonne): cambia solo la popolazione, che non è nel dato ma nei metadati
+    # della vista → inject_column.
+    - name: "mef_irpef_calcolo_dipendenti"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPLD0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETIPLD0201.csv"
+      primary: true
+      inject_column:
+        cod_tipologia: "LD"
+        tipologia: "Lavoratori dipendenti"
+    - name: "mef_irpef_calcolo_pensionati"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPPE0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETIPPE0201.csv"
+      inject_column:
+        cod_tipologia: "PE"
+        tipologia: "Pensionati"
+    - name: "mef_irpef_calcolo_imprenditori"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPFGA0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETPFGA0201.csv"
+      inject_column:
+        cod_tipologia: "IM"
+        tipologia: "Imprenditori"
+    - name: "mef_irpef_calcolo_autonomi"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPREA0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETPREA0201.csv"
+      inject_column:
+        cod_tipologia: "AU"
+        tipologia: "Lavoratori autonomi abituali con partita IVA"
+    - name: "mef_irpef_calcolo_partecipanti"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPRHA0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETPRHA0201.csv"
+      inject_column:
+        cod_tipologia: "SP"
+        tipologia: "Partecipanti in società di persone ed assimilate"
+    - name: "mef_irpef_calcolo_fabbricati"
+      type: http_file
+      args:
+        url: "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPRB0201&export=3"
+        filename: "irpef_calcolo_tipologia_{year}_AETIPRB0201.csv"
+      inject_column:
+        cod_tipologia: "PF"
+        tipologia: "Proprietari di fabbricati"
+
+clean:
+  sql: "sql/clean.sql"
+  required_columns: [anno, regione, cod_regione, cod_tipologia, tipologia, contribuenti, reddito_complessivo_eur, reddito_imponibile_eur, imposta_lorda_eur, detrazioni_eur, imposta_netta_eur]
+  # Lettura POSIZIONALE con tutte le colonne VARCHAR: i valori numerici sono in
+  # formato italiano ("1.645.791", "23,54") e vanno normalizzati dalle macro,
+  # che lavorano su stringhe. Con `source: auto` lo sniffer tipizza DOUBLE le
+  # colonne con valori piccoli/ambigui e le macro le corrompono (×10 / ÷10).
+  # NON usare normalize_rows_to_columns: quel percorso registra un DataFrame e
+  # perde inject_column, quindi la tipologia non arriverebbe.
+  # Il file ha una cella finale vuota e una riga-nota finale; l'header è a riga
+  # 10 e viene letto come dato (skip: 9) e scartato dal clean sul contenuto.
+  read:
+    source: config_only
+    mode: all
+    header: false
+    skip: 9
+    delim: ";"
+    encoding: "utf-8"
+    columns:
+      column00: "regione:VARCHAR"
+      column01: "codice:VARCHAR"
+      column02: "contribuenti:VARCHAR"
+      column03: "reddito_complessivo_frequenza:VARCHAR"
+      column04: "reddito_complessivo_ammontare:VARCHAR"
+      column05: "reddito_complessivo_media:VARCHAR"
+      column06: "reddito_imponibile_frequenza:VARCHAR"
+      column07: "reddito_imponibile_ammontare:VARCHAR"
+      column08: "reddito_imponibile_media:VARCHAR"
+      column09: "imposta_lorda_frequenza:VARCHAR"
+      column10: "imposta_lorda_ammontare:VARCHAR"
+      column11: "imposta_lorda_media:VARCHAR"
+      column12: "detrazioni_frequenza:VARCHAR"
+      column13: "detrazioni_ammontare:VARCHAR"
+      column14: "detrazioni_media:VARCHAR"
+      column15: "imposta_netta_frequenza:VARCHAR"
+      column16: "imposta_netta_ammontare:VARCHAR"
+      column17: "imposta_netta_media:VARCHAR"
+      # 19ª cella del file: sempre vuota (la riga termina con ";")
+      column18: "cella_finale:VARCHAR"
+    strict_mode: false
+    ignore_errors: true
+    null_padding: true
+  validate:
+    not_null: [anno, regione, tipologia]
+    min_rows: 120
+    primary_key: [anno, regione, cod_tipologia]
+
+mart:
+  tables:
+    # Multi-anno: una riga per tipologia × anno (la clean è per anno).
+    - name: "mart_tipologie_anno"
+      sql: "sql/mart_tipologie_anno.sql"
+      years: [2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025]
+    - name: "mart_regioni_anno"
+      sql: "sql/mart_regioni_anno.sql"
+  required_tables:
+    - "mart_tipologie_anno"
+    - "mart_regioni_anno"
+  validate:
+    table_rules:
+      mart_tipologie_anno:
+        required_columns: [anno, cod_tipologia, tipologia, contribuenti, imposta_lorda_eur, detrazioni_eur, imposta_netta_eur, aliquota_lorda_pct, aliquota_netta_pct, incidenza_detrazioni_pct]
+        primary_key: [anno, cod_tipologia]
+        min_rows: 60
+      mart_regioni_anno:
+        required_columns: [anno, regione, cod_regione, cod_tipologia, tipologia, contribuenti, imposta_lorda_eur, imposta_netta_eur, aliquota_lorda_pct, aliquota_netta_pct, incidenza_detrazioni_pct]
+        primary_key: [anno, regione, cod_tipologia]
+        min_rows: 120
+
+validation:
+  fail_on_error: true
