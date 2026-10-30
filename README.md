@@ -60,7 +60,7 @@ Le dichiarazioni fiscali sono lo specchio più fedele dell'economia reale: ogni 
 
 ### ⚠️ Prima di leggere i dati
 
-- **IRAP** — la base imponibile cambia definizione tra a.i. 2014 e 2015 (−27%): i trend si leggono **dal 2015**.
+- **IRAP** — due cambi di perimetro: la base imponibile cambia definizione tra a.i. 2014 e 2015 (−27%), e **dall'a.i. 2022 le persone fisiche sono esonerate** (L. 234/2021): −1,25 M di dichiaranti e −32 mld di base. I trend si leggono **dal 2015**, e i contribuenti non sono confrontabili a cavallo del 2021/2022.
 - **Società di persone (ACSP)** — le colonne **non sono additive**: ogni voce è dichiarata su una riga diversa del modello. La fonte ha inoltre un'anomalia ad a.i. 2017 (reddito d'impresa in contabilità semplificata −59%) — issue [#25](https://github.com/dataciviclab/dichiarazioni-italia/issues/25).
 - **IVA e IRPEF comunale** — perimetri e anni parziali: vedi il README del dataset.
 

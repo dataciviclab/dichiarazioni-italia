@@ -37,5 +37,6 @@
 - **Le P.A. pagano un'aliquota effettiva più alta**: 8,47% nel 2023 contro 5,18% del totale — coerente con un perimetro di deduzioni più stretto.
 - **`Numero contribuenti` non è esposto**: nella fonte è il totale IRAP della regione (identico a `irap_imposta_regione`), non il numero di enti P.A. Il conteggio delle P.A. è `base_imponibile_frequenza`.
 - **Nessun break 2014→2015**: a differenza della vista totale, il perimetro P.A. è stabile (base +0,4% tra a.i. 2014 e 2015) — il salto della serie IRAP è tutto nel settore privato.
+- **Il perimetro P.A. non è toccato dal cambio a.i. 2022** (esonero IRAP delle persone fisiche, L. 234/2021, art. 1 comma 8): le dichiarazioni con base imponibile passano da 20.104 a 20.184 (+0,4%) e quelle con imposta da 19.947 a 20.053 (+0,5%) tra a.i. 2021 e 2022. Le serie P.A. restano quindi confrontabili su tutto il periodo 2015–2023, a differenza delle viste che includono il settore privato.
 - **Totali nazionali**: somma delle 21 regioni dichiarate; la riga `TOTALE` della fonte è esclusa dal clean. Nel file 2015 (a.i. 2014) la riga `TOTALE` della fonte è mascherata (`***`), quindi i totali nazionali si possono ricavare solo dalle regioni — è quello che fa il clean.
 - **`anno` = anno d'imposta**, coerente con gli altri dataset del repo.
