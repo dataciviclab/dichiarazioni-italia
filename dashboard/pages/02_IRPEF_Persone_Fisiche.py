@@ -1,7 +1,8 @@
 """IRPEF — persone fisiche: chi paga, quanto reddito, dove.
 
-Tre viste sullo stesso perimetro:
+Quattro viste sullo stesso perimetro:
 - `irpef_imposta_tipologia` — imposta netta per tipologia di contribuente
+- `irpef_calcolo_tipologia` — lorda, detrazioni e netta per tipologia e regione
 - `irpef_comunale` — reddito e imposta per comune (~7.900 comuni)
 - `mef_irpef_regionale` — contribuenti per regione e classe di reddito
 """
@@ -9,6 +10,7 @@ Tre viste sullo stesso perimetro:
 import plotly.graph_objects as go
 import streamlit as st
 from sources import (
+    YEARS_IRPEF_CALCOLO,
     YEARS_IRPEF_COMUNI,
     YEARS_IRPEF_TIPOLOGIE,
     YEARS_MEF_IRPEF,
@@ -113,6 +115,95 @@ with tab_tip:
             "La media divide per **tutti** i contribuenti della tipologia."
         )
 
+        # ── Dal lordo al netto ────────────────────────────────────────────
+        # irpef_imposta_tipologia espone solo la netta: qui si vede il passaggio
+        # che manca, dalle sei viste "Calcolo dell'Irpef" (AETIP*0201).
+        st.subheader("Dal lordo al netto: quanto restituiscono le detrazioni")
+        anno_calc = st.selectbox(
+            "Anno di presentazione",
+            YEARS_IRPEF_CALCOLO,
+            index=len(YEARS_IRPEF_CALCOLO) - 1,
+            key="irpef_calc_year",
+        )
+        calc = load_mart_flat("irpef_calcolo_tipologia", "mart_tipologie_anno")
+        if not calc.empty:
+            calc = calc[calc["anno"] == anno_calc - 1]
+            calc = calc.sort_values("imposta_lorda_eur", ascending=False)
+
+        if calc.empty:
+            st.info("Dati non disponibili per l'anno selezionato.")
+        else:
+            lorda = calc["imposta_lorda_eur"].sum()
+            detr = calc["detrazioni_eur"].sum()
+            netta = calc["imposta_netta_eur"].sum()
+
+            c1, c2, c3 = st.columns(3)
+            with c1:
+                st.metric("Imposta lorda", fmt_eur(lorda, compact=True))
+            with c2:
+                st.metric(
+                    "Detrazioni",
+                    fmt_eur(detr, compact=True),
+                    f"{detr / lorda * 100:.1f}% della lorda" if lorda else None,
+                    delta_color="off",
+                )
+            with c3:
+                st.metric("Imposta netta", fmt_eur(netta, compact=True))
+
+            fig4 = go.Figure()
+            for colonna, nome, colore in (
+                ("imposta_lorda_eur", "Lorda", "#8a94a6"),
+                ("detrazioni_eur", "Detrazioni", "#d1495b"),
+                ("imposta_netta_eur", "Netta", "#2e86ab"),
+            ):
+                fig4.add_trace(
+                    go.Bar(
+                        x=calc["tipologia"],
+                        y=calc[colonna] / 1e9,
+                        name=nome,
+                        marker_color=colore,
+                    )
+                )
+            fig4.update_layout(
+                title=(
+                    f"Imposta lorda, detrazioni e netta per tipologia "
+                    f"(a.i. {int(calc['anno'].max())}) — MLD €"
+                ),
+                barmode="group",
+                height=520,
+                margin={"t": 40, "b": 200},
+                xaxis_tickangle=-45,
+                yaxis_title="MLD €",
+            )
+            st.plotly_chart(fig4, width="stretch")
+
+            fig5 = go.Figure()
+            fig5.add_trace(
+                go.Bar(
+                    x=calc["tipologia"],
+                    y=calc["incidenza_detrazioni_pct"],
+                    text=calc["incidenza_detrazioni_pct"].apply(lambda x: f"{x:.0f}%"),
+                    textposition="outside",
+                    marker_color="#d1495b",
+                )
+            )
+            fig5.update_layout(
+                title="Quanto pesano le detrazioni sulla lorda, per tipologia — %",
+                height=440,
+                margin={"t": 40, "b": 200},
+                xaxis_tickangle=-45,
+                yaxis_title="%",
+            )
+            st.plotly_chart(fig5, width="stretch")
+
+            st.caption(
+                "⚠️ Le sei tipologie **non sono una partizione** dell'IRPEF: coprono "
+                "circa il 94% dei contribuenti e il 99% del gettito. Le detrazioni "
+                "valgono circa un terzo della lorda per i dipendenti e meno di un "
+                "decimo per le partite IVA: il vantaggio di queste ultime sta "
+                "nell'aliquota lorda, non nelle detrazioni."
+            )
+
 # ══════════════════════════════════════════════════════════════════════
 # TAB COMUNI — dove
 # ══════════════════════════════════════════════════════════════════════
@@ -130,6 +221,9 @@ with tab_comuni:
         st.warning("Nessun dato comunale disponibile.")
     else:
         df_com = df_com[df_com["numero_contribuenti"] > 100].copy()
+        # La fonte ha una riga aggregata dei comuni non riconosciuti (codice 0,
+        # regione "Mancante/errata"): non è un comune, va esclusa dai conteggi.
+        df_com = df_com[df_com["codice_istat_comune"] != "0"].copy()
         df_com = df_com.sort_values("reddito_medio_per_contribuente", ascending=False)
 
         k1, k2, k3, k4 = st.columns(4)
