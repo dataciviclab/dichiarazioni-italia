@@ -90,6 +90,16 @@ WHERE anno = 2023 ORDER BY volume_affari_eur DESC;
 
 `cd dashboard && streamlit run app.py` — 8 pagine, una per imposta: Panoramica · IRPEF persone fisiche · IRPEF società di persone · IRPEF partite IVA · IVA · IRAP · IRES · Query SQL
 
+## Approfondimenti
+
+Analisi pubblicate sul forum del repo:
+
+- [Il crollo del 37% dei dichiaranti IRAP non è una crisi: è una legge del 2021](https://github.com/dataciviclab/dichiarazioni-italia/discussions/42)
+- [Lo Stato paga un terzo dell'IRAP a se stesso — e in Lazio due terzi](https://github.com/dataciviclab/dichiarazioni-italia/discussions/43)
+- [Chi paga l'IRPEF: dipendenti e pensionati l'85%, le partite IVA il 5%](https://github.com/dataciviclab/dichiarazioni-italia/discussions/44)
+- [Il forfetario è passato dallo 0,9% al 29,3% del reddito delle partite IVA](https://github.com/dataciviclab/dichiarazioni-italia/discussions/45)
+- [12 domande sui 17 dataset](https://github.com/dataciviclab/dichiarazioni-italia/discussions/47)
+
 ## Partecipa
 
 Domande, idee e segnalazioni: [Discussions](https://github.com/dataciviclab/dichiarazioni-italia/discussions) · [Issues](https://github.com/dataciviclab/dichiarazioni-italia/issues).
