@@ -1,6 +1,6 @@
 {
   "source_id": "mef_finanze",
-  "generated_at": "2026-10-28T16:02:59+00:00",
+  "generated_at": "2026-11-02T12:53:46+00:00",
   "report_version": 1,
   "timing": {},
   "identity": {
@@ -11,19 +11,19 @@
     "observation_mode": "catalog-watch",
     "verdict": "go",
     "note": "Portale MEF Dipartimento delle Finanze (analisi_stat): dichiarazioni IVA, IRAP, IRES e IRPEF. L'inventario copre oggi i CSV/ZIP della homepage (famiglia IRPEF); gli export del tree (IRAP/IRES/IVA, via index.php?tree=...) non sono ancora enumerabili e risultano 'unknown' nel referenced-item drift. Sentinelle pattern_probes = anno di pubblicazione successivo non ancora uscito.",
-    "last_probed": "2026-10-28"
+    "last_probed": "2026-11-02"
   },
   "health": {
     "radar_status": "GREEN",
     "http_code": "200",
     "note": null,
     "ssl_fallback": false,
-    "streak": 2
+    "streak": 3
   },
   "inventory": {
     "total_items": 147,
     "method": null,
-    "captured_at": "2026-10-28T16:02:36+00:00",
+    "captured_at": "2026-11-02T12:53:24+00:00",
     "baseline_value": null,
     "baseline_date": null,
     "freshness_hours": 0.0,
@@ -39,7 +39,7 @@
     ]
   },
   "source_check": {
-    "last_run": "2026-10-28T16:02:59Z",
+    "last_run": "2026-11-02T12:53:46Z",
     "total_scored": 11,
     "reachable": 9,
     "csv_count": 9,
@@ -108,6 +108,66 @@
   },
   "datasets_in_use": [
     {
+      "slug": "abpf_titolari_piva_regione",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ABPFTIT0201&export=3"
+        }
+      ]
+    },
+    {
+      "slug": "acsp_imprese_regione",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPIMP0201&export=3"
+        }
+      ]
+    },
+    {
+      "slug": "acsp_professionisti_regione",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPPROF0201&export=3"
+        }
+      ]
+    },
+    {
+      "slug": "acsp_tutte_classi_reddito",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0202&export=3"
+        }
+      ]
+    },
+    {
+      "slug": "acsp_tutte_classi_volume",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0203&export=3"
+        }
+      ]
+    },
+    {
+      "slug": "acsp_tutte_regione",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0201&export=3"
+        }
+      ]
+    },
+    {
       "slug": "irap_imposta_pa_regione",
       "status": "incubating",
       "upstream": [
@@ -168,12 +228,52 @@
       ]
     },
     {
+      "slug": "irpef_calcolo_tipologia",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPLD0201&export=3"
+        },
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPPE0201&export=3"
+        },
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPFGA0201&export=3"
+        },
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPREA0201&export=3"
+        },
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPRHA0201&export=3"
+        },
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPRB0201&export=3"
+        }
+      ]
+    },
+    {
       "slug": "irpef_comunale",
       "status": "incubating",
       "upstream": [
         {
           "kind": "url",
           "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/v_4_0_0/contenuti/Redditi_e_principali_variabili_IRPEF_su_base_comunale_CSV_{year}.zip"
+        }
+      ]
+    },
+    {
+      "slug": "irpef_imposta_tipologia",
+      "status": "incubating",
+      "upstream": [
+        {
+          "kind": "url",
+          "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPTOT0401&export=3"
         }
       ]
     },
@@ -226,10 +326,40 @@
   "repo": "dichiarazioni-italia",
   "catalog_schema_version": 1,
   "referenced_items": {
-    "checked": 10,
+    "checked": 23,
     "matched": 2,
     "missing": [],
     "unknown": [
+      {
+        "slug": "abpf_titolari_piva_regione",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ABPFTIT0201&export=3"
+      },
+      {
+        "slug": "acsp_imprese_regione",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPIMP0201&export=3"
+      },
+      {
+        "slug": "acsp_professionisti_regione",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPPROF0201&export=3"
+      },
+      {
+        "slug": "acsp_tutte_classi_reddito",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0202&export=3"
+      },
+      {
+        "slug": "acsp_tutte_classi_volume",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0203&export=3"
+      },
+      {
+        "slug": "acsp_tutte_regione",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}ACSPGEN0201&export=3"
+      },
       {
         "slug": "irap_imposta_pa_regione",
         "kind": "url",
@@ -259,6 +389,41 @@
         "slug": "ires_redditi_regione",
         "kind": "url",
         "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}BASCTOT020101&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPLD0201&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPPE0201&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPFGA0201&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPREA0201&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPRHA0201&export=3"
+      },
+      {
+        "slug": "irpef_calcolo_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETIPRB0201&export=3"
+      },
+      {
+        "slug": "irpef_imposta_tipologia",
+        "kind": "url",
+        "id": "https://www1.finanze.gov.it/finanze/analisi_stat/public/index.php?tree={year}AETPTOT0401&export=3"
       },
       {
         "slug": "iva_regionale",
