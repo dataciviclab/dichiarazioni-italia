@@ -79,7 +79,6 @@ clean:
       column39: "cella_finale:VARCHAR"
     normalize_rows_to_columns: true
     strict_mode: false
-    ignore_errors: true
     null_padding: true
   validate:
     not_null: [anno, classe_volume_affari]

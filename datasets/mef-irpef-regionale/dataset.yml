@@ -80,7 +80,6 @@ clean:
       column42: "VARCHAR"
     normalize_rows_to_columns: true
     strict_mode: false
-    ignore_errors: true
     null_padding: true
     sample_size: -1
     trim_whitespace: true

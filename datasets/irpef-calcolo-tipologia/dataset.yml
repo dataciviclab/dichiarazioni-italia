@@ -110,7 +110,10 @@ clean:
       # 19ª cella del file: sempre vuota (la riga termina con ";")
       column18: "cella_finale:VARCHAR"
     strict_mode: false
-    ignore_errors: true
+    # auto_detect=false: le colonne sono gia' esplicite, quindi lo sniffing del
+    # dialect non serve. Prima falliva (quote/escape) e ignore_errors lo
+    # mascherava; dichiarandolo esplicitamente il file si legge senza mask.
+    auto_detect: false
     null_padding: true
   validate:
     not_null: [anno, regione, tipologia]
