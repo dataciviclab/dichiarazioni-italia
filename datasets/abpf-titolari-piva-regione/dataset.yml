@@ -42,7 +42,6 @@ clean:
     # solo punto, corrompendole). Consente anche di leggere per NOME.
     all_varchar: true
     strict_mode: false
-    ignore_errors: true
     null_padding: true
   validate:
     not_null: [anno, regione]

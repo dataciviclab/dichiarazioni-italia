@@ -35,7 +35,6 @@ clean:
     # Numeri in formato italiano (punti migliaia, virgola decimale):
     # lo sniffing produce VARCHAR, normalizzati con le macro nel clean.sql
     strict_mode: false
-    ignore_errors: true
     null_padding: true
   validate:
     not_null: [anno, regione]

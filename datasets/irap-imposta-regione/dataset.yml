@@ -37,7 +37,6 @@ clean:
     encoding: "utf-8"
     header: true
     strict_mode: false
-    ignore_errors: true
     null_padding: true
   validate:
     not_null: [anno, regione]

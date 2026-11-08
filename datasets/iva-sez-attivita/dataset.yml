@@ -76,7 +76,6 @@ clean:
       column40: "VARCHAR"
     normalize_rows_to_columns: true
     strict_mode: false
-    ignore_errors: true
     null_padding: true
   validate:
     not_null: [anno, sezione_attivita]
