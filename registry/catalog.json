@@ -1,6 +1,6 @@
 {
   "source_id": "mef_finanze",
-  "generated_at": "2026-11-02T12:53:46+00:00",
+  "generated_at": "2026-11-09T13:25:14+00:00",
   "report_version": 1,
   "timing": {},
   "identity": {
@@ -11,19 +11,21 @@
     "observation_mode": "catalog-watch",
     "verdict": "go",
     "note": "Portale MEF Dipartimento delle Finanze (analisi_stat): dichiarazioni IVA, IRAP, IRES e IRPEF. L'inventario copre oggi i CSV/ZIP della homepage (famiglia IRPEF); gli export del tree (IRAP/IRES/IVA, via index.php?tree=...) non sono ancora enumerabili e risultano 'unknown' nel referenced-item drift. Sentinelle pattern_probes = anno di pubblicazione successivo non ancora uscito.",
-    "last_probed": "2026-11-02"
+    "last_probed": "2026-11-09"
   },
   "health": {
     "radar_status": "GREEN",
     "http_code": "200",
     "note": null,
     "ssl_fallback": false,
-    "streak": 3
+    "streak": 4
   },
   "inventory": {
     "total_items": 147,
+    "active_items": 147,
+    "stale_items": 0,
     "method": null,
-    "captured_at": "2026-11-02T12:53:24+00:00",
+    "captured_at": "2026-11-09T13:24:51+00:00",
     "baseline_value": null,
     "baseline_date": null,
     "freshness_hours": 0.0,
@@ -39,7 +41,7 @@
     ]
   },
   "source_check": {
-    "last_run": "2026-11-02T12:53:46Z",
+    "last_run": "2026-11-09T13:25:14Z",
     "total_scored": 11,
     "reachable": 9,
     "csv_count": 9,
@@ -97,10 +99,16 @@
         "reachable": true
       }
     ],
-    "coverage_pct": 7.5,
+    "not_checked_non_csv": 2,
+    "blocked_items": 0,
+    "validation_skipped": 0,
+    "catalog_only": false,
+    "probeable_items": 9,
+    "reachability_pct": 100.0,
+    "coverage_pct": 100.0,
     "formato_aperto": {
-      "score": 5.0,
-      "perc_aperto": 0.0,
+      "score": 75.0,
+      "perc_aperto": 81.8,
       "perc_reachable": 81.8,
       "total": 11,
       "fonte": "source_check"
@@ -316,12 +324,12 @@
     }
   ],
   "operational_verdict": {
-    "label": "PARTIALLY_SCOPED",
-    "score": "partial",
+    "label": "STABLE",
+    "score": "stable",
     "triggers": [
-      "source_check_partial"
+      "all_green"
     ],
-    "next_action": "complete source-check"
+    "next_action": null
   },
   "repo": "dichiarazioni-italia",
   "catalog_schema_version": 1,
