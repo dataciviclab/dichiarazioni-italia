@@ -1,0 +1,9 @@
+{
+  "irpef_comunale": {
+    "reason": "Riga aggregata dei comuni non riconosciuti (codice ISTAT '0'): la fonte cambia etichetta nel 2018. Il clean la tiene per fedeltà al dato, i quattro mart la escludono (issue #40).",
+    "labels": {
+      "Non indicato": [[2015, 2017]],
+      "Mancante/errata": [[2018, 2024]]
+    }
+  }
+}

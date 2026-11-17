@@ -33,6 +33,9 @@ jobs:
       detect-paths: "datasets"
       run-command: "make run-all"
       run-batch-command: "make run-batch"
+      # Gira dopo il run e prima del sync: se le etichette `regione` derivano
+      # tra le annualità della serie, il job si ferma e non pubblica.
+      verify-command: "make audit-regioni"
     permissions:
       contents: write
       pull-requests: write
