@@ -11,7 +11,22 @@ with
 all_clean as (
     select
         anno_di_imposta, codice_istat_comune, denominazione_comune,
-        sigla_provincia, regione,
+        sigla_provincia,
+        -- L'etichetta del Trentino dipende dal vintage del clean: fino al 2018
+        -- una riga "Trentino Alto Adige", dal 2019 due P.A. Questo mart legge
+        -- PIÙ annualità insieme via glob, mentre la pipeline ne ricostruisce
+        -- una alla volta: senza ri-derivare qui, il run su un anno vecchio
+        -- legge i clean nuovi degli altri anni, trova due etichette per lo
+        -- stesso territorio e pubblica una regione fantasma con il reddito
+        -- contato due volte. La derivazione usa i codici (regione '04' +
+        -- sigla BZ/TN), identici in tutti i vintage.
+        case
+            when codice_istat_regione = '04' and sigla_provincia = 'BZ'
+                then 'Trentino Alto Adige(P.A.Bolzano)'
+            when codice_istat_regione = '04' and sigla_provincia = 'TN'
+                then 'Trentino Alto Adige(P.A.Trento)'
+            else regione
+        end as regione,
         numero_contribuenti, reddito_imponibile_eur,
         imposta_netta_eur, addizionale_comunale_dovuta_eur
     from read_parquet(

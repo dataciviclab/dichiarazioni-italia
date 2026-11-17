@@ -94,6 +94,7 @@ Il clean è raw-faithful: nessuna logica interpretativa, nessun case/when, nessu
 - **`primary_key` clean**: `[anno_di_imposta, codice_istat_comune]`, unica su tutta la serie 2015-2024 (79.257 righe / 79.257 chiavi, 0 NULL).
 - **Riga `Mancante/errata`** (`codice_istat_comune = '0'`): resta nel clean, esclusa nei quattro mart. L'etichetta `regione` è `Non indicato` nel 2015-2017 e `Mancante/errata` dal 2018 — il codice ISTAT è l'unico identificatore stabile (issue #40).
 - **Trentino**: la fonte usa una riga `Trentino Alto Adige` fino al 2018 e due P.A. dal 2019. `clean.sql` normalizza sempre alle due province con `sigla_provincia`, per avere 21 unità regionali in ogni anno.
+- **`mart_trend` ri-deriva l'etichetta**: è l'unico mart che legge più annualità via glob mentre la pipeline ne ricostruisce una alla volta. Se il glob trova clean di vintage diversi (etichetta piatta per il 2015-2018, P.A. dal 2019) lo stesso territorio diventa due entità: una regione fantasma con il reddito contato due volte e `anni_coperti` incoerente. La `CASE` su `codice_istat_regione='04'` + `sigla_provincia` BZ/TN rende il risultato indipendente dall'ordine di build. Verificato: senza la `CASE`, 22 regioni e tre righe Trentino; con la `CASE`, 21 e `anni_coperti=10`.
 
 ## Mart (rifattorizzati 2026-07-28)
 

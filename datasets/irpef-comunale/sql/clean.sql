@@ -40,6 +40,9 @@ SELECT
              AND normalize_string(column04) = 'BZ' THEN 'Trentino Alto Adige(P.A.Bolzano)'
         WHEN normalize_string(column05) = 'Trentino Alto Adige'
              AND normalize_string(column04) = 'TN' THEN 'Trentino Alto Adige(P.A.Trento)'
+        -- Una riga con sigla mancante o '0' resterebbe piatta: oggi non ce ne
+        -- sono. `mart_trend` ri-deriva l'etichetta con gli stessi due codici,
+        -- perché legge più annualità insieme e non può fidarsi del vintage.
         ELSE normalize_string(column05)
     END AS regione,
     normalize_string(column06) AS codice_istat_regione,
