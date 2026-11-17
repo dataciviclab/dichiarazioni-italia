@@ -12,8 +12,9 @@ Caso reale (2026-11): `abpf_titolari_piva_regione` scriveva
 serie: raggruppando per nome, Bolzano diventava due serie.
 
 Le eccezioni volute — etichette che *devono* cambiare tra anni e sono già
-gestite altrove — stanno in `scripts/audit_region_labels_allow.json`, con la
-motivazione. Un'eccezione non dichiarata fa fallire l'audit: è il punto.
+gestite altrove — stanno in `scripts/audit_region_labels_allow.json`, con gli
+anni in cui sono ammesse e la motivazione. Un'eccezione non dichiarata, o
+un'etichetta che ricompare fuori dagli anni dichiarati, fa fallire l'audit.
 
 Uso:
     python scripts/audit_region_labels.py --root out/data/clean
@@ -43,8 +44,15 @@ def load_allow(path: Path) -> dict[str, dict]:
     return json.loads(path.read_text())
 
 
-def _columns(con: duckdb.DuckDBPyConnection, sample: Path) -> set[str]:
-    rows = con.execute(f"describe select * from read_parquet('{sample}')").fetchall()
+def _parquet_paths(files: list[Path]) -> str:
+    return ", ".join("'" + str(f).replace("'", "''") + "'" for f in files)
+
+
+def _columns(con: duckdb.DuckDBPyConnection, files: list[Path]) -> set[str]:
+    """Colonne dell'unione dei file: `regione` può mancare in alcune annualità."""
+    rows = con.execute(
+        f"describe select * from read_parquet([{_parquet_paths(files)}], union_by_name = true)"
+    ).fetchall()
     return {row[0] for row in rows}
 
 
@@ -54,12 +62,11 @@ def _labels_by_year(
     col: str,
     year_col: str,
 ) -> dict[int, set[str]]:
-    paths = ", ".join("'" + str(f).replace("'", "''") + "'" for f in files)
     rows = con.execute(
         f"""
         select distinct {year_col} as anno, {col} as etichetta
-        from read_parquet([{paths}], union_by_name = true)
-        where {col} is not null
+        from read_parquet([{_parquet_paths(files)}], union_by_name = true)
+        where {col} is not null and {year_col} is not null
         """
     ).fetchall()
     years: dict[int, set[str]] = defaultdict(set)
@@ -69,7 +76,17 @@ def _labels_by_year(
 
 
 def _span(anni: list[int]) -> str:
-    return str(anni[0]) if anni[0] == anni[-1] else f"{anni[0]}-{anni[-1]}"
+    """'2015-2017' se contigui, altrimenti gli anni espliciti (con i buchi)."""
+    if len(anni) == 1:
+        return str(anni[0])
+    if anni == list(range(anni[0], anni[-1] + 1)):
+        return f"{anni[0]}-{anni[-1]}"
+    return ", ".join(str(a) for a in anni)
+
+
+def _is_consented(present: list[int], ranges: list[list[int]]) -> bool:
+    """Tutti gli anni di presenza devono stare in almeno uno degli intervalli."""
+    return all(any(lo <= a <= hi for lo, hi in ranges) for a in present)
 
 
 def audit(root: Path, col: str, allow: dict[str, dict]) -> list[dict]:
@@ -82,7 +99,7 @@ def audit(root: Path, col: str, allow: dict[str, dict]) -> list[dict]:
         if not files:
             continue
 
-        cols = _columns(con, files[0])
+        cols = _columns(con, files)
         if col not in cols:
             continue
         year_col = next((c for c in YEAR_COLUMNS if c in cols), None)
@@ -104,10 +121,11 @@ def audit(root: Path, col: str, allow: dict[str, dict]) -> list[dict]:
             if len(present) < len(by_year):
                 orphans[etichetta] = present
 
+        allowed = allow.get(ds_dir.name, {}).get("labels", {})
         consented: dict[str, list[int]] = {}
-        allowed_labels = set(allow.get(ds_dir.name, {}).get("labels", []))
         for etichetta in list(orphans):
-            if etichetta in allowed_labels:
+            ranges = allowed.get(etichetta)
+            if ranges and _is_consented(orphans[etichetta], ranges):
                 consented[etichetta] = orphans.pop(etichetta)
 
         results.append(
@@ -125,16 +143,12 @@ def audit(root: Path, col: str, allow: dict[str, dict]) -> list[dict]:
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     ap.add_argument("--root", default="out/data/clean", help="directory dei clean")
     ap.add_argument("--col", default="regione", help="colonna da controllare")
     ap.add_argument("--allow", default=str(DEFAULT_ALLOW), help="eccezioni dichiarate")
-    ap.add_argument(
-        "--fail-on-drift",
-        action="store_true",
-        default=True,
-        help="esce 1 se una serie è instabile (default)",
-    )
     ap.add_argument("--no-fail", dest="fail_on_drift", action="store_false", help="solo report")
     args = ap.parse_args()
 
@@ -149,10 +163,7 @@ def main() -> int:
 
     for r in checked:
         for etichetta, present in r["consented"].items():
-            print(
-                f"· {r['dataset']}: deriva dichiarata — '{etichetta}' "
-                f"solo in {_span(present)}"
-            )
+            print(f"· {r['dataset']}: deriva dichiarata — '{etichetta}' solo in {_span(present)}")
 
     for r in drift:
         print(
@@ -171,12 +182,16 @@ def main() -> int:
             print(f"· {r['dataset']}: saltato ({r['skipped']})")
 
     if drift and args.fail_on_drift:
+        # stdout è bufferizzato: senza flush la guida comparirebbe PRIMA del
+        # report nei log CI, e il lettore vedrebbe l'istruzione prima della
+        # diagnosi.
+        sys.stdout.flush()
         print(
             "\nLa stessa entità scritta in modi diversi tra file annuali spezza le "
             "serie quando si raggruppa per nome.\n"
             "Se il cambio è voluto, normalizzalo nel clean.sql del dataset; se è "
             "un'etichetta che deve variare, dichiarala in "
-            f"{Path(args.allow).name} con la motivazione.",
+            f"{Path(args.allow).name} con gli anni ammessi e la motivazione.",
             file=sys.stderr,
         )
         return 1
