@@ -26,7 +26,7 @@ La finestra scelta è il **file 2016–2025** (a.i. 2015–2024): **144 colonne 
 | Colonna | Tipo | Descrizione |
 |---|---|---|
 | `anno` | INTEGER | Anno d'imposta |
-| `regione` | VARCHAR | Denominazione regione (21: Trentino diviso in P.A. Trento e Bolzano) |
+| `regione` | VARCHAR | Denominazione regione (21: Trentino diviso in P.A. Trento e Bolzano). Il file 2016 scrive `(Prov. Aut. Bolzano/Trento)`: il clean lo normalizza a `(P.A. …)` come gli anni successivi, così la serie resta raggruppabile per nome |
 | `cod_regione` | VARCHAR | Codice ISTAT regione (condiviso da Trento e Bolzano) |
 | `numero_titolari` | INTEGER | Titolari di partita IVA |
 | `acconti_versati_frequenza` | INTEGER | Acconti versati — numero dichiarazioni |

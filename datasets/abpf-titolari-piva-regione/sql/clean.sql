@@ -26,7 +26,20 @@
 WITH raw_parsed AS (
     SELECT
         CAST({year} - 1 AS INTEGER)                              AS anno,
-        normalize_string("Regione")                               AS regione,
+        -- Il file 2016 (anno d'imposta 2015) scrive "Prov. Aut.", i successivi
+        -- "P.A.": senza normalizzazione la stessa provincia diventa due serie
+        -- distinte quando si raggruppa per `regione` sull'intera serie.
+        CASE
+            WHEN normalize_string("Regione") IN (
+                'Trentino Alto Adige (Prov. Aut. Bolzano)',
+                'Trentino Alto Adige (P.A. Bolzano)'
+            ) THEN 'Trentino Alto Adige (P.A. Bolzano)'
+            WHEN normalize_string("Regione") IN (
+                'Trentino Alto Adige (Prov. Aut. Trento)',
+                'Trentino Alto Adige (P.A. Trento)'
+            ) THEN 'Trentino Alto Adige (P.A. Trento)'
+            ELSE normalize_string("Regione")
+        END                                                      AS regione,
         LPAD(normalize_string("Codice"), 2, '0')                 AS cod_regione,
         normalize_italian_integer("Numero titolari di partita IVA") AS numero_titolari,
         normalize_italian_integer("Acconti versati - Frequenza")  AS acconti_versati_frequenza,
