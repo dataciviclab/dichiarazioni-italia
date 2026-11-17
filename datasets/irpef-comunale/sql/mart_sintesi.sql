@@ -31,6 +31,10 @@ base as (
     where regione is not null
       and numero_contribuenti > 0
       and reddito_imponibile_eur > 0
+      -- Riga 'Mancante/errata' / 'Non indicato' (codice ISTAT '0'): aggregato
+      -- dei comuni non riconosciuti, non una regione. Se resta, entra nei
+      -- ranking come 22ª regione (issue #40).
+      and codice_istat_comune <> '0'
 ),
 aggregati_regione as (
     select

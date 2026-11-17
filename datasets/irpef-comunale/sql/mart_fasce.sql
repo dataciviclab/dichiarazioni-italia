@@ -42,5 +42,6 @@ select
 from clean_input c
 where c.regione is not null
   and c.sigla_provincia is not null
+  and c.codice_istat_comune <> '0'
 group by c.anno_di_imposta, c.regione, c.sigla_provincia
 order by c.anno_di_imposta desc, contribuenti_totale desc;

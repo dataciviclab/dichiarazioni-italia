@@ -97,6 +97,12 @@ clean:
       - "anno_di_imposta"
       - "codice_istat_comune"
       - "numero_contribuenti"
+    # Unica su tutta la serie 2015-2024: 79.257 righe / 79.257 chiavi, 0 NULL.
+    # Include la riga 'Mancante/errata' (codice '0'), che resta nel clean come
+    # dato della fonte ed è esclusa nei mart.
+    primary_key:
+      - "anno_di_imposta"
+      - "codice_istat_comune"
 
 mart:
   tables:

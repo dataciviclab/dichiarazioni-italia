@@ -89,6 +89,12 @@ Il clean è raw-faithful: nessuna logica interpretativa, nessun case/when, nessu
 - Il raw usa `normalize_rows_to_columns: true` + `skip: 1` per estrarre la riga header come nomecolonne, poi `header: false` per leggere i dati. Le colonne vengono poi rinominate esplicitamente nel clean.sql.
 - Il CSV usa `;` come delimitatore e `;` finale su ogni riga (che genera una colonna vuota added). Il `trim_whitespace: true` gestisce gli spazi extra.
 
+## Chiave e filtri (2026-11-17)
+
+- **`primary_key` clean**: `[anno_di_imposta, codice_istat_comune]`, unica su tutta la serie 2015-2024 (79.257 righe / 79.257 chiavi, 0 NULL).
+- **Riga `Mancante/errata`** (`codice_istat_comune = '0'`): resta nel clean, esclusa nei quattro mart. L'etichetta `regione` è `Non indicato` nel 2015-2017 e `Mancante/errata` dal 2018 — il codice ISTAT è l'unico identificatore stabile (issue #40).
+- **Trentino**: la fonte usa una riga `Trentino Alto Adige` fino al 2018 e due P.A. dal 2019. `clean.sql` normalizza sempre alle due province con `sigla_provincia`, per avere 21 unità regionali in ogni anno.
+
 ## Mart (rifattorizzati 2026-07-28)
 
 | Mart | Cosa fa | Unisce i vecchi |

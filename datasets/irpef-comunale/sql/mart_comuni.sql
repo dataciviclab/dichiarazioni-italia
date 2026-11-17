@@ -32,6 +32,7 @@ base as (
         c.addizionale_comunale_dovuta_eur * 100.0 / nullif(c.reddito_imponibile_eur, 0) as addizionale_effettiva_pct
     from clean_input c
     where c.codice_istat_comune is not null
+      and c.codice_istat_comune <> '0'
       and c.regione is not null
       and c.numero_contribuenti > 0
       and c.reddito_imponibile_eur > 0

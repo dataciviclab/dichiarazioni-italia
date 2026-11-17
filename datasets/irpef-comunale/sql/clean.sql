@@ -31,7 +31,17 @@ SELECT
     normalize_string(column02) AS codice_istat_comune,
     normalize_string(column03) AS denominazione_comune,
     normalize_string(column04) AS sigla_provincia,
-    normalize_string(column05) AS regione,
+    -- Il Trentino cambia rappresentazione nel 2019: fino al 2018 è una riga
+    -- 'Trentino Alto Adige', dal 2019 due province autonome. Normalizziamo
+    -- sempre alle due P.A. usando la sigla di provincia, così la serie
+    -- regionale resta comparabile (21 unità in ogni annualità).
+    CASE
+        WHEN normalize_string(column05) = 'Trentino Alto Adige'
+             AND normalize_string(column04) = 'BZ' THEN 'Trentino Alto Adige(P.A.Bolzano)'
+        WHEN normalize_string(column05) = 'Trentino Alto Adige'
+             AND normalize_string(column04) = 'TN' THEN 'Trentino Alto Adige(P.A.Trento)'
+        ELSE normalize_string(column05)
+    END AS regione,
     normalize_string(column06) AS codice_istat_regione,
     cast_int(column07) AS numero_contribuenti,
     cast_int(column08) AS reddito_da_fabbricati_freq,

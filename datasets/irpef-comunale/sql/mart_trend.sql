@@ -19,6 +19,7 @@ all_clean as (
         union_by_name=true
     )
     where codice_istat_comune is not null
+      and codice_istat_comune <> '0'
       and regione is not null
       and numero_contribuenti > 0
       and reddito_imponibile_eur > 0
