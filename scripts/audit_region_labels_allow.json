@@ -1,0 +1,6 @@
+{
+  "irpef_comunale": {
+    "labels": ["Non indicato", "Mancante/errata"],
+    "reason": "Riga aggregata dei comuni non riconosciuti (codice ISTAT '0'). La fonte cambia etichetta nel 2018 ('Non indicato' -> 'Mancante/errata'). Il clean la tiene per fedeltà al dato, i quattro mart la escludono (issue #40). Non è un drift da correggere: è un'etichetta che deve variare."
+  }
+}
